@@ -18,6 +18,11 @@
 		21CFD0F929BC87A70060CEA7 /* SideMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0F829BC87A70060CEA7 /* SideMenuModel.swift */; };
 		21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0FA29BC87D40060CEA7 /* SideMenuCell.swift */; };
 		21CFD0FE29BC94FD0060CEA7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */; };
+		21CFD10029BCA05D0060CEA7 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0FF29BCA05D0060CEA7 /* CustomTabBarController.swift */; };
+		21CFD10229BCA0D00060CEA7 /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10129BCA0D00060CEA7 /* CalendarVC.swift */; };
+		21CFD10429BCA0F50060CEA7 /* CheckListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10329BCA0F50060CEA7 /* CheckListVC.swift */; };
+		21CFD10629BCA1060060CEA7 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10529BCA1060060CEA7 /* LogInVC.swift */; };
+		21CFD10829BCA13B0060CEA7 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +39,11 @@
 		21CFD0F829BC87A70060CEA7 /* SideMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuModel.swift; sourceTree = "<group>"; };
 		21CFD0FA29BC87D40060CEA7 /* SideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
 		21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		21CFD0FF29BCA05D0060CEA7 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		21CFD10129BCA0D00060CEA7 /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
+		21CFD10329BCA0F50060CEA7 /* CheckListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListVC.swift; sourceTree = "<group>"; };
+		21CFD10529BCA1060060CEA7 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
+		21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +193,7 @@
 			children = (
 				21CFD0C729BC54E60060CEA7 /* MainVC.swift */,
 				21CFD0F629BC83340060CEA7 /* SideMenuVC.swift */,
+				21CFD0FF29BCA05D0060CEA7 /* CustomTabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -190,6 +201,7 @@
 		21CFD0E229BC5DC10060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21CFD10129BCA0D00060CEA7 /* CalendarVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -211,6 +223,7 @@
 		21CFD0E529BC5DD30060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21CFD10329BCA0F50060CEA7 /* CheckListVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -232,6 +245,7 @@
 		21CFD0E829BC5DE50060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21CFD10529BCA1060060CEA7 /* LogInVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -296,6 +310,7 @@
 		21CFD0F129BC5E1D0060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -393,13 +408,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21CFD10229BCA0D00060CEA7 /* CalendarVC.swift in Sources */,
 				21CFD0C829BC54E60060CEA7 /* MainVC.swift in Sources */,
+				21CFD10829BCA13B0060CEA7 /* MyPageVC.swift in Sources */,
+				21CFD10629BCA1060060CEA7 /* LogInVC.swift in Sources */,
 				21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */,
 				21CFD0F929BC87A70060CEA7 /* SideMenuModel.swift in Sources */,
 				21CFD0FE29BC94FD0060CEA7 /* Extensions.swift in Sources */,
 				21CFD0F529BC66190060CEA7 /* SettingVC.swift in Sources */,
 				21CFD0C429BC54E60060CEA7 /* AppDelegate.swift in Sources */,
+				21CFD10429BCA0F50060CEA7 /* CheckListVC.swift in Sources */,
 				21CFD0C629BC54E60060CEA7 /* SceneDelegate.swift in Sources */,
+				21CFD10029BCA05D0060CEA7 /* CustomTabBarController.swift in Sources */,
 				21CFD0F729BC83340060CEA7 /* SideMenuVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

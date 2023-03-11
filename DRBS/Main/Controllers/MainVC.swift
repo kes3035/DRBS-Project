@@ -20,6 +20,8 @@ class MainVC: UIViewController {
     private var panBaseLocation: CGFloat = 0.0
     var gestureEnabled: Bool = true
     
+//    private let tabbar = CustomTabBarController()
+    
     private lazy var button: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +40,9 @@ class MainVC: UIViewController {
     }
     
     //MARK: - Helpers
+    func setupTabbar() {
+        
+    }
     func testButton() {
         view.addSubview(button)
         NSLayoutConstraint.activate([
