@@ -116,6 +116,13 @@
                         </constraints>
                     </view>
                     <size key="freeformSize" width="260" height="852"/>
+                    <connections>
+                        <outlet property="sideMenuTableView" destination="EyW-Za-F3t" id="VXE-ho-8dV"/>
+                        <outlet property="sideMenuTitleLabel" destination="RM0-GZ-8a5" id="veO-nj-Yqh"/>
+                        <outlet property="sideMenuUserIamgeView" destination="q3Q-7I-lKC" id="fuD-A1-pRs"/>
+                        <outlet property="sideMenuUserNameLabel" destination="Qb1-lx-LjI" id="u7v-aF-lyf"/>
+                        <outlet property="sideMenuWelcomeLabel" destination="sXc-lk-qLk" id="yPx-Ul-3Y3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LJ8-Ms-4tr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -124,7 +131,7 @@
         <!--MainVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainVC" customModule="DRBS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" id="BYZ-38-t0r" customClass="MainVC" customModule="DRBS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

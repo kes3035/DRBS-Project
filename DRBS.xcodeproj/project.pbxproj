@@ -17,6 +17,7 @@
 		21CFD0F729BC83340060CEA7 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0F629BC83340060CEA7 /* SideMenuVC.swift */; };
 		21CFD0F929BC87A70060CEA7 /* SideMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0F829BC87A70060CEA7 /* SideMenuModel.swift */; };
 		21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0FA29BC87D40060CEA7 /* SideMenuCell.swift */; };
+		21CFD0FE29BC94FD0060CEA7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		21CFD0F629BC83340060CEA7 /* SideMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		21CFD0F829BC87A70060CEA7 /* SideMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuModel.swift; sourceTree = "<group>"; };
 		21CFD0FA29BC87D40060CEA7 /* SideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
+		21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				21CFD0C529BC54E60060CEA7 /* SceneDelegate.swift */,
 				21CFD0C929BC54E60060CEA7 /* Main.storyboard */,
 				21CFD0CE29BC54E70060CEA7 /* LaunchScreen.storyboard */,
+				21CFD0FC29BC94E90060CEA7 /* Extension */,
 				21CFD0DE29BC5D3D0060CEA7 /* Resources */,
 				21CFD0D729BC5CE70060CEA7 /* Main */,
 				21CFD0D829BC5CF20060CEA7 /* Calendar */,
@@ -311,6 +314,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		21CFD0FC29BC94E90060CEA7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -385,6 +396,7 @@
 				21CFD0C829BC54E60060CEA7 /* MainVC.swift in Sources */,
 				21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */,
 				21CFD0F929BC87A70060CEA7 /* SideMenuModel.swift in Sources */,
+				21CFD0FE29BC94FD0060CEA7 /* Extensions.swift in Sources */,
 				21CFD0F529BC66190060CEA7 /* SettingVC.swift in Sources */,
 				21CFD0C429BC54E60060CEA7 /* AppDelegate.swift in Sources */,
 				21CFD0C629BC54E60060CEA7 /* SceneDelegate.swift in Sources */,
