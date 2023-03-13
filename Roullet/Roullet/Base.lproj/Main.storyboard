@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Roullet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UxY-rD-Wfa" customClass="SpinWheelView" customModule="Roullet" customModuleProvider="target">
+                                <rect key="frame" x="46.666666666666657" y="194" width="300" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="77E-w9-9N6"/>
+                                    <constraint firstAttribute="width" constant="300" id="KHS-RD-0HN"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pry-2X-9CQ">
+                                <rect key="frame" x="153" y="614" width="87.333333333333314" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="SOq-Y1-Blc"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Random"/>
+                                <connections>
+                                    <action selector="randomize:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gUG-0j-iCW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-32-ezV">
+                                <rect key="frame" x="167.66666666666666" y="685" width="58" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Spin"/>
+                                <connections>
+                                    <action selector="spin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bvD-sI-Okz"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1qN-Vz-4GZ">
+                                <rect key="frame" x="44" y="594.66666666666663" width="0.3333333333333357" height="216"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="0.29999999999999999" id="WYr-m0-CrF"/>
+                                </constraints>
+                            </pickerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="1qN-Vz-4GZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="44" id="1Ku-Lg-3Qb"/>
+                            <constraint firstItem="pry-2X-9CQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3jH-Bc-zkN"/>
+                            <constraint firstItem="UxY-rD-Wfa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="135" id="Adu-Ee-Cu1"/>
+                            <constraint firstItem="QEb-32-ezV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QPT-qB-YQ8"/>
+                            <constraint firstItem="1qN-Vz-4GZ" firstAttribute="centerY" secondItem="QEb-32-ezV" secondAttribute="centerY" id="Uee-CL-nyE"/>
+                            <constraint firstItem="QEb-32-ezV" firstAttribute="centerY" secondItem="pry-2X-9CQ" secondAttribute="centerY" constant="68.5" id="bFn-Vy-RPp"/>
+                            <constraint firstItem="UxY-rD-Wfa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c8Z-0p-sAj"/>
+                            <constraint firstItem="pry-2X-9CQ" firstAttribute="top" secondItem="UxY-rD-Wfa" secondAttribute="bottom" constant="120" id="ifo-WZ-1Bt"/>
+                            <constraint firstItem="QEb-32-ezV" firstAttribute="top" secondItem="pry-2X-9CQ" secondAttribute="bottom" constant="31" id="xk8-CO-EHC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="indexPickerView" destination="1qN-Vz-4GZ" id="fTb-Db-mmb"/>
+                        <outlet property="spinWheelView" destination="UxY-rD-Wfa" id="pQq-nD-bus"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="234" y="-13"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
