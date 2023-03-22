@@ -79,6 +79,9 @@ extension KakaoZipCodeVC: WKScriptMessageHandler {
 //            previousVC.address = self.address
 //
 //        }
+        let location = Location(location: address)
+        UserDefaults.standard.userLocation = location
+        print("\(UserDefaults.standard.userLocation)")
         self.dismiss(animated: true, completion: nil)
     }
 }

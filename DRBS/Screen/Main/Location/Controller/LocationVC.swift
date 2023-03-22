@@ -19,18 +19,18 @@ class LocationVC: UIViewController {
         return label
     }()
     
-    var address: String? {
-        didSet {
-            self.addressLabel.text = address
-            if addressLabel.text == "지역을 설정하세요!" {
-                detailTextField.isHidden = true
-                editAdressButton.setTitle("Edit", for: .normal)
-            } else {
-                detailTextField.isHidden = false
-                editAdressButton.setTitle("SAVE", for: .normal)
-            }
-        }
-    }
+//    var address: String? {
+//        didSet {
+//            self.addressLabel.text = address
+//            if addressLabel.text == "지역을 설정하세요!" {
+//                detailTextField.isHidden = true
+//                editAdressButton.setTitle("Edit", for: .normal)
+//            } else {
+//                detailTextField.isHidden = false
+//                editAdressButton.setTitle("SAVE", for: .normal)
+//            }
+//        }
+//    }
     
     var addressLabel: UILabel = {
        let label = UILabel()
@@ -84,6 +84,11 @@ class LocationVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNav()
+        configureAddress()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureAddress()
     }
         
     //MARK: - Helpers
@@ -135,27 +140,22 @@ class LocationVC: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
-    
+    func configureAddress() {
+        guard UserDefaults.standard.userLocation != nil else {
+            self.addressLabel.text = "지역을 설정하세요!"
+            
+            return }
+        self.addressLabel.text = UserDefaults.standard.userLocation.location
+    }
     
     //MARK: - Actions
     @objc func editButtonTapped() {
-        if addressLabel.text == "지역을 설정하세요!" {
             let kakaoVC = KakaoZipCodeVC()
 //            kakaoVC.modalPresentationStyle = .fullScreen
             //        self.navigationController?.pushViewController(kakaoVC, animated: true)
+        kakaoVC.modalPresentationStyle = .fullScreen
             self.present(kakaoVC, animated: true)
-        } else {
-            _ = UIContextualAction(style: .normal, title: "", handler: { _, _, _ in
-                let alert = UIAlertController(title: "", message: "저장이 완료되었습니다", preferredStyle: .alert)
-                let success = UIAlertAction(title: "확인", style: .default) { success in
-                    self.editAdressButton.setTitle("Edit", for: .normal)
-                    
-                }
-                alert.addAction(success)
-                self.present(alert, animated: true)
-            })
-                                            
-        }
+        
     }
 
     @objc func mapButtonTapped() {
