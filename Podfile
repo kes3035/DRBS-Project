@@ -7,5 +7,5 @@ target 'DRBS' do
 
   # Pods for DRBS
     pod 'SideMenu' 
-
+    pod 'FSCalendar' 
 end

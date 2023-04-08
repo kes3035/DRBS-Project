@@ -6,7 +6,7 @@
 //
 import UIKit
 import SideMenu
-
+import FSCalendar
 
 class TabbarVC: UITabBarController {
     //MARK: - Properties
@@ -44,7 +44,6 @@ class TabbarVC: UITabBarController {
         controller5.tabBarItem.image = UIImage(systemName: "person")
         let nav1 = UINavigationController(rootViewController: controller1)
         let nav2 = UINavigationController(rootViewController: controller2)
-        guard let controller3 = storyboard.instantiateViewController(withIdentifier: "MainVC") as? MainVC else { return }
         let nav3 = UINavigationController(rootViewController: controller3)
         nav3.title = ""
         let nav4 = UINavigationController(rootViewController: controller4)

@@ -12,6 +12,12 @@
 		216C994929BF687800ECD791 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994829BF687800ECD791 /* LocationVC.swift */; };
 		216C994B29BF68C000ECD791 /* KakaoZipCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994A29BF68C000ECD791 /* KakaoZipCodeVC.swift */; };
 		216C994D29C02D3400ECD791 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994C29C02D3400ECD791 /* Location.swift */; };
+		217698FE29E1344F005CC6AB /* MyColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217698FD29E1344F005CC6AB /* MyColor.swift */; };
+		2176990029E1347D005CC6AB /* AddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217698FF29E1347D005CC6AB /* AddVC.swift */; };
+		2188740829D428B000519519 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188740729D428B000519519 /* Expense.swift */; };
+		2188740A29D42AE600519519 /* ExpenseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188740929D42AE600519519 /* ExpenseVC.swift */; };
+		2188740C29D42BFC00519519 /* ExpenseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188740B29D42BFC00519519 /* ExpenseCell.swift */; };
+		2188740E29D4492B00519519 /* DetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188740D29D4492B00519519 /* DetailAddress.swift */; };
 		21A10F1829C96E44001AFFF6 /* SideMenuNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A10F1729C96E44001AFFF6 /* SideMenuNav.swift */; };
 		21A10F1A29C974DB001AFFF6 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A10F1929C974DB001AFFF6 /* SideMenuVC.swift */; };
 		21CFD0C429BC54E60060CEA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0C329BC54E60060CEA7 /* AppDelegate.swift */; };
@@ -38,6 +44,12 @@
 		216C994829BF687800ECD791 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		216C994A29BF68C000ECD791 /* KakaoZipCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoZipCodeVC.swift; sourceTree = "<group>"; };
 		216C994C29C02D3400ECD791 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		217698FD29E1344F005CC6AB /* MyColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyColor.swift; sourceTree = "<group>"; };
+		217698FF29E1347D005CC6AB /* AddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVC.swift; sourceTree = "<group>"; };
+		2188740729D428B000519519 /* Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
+		2188740929D42AE600519519 /* ExpenseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseVC.swift; sourceTree = "<group>"; };
+		2188740B29D42BFC00519519 /* ExpenseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseCell.swift; sourceTree = "<group>"; };
+		2188740D29D4492B00519519 /* DetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddress.swift; sourceTree = "<group>"; };
 		21A10F1729C96E44001AFFF6 /* SideMenuNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuNav.swift; sourceTree = "<group>"; };
 		21A10F1929C974DB001AFFF6 /* SideMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		21CFD0C029BC54E60060CEA7 /* DRBS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DRBS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				216C994C29C02D3400ECD791 /* Location.swift */,
+				2188740D29D4492B00519519 /* DetailAddress.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,6 +303,8 @@
 			isa = PBXGroup;
 			children = (
 				21CFD10129BCA0D00060CEA7 /* CalendarVC.swift */,
+				2188740929D42AE600519519 /* ExpenseVC.swift */,
+				217698FF29E1347D005CC6AB /* AddVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -297,6 +312,7 @@
 		21CFD0E329BC5DC70060CEA7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2188740B29D42BFC00519519 /* ExpenseCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -304,6 +320,7 @@
 		21CFD0E429BC5DCC0060CEA7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2188740729D428B000519519 /* Expense.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -422,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				21CFD0FD29BC94FD0060CEA7 /* Extensions.swift */,
+				217698FD29E1344F005CC6AB /* MyColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -562,6 +580,9 @@
 				21CFD0C829BC54E60060CEA7 /* MainVC.swift in Sources */,
 				216C994D29C02D3400ECD791 /* Location.swift in Sources */,
 				21A10F1829C96E44001AFFF6 /* SideMenuNav.swift in Sources */,
+				2188740829D428B000519519 /* Expense.swift in Sources */,
+				217698FE29E1344F005CC6AB /* MyColor.swift in Sources */,
+				2188740E29D4492B00519519 /* DetailAddress.swift in Sources */,
 				21CFD10829BCA13B0060CEA7 /* MyPageVC.swift in Sources */,
 				21CFD10629BCA1060060CEA7 /* LogInVC.swift in Sources */,
 				21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */,
@@ -576,7 +597,10 @@
 				21CFD10429BCA0F50060CEA7 /* CheckListVC.swift in Sources */,
 				21CFD0C629BC54E60060CEA7 /* SceneDelegate.swift in Sources */,
 				216C994B29BF68C000ECD791 /* KakaoZipCodeVC.swift in Sources */,
+				2188740A29D42AE600519519 /* ExpenseVC.swift in Sources */,
+				2188740C29D42BFC00519519 /* ExpenseCell.swift in Sources */,
 				21CFD10029BCA05D0060CEA7 /* TabbarVC.swift in Sources */,
+				2176990029E1347D005CC6AB /* AddVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,6 +755,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -765,6 +790,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

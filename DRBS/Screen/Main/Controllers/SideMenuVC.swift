@@ -35,6 +35,10 @@ class SideMenuVC: UIViewController {
         super.viewDidLoad()
         setupTableView()
         configureUI()
+        userImageView.layer.cornerRadius = 30
+        userImageView.clipsToBounds = true
+        self.userImageView.image = UIImage(named: "쿠루루.png")
+        
     }
     
     //MARK: - Helpers
@@ -60,6 +64,8 @@ extension SideMenuVC: UITableViewDelegate {
             print("지역설정탭 눌림")
             let locationVC = LocationVC()
             self.navigationController?.pushViewController(locationVC, animated: true)
+//            let calendarVC = CalendarVC()
+//            self.navigationController?.pushViewController(calendarVC, animated: true)
         case 1:
             print("메뉴추천탭 눌림")
         case 2:

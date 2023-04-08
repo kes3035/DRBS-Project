@@ -17,10 +17,10 @@ class MyPageVC: UIViewController {
     
     func configureNav() {
         navigationItem.title = "DRBS"
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance

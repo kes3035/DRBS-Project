@@ -72,9 +72,9 @@ extension KakaoZipCodeVC: WKScriptMessageHandler {
             address = data["roadAddress"] as? String ?? ""
         }
         
-        guard let previousVC = presentingViewController as? TabbarVC else {
-            print("디버그: 실패")
-            return }
+//        guard let previousVC = presentingViewController as? TabbarVC else {
+//            print("디버그: 실패")
+//            return }
 //        DispatchQueue.main.async {
 //            previousVC.address = self.address
 //
