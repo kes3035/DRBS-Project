@@ -8,14 +8,15 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var spinWheelView: SpinWheelView!
     @IBOutlet weak var indexPickerView: UIPickerView!
     @IBOutlet weak var imageView: UIImageView!
     
     // 유저디폴드에서 값을 가져와 배열 안에 넣는다.
     let texts = ["떡볶이", "치킨", "피자", "파스타", "라면", "만두", "마라탕", "닭가슴살"]
-    let colors = [UIColor.blue, UIColor.red, UIColor.yellow, UIColor.brown, UIColor.black, UIColor.darkGray, UIColor.orange, UIColor.purple]
+    let colors = [UIColor.blue, UIColor.red, UIColor.systemGreen, UIColor.brown, UIColor.black, UIColor.darkGray, UIColor.orange, UIColor.purple]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +31,7 @@ class ViewController: UIViewController {
         indexPickerView.dataSource = self
     }
 
-    @IBAction func randomize(_ sender: Any) {
-        spinWheelView.items = randomItems()
-        indexPickerView.reloadAllComponents()
-    }
-    
+    //MARK: spin버튼
     @IBAction func spin(_ sender: Any) {
         let index = indexPickerView.selectedRow(inComponent: 0)
         print("spin wheel \(spinWheelView.items[index].text)")
@@ -48,12 +45,14 @@ class ViewController: UIViewController {
     }
     
     
+    //MARK: 아이템을 랜덤으로 섞어주는 함수
     func randomItems() -> [SpinWheelItemModel] {
         let shuffledColor = colors.shuffled()
         return shuffledColor.compactMap({ color in
             SpinWheelItemModel(text: color.toText(), backgroundColor: color, value: 1000)
         })
     }
+    
     
     func testRingImage() -> UIImage {
         let lineWidth: CGFloat = 2
@@ -132,7 +131,7 @@ extension UIColor {
             return "치킨"
         case .red:
             return "떡볶이"
-        case .yellow:
+        case .systemGreen:
             return "피자"
         case .brown:
             return "파스타"

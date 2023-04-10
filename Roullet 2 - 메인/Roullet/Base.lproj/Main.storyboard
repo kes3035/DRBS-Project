@@ -25,19 +25,8 @@
                                     <constraint firstAttribute="width" constant="300" id="KHS-RD-0HN"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pry-2X-9CQ">
-                                <rect key="frame" x="153" y="658" width="87.333333333333314" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="SOq-Y1-Blc"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Random"/>
-                                <connections>
-                                    <action selector="randomize:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gUG-0j-iCW"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-32-ezV">
-                                <rect key="frame" x="167.66666666666666" y="729" width="58" height="35"/>
+                                <rect key="frame" x="167.33333333333334" y="663" width="58.333333333333343" height="35"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Spin"/>
@@ -46,7 +35,7 @@
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1qN-Vz-4GZ">
-                                <rect key="frame" x="44" y="638.66666666666663" width="0.0" height="216"/>
+                                <rect key="frame" x="44" y="506.33333333333337" width="0.0" height="348.33333333333337"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="0.10000000000000001" id="WYr-m0-CrF"/>
                                 </constraints>
@@ -63,16 +52,15 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1qN-Vz-4GZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="44" id="1Ku-Lg-3Qb"/>
-                            <constraint firstItem="pry-2X-9CQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3jH-Bc-zkN"/>
                             <constraint firstItem="q07-60-eMb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8WF-EC-w2T"/>
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="135" id="Adu-Ee-Cu1"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="1qN-Vz-4GZ" secondAttribute="bottom" constant="-36.666666666666629" id="LzY-ig-cLx"/>
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="top" secondItem="q07-60-eMb" secondAttribute="bottom" id="Mq6-f7-sw9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QEb-32-ezV" secondAttribute="trailing" constant="167.33333333333334" id="PuB-XF-xPp"/>
                             <constraint firstItem="QEb-32-ezV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QPT-qB-YQ8"/>
                             <constraint firstItem="1qN-Vz-4GZ" firstAttribute="centerY" secondItem="QEb-32-ezV" secondAttribute="centerY" id="Uee-CL-nyE"/>
-                            <constraint firstItem="QEb-32-ezV" firstAttribute="centerY" secondItem="pry-2X-9CQ" secondAttribute="centerY" constant="68.5" id="bFn-Vy-RPp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QEb-32-ezV" secondAttribute="bottom" constant="120" id="UoI-yh-fM4"/>
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c8Z-0p-sAj"/>
-                            <constraint firstItem="pry-2X-9CQ" firstAttribute="top" secondItem="UxY-rD-Wfa" secondAttribute="bottom" constant="120" id="ifo-WZ-1Bt"/>
-                            <constraint firstItem="QEb-32-ezV" firstAttribute="top" secondItem="pry-2X-9CQ" secondAttribute="bottom" constant="31" id="xk8-CO-EHC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="flB-9l-Xmb">

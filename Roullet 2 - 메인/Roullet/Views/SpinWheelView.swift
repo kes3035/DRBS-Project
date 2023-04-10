@@ -51,13 +51,15 @@ class SpinWheelView: UIView {
     }
     private var willEndIndex: Int?
     
+    //MARK: 메서드를 통해 룰렛을 시작할 수 있다.
     func spinWheel(_ index: Int) {
         guard !items.isEmpty else { return }
-        delegate?.spinWheelWillStart(self)
-        willEndIndex = index
-        spinWheelLayer?.add(spinAnimation(endIndex: index), forKey: "spin")
+            delegate?.spinWheelWillStart(self)
+            willEndIndex = Int.random(in: 0..<items.count)
+            spinWheelLayer?.add(spinAnimation(endIndex: willEndIndex!), forKey: "spin")
     }
     
+    //MARK: 룰렛이 회전하여 endIndex에 해당하는 sliceLayer에 위치하도록 하는 애니메이션을 반환한다.
     private func spinAnimation(endIndex: Int) -> CAAnimationGroup {
         let group = CAAnimationGroup()
         let begin = beginAnimation()
@@ -77,6 +79,7 @@ class SpinWheelView: UIView {
         return group
     }
     
+    //MARK: 룰렛 전체 애니메이션 중 easeln 타이밍으로 도입부 애니메이션을 반환한다.
     private func beginAnimation() -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.fromValue = 0
@@ -87,6 +90,7 @@ class SpinWheelView: UIView {
         return animation
     }
     
+    //MARK: linear 타이밍으로 중간부분 애니메이션을 반환한다.
     private func turnAnimation(begin: Double) -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.fromValue = 0
@@ -97,6 +101,7 @@ class SpinWheelView: UIView {
         return animation
     }
     
+    //MARK: eseOut 타이밍으로 마지막 endIndex까지 도달하는 애니메이션을 반환한다.
     private func endAnimation(begin: Double, endAngle: Degree) -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.fromValue = 0
@@ -131,6 +136,7 @@ class SpinWheelLayer: CALayer {
         setRingImageIfNeeded()
     }
     
+    //MARK: layer에 포함되어있던 애니메이션과 sublayer를 모두 제거하여 초기화 하는 작업
     private func initializeLayer() {
         self.contentsScale = UIScreen.main.scale
         
@@ -141,6 +147,7 @@ class SpinWheelLayer: CALayer {
 
     }
     
+    //MARK: layer에 원형 마스크를 씌운다
     private func setMask() {
         let maskLayer = CAShapeLayer()
         maskLayer.path = UIBezierPath(arcCenter: CGPoint(x: bounds.width / 2, y: bounds.height / 2), radius: min(bounds.width / 2, bounds.height / 2), startAngle: 0, endAngle: .pi * 2, clockwise: false).cgPath
@@ -148,6 +155,7 @@ class SpinWheelLayer: CALayer {
         
     }
     
+    //MARK: items 배열에 들어있는 수 만큼 SlceLayer들을 추가해 룰렛을 그린다.
     private func setSlicesIfNeeded() {
         guard !items.isEmpty else { return }
         let degreeOfSlice: Degree = 360 / CGFloat(items.count)
@@ -166,6 +174,7 @@ class SpinWheelLayer: CALayer {
         }
     }
     
+    //MARK: 룰렛의 ring에 해당하는 image를 추가한다.
     private func setRingImageIfNeeded() {
         guard let ringImage = ringImage else {
             return
@@ -182,7 +191,7 @@ class SpinWheelLayer: CALayer {
     }
 }
 
-// MARK: Slice
+// MARK: CGContext를 이용해 Slice모양을 그린다.
 class SliceLayer: CALayer {
     let model: SpinWheelItemModel
     let startAngle: Degree
@@ -220,6 +229,7 @@ class SliceLayer: CALayer {
         ctx.fillPath()
     }
     
+    //MARK: 각 slce가 보여주어야할 text를 포함하는 subLayer를 추가한다.
     private func addTextLayer() {
         let center: CGPoint = self.position
         
@@ -240,8 +250,11 @@ class SliceLayer: CALayer {
 }
 
 struct SpinWheelItemModel {
+    //MARK: slice별로 보여줄 텍스트
     let text: String
+    //MARK: slice의 배경색
     let backgroundColor: UIColor?
+    //MARK: slice별로 대응하는 값
     let value: Int
 }
 

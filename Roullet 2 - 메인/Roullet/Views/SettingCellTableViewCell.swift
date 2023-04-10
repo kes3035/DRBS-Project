@@ -9,22 +9,19 @@ import UIKit
 
 protocol SaveDelegate: AnyObject { func saveData() }
 
-class SettingCellTableViewCell: UITableViewCell {
+class SettingCellTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var colorImage: UIImageView!
     @IBOutlet weak var insertNameTextField: UITextField!
     @IBOutlet weak var insertRateTextField: UITextField!
     
+    var textFieldValue: String?
     
-    func roundCell() {
-            insertNameTextField.layer.cornerRadius = 50
-            insertRateTextField.layer.cornerRadius = 50
-        
+    weak var savedelegate: SaveDelegate?
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textFieldValue = textField.text
     }
-    
-
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,8 +36,13 @@ class SettingCellTableViewCell: UITableViewCell {
 }
 
 
+
 extension SettingCellTableViewCell: SaveDelegate {
     func saveData() {
-        UserDefaults.standard.set(insertNameTextField, forKey: "text")
+        if let text = insertNameTextField.text {
+            UserDefaults.standard.set(text, forKey: "text")
+                print("saved: \(text)")
+        }
     }
 }
+
