@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5ft-pU-72j">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5ft-pU-72j">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -25,17 +25,8 @@
                                     <constraint firstAttribute="width" constant="300" id="KHS-RD-0HN"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-32-ezV">
-                                <rect key="frame" x="167.33333333333334" y="663" width="58.333333333333343" height="35"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Spin"/>
-                                <connections>
-                                    <action selector="spin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bvD-sI-Okz"/>
-                                </connections>
-                            </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1qN-Vz-4GZ">
-                                <rect key="frame" x="44" y="506.33333333333337" width="0.0" height="348.33333333333337"/>
+                                <rect key="frame" x="44" y="638.66666666666663" width="0.0" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="0.10000000000000001" id="WYr-m0-CrF"/>
                                 </constraints>
@@ -56,10 +47,6 @@
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="135" id="Adu-Ee-Cu1"/>
                             <constraint firstAttribute="bottomMargin" secondItem="1qN-Vz-4GZ" secondAttribute="bottom" constant="-36.666666666666629" id="LzY-ig-cLx"/>
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="top" secondItem="q07-60-eMb" secondAttribute="bottom" id="Mq6-f7-sw9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QEb-32-ezV" secondAttribute="trailing" constant="167.33333333333334" id="PuB-XF-xPp"/>
-                            <constraint firstItem="QEb-32-ezV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QPT-qB-YQ8"/>
-                            <constraint firstItem="1qN-Vz-4GZ" firstAttribute="centerY" secondItem="QEb-32-ezV" secondAttribute="centerY" id="Uee-CL-nyE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QEb-32-ezV" secondAttribute="bottom" constant="120" id="UoI-yh-fM4"/>
                             <constraint firstItem="UxY-rD-Wfa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c8Z-0p-sAj"/>
                         </constraints>
                     </view>
@@ -87,11 +74,11 @@
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Aur-HB-WDR" customClass="SettingViewController" customModule="Roullet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2c2-64-C72">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="YeR-xa-VzS">
-                                <rect key="frame" x="0.0" y="106" width="393" height="607"/>
+                                <rect key="frame" x="0.0" y="106" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" rowHeight="55" id="blC-4j-fiZ" customClass="SettingCellTableViewCell" customModule="Roullet" customModuleProvider="target">
@@ -155,7 +142,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY8-cM-9cl">
-                                <rect key="frame" x="76.666666666666686" y="713" width="240" height="35"/>
+                                <rect key="frame" x="76.666666666666686" y="772" width="240" height="35"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="fmX-JC-cPp"/>

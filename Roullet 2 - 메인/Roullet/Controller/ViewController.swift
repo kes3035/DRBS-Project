@@ -15,13 +15,13 @@ class ViewController: UIViewController {
     
     // 유저디폴드에서 값을 가져와 배열 안에 넣는다.
     let texts = ["떡볶이", "치킨", "피자", "파스타", "라면", "만두", "마라탕", "닭가슴살"]
-    let colors = [UIColor.blue, UIColor.red, UIColor.systemGreen, UIColor.brown, UIColor.black, UIColor.darkGray, UIColor.orange, UIColor.purple]
-    
+    let colors = [UIColor.color1!, UIColor.color2!, UIColor.color3!, UIColor.color4!, UIColor.color5!, UIColor.color6!, UIColor.color7!, UIColor.color8!]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         view.backgroundColor = UIColor.white
+        setButton()
+        
         spinWheelView.delegate = self
         spinWheelView.items = randomItems()
         spinWheelView.ringImage = testRingImage()
@@ -29,13 +29,8 @@ class ViewController: UIViewController {
         
         indexPickerView.delegate = self
         indexPickerView.dataSource = self
-    }
-
-    //MARK: spin버튼
-    @IBAction func spin(_ sender: Any) {
-        let index = indexPickerView.selectedRow(inComponent: 0)
-        print("spin wheel \(spinWheelView.items[index].text)")
-        spinWheelView.spinWheel(index)
+        
+ 
     }
         
     // MARK: 네비게이션 바 버튼
@@ -48,11 +43,38 @@ class ViewController: UIViewController {
     //MARK: 아이템을 랜덤으로 섞어주는 함수
     func randomItems() -> [SpinWheelItemModel] {
         let shuffledColor = colors.shuffled()
-        return shuffledColor.compactMap({ color in
-            SpinWheelItemModel(text: color.toText(), backgroundColor: color, value: 1000)
+            return shuffledColor.compactMap({ color in
+                let index = colors.firstIndex(of: color)!
+                return SpinWheelItemModel(text: texts[index], backgroundColor: color, value: 1000)
         })
     }
     
+    func setButton() {
+        // 회전버튼 관련 설정
+        let spinButton = UIButton(type: .system)
+        spinButton.setTitle("Start", for: .normal)
+        spinButton.setTitleColor(.white, for: .normal)
+        spinButton.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        spinButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        spinButton.addTarget(self, action: #selector(spinButtonTapped), for: .touchUpInside)
+        view.addSubview(spinButton)
+        
+        // 버튼 오토레이아웃
+        spinButton.layer.cornerRadius = 10
+        spinButton.layer.masksToBounds = true
+        spinButton.translatesAutoresizingMaskIntoConstraints = false
+        spinButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        spinButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        spinButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -180).isActive = true
+        spinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
+    
+    @objc func spinButtonTapped() {
+        let index = indexPickerView.selectedRow(inComponent: 0)
+        print("spin wheel \(spinWheelView.items[index].text)")
+        spinWheelView.spinWheel(index)
+    }
     
     func testRingImage() -> UIImage {
         let lineWidth: CGFloat = 2
@@ -100,6 +122,7 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         spinWheelView.items[row].text
+//        texts[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -127,21 +150,21 @@ extension CALayer {
 extension UIColor {
     func toText() -> String {
         switch self {
-        case .blue:
+        case .color1!:
             return "치킨"
-        case .red:
+        case .color2!:
             return "떡볶이"
-        case .systemGreen:
+        case .color3!:
             return "피자"
-        case .brown:
+        case .color4!:
             return "파스타"
-        case .black:
+        case .color5!:
             return "라면"
-        case .darkGray:
+        case .color6!:
             return "만두"
-        case .orange:
+        case .color7!:
             return "마라탕"
-        case .purple:
+        case .color8!:
             return "닭가슴살"
         default:
             return ""
@@ -149,3 +172,22 @@ extension UIColor {
     }
 }
 
+
+extension UIColor {
+    
+    class var color1: UIColor? { return UIColor(named: "color1")}
+    
+    class var color2: UIColor? { return UIColor(named: "color2")}
+    
+    class var color3: UIColor? { return UIColor(named: "color3")}
+    
+    class var color4: UIColor? { return UIColor(named: "color4")}
+    
+    class var color5: UIColor? { return UIColor(named: "color5")}
+    
+    class var color6: UIColor? { return UIColor(named: "color6")}
+    
+    class var color7: UIColor? { return UIColor(named: "color7")}
+    
+    class var color8: UIColor? { return UIColor(named: "color8")}
+}
