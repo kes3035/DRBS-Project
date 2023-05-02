@@ -124,23 +124,40 @@ class CalendarVC: UIViewController {
     lazy var calendarTopConstraints =  myCalendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
     lazy var tableViewTopConstraints = expenseTableView.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 50)
     lazy var calendarHeight = myCalendar.heightAnchor.constraint(equalToConstant: 570)
-    var isCalendarWeek: Bool? {
-        didSet {
-            calendarTop()
-        }
-    }
+    var isCalendarWeek: Bool? { didSet { calendarTop() } }
     
-    var dateString: String? {
-        didSet {
-            dateLabel.text = dateString
-        }
-    }
+    var dateString: String? { didSet { dateLabel.text = dateString } }
     
-    var monthString: String? {
-        didSet {
-            mainLabel.text = monthString
+    var monthString: String? { didSet { mainLabel.text = monthString } }
+    
+    var currentCategory: Category? { didSet {
+        switch currentCategory {
+        case .utilityBill:
+            self.categoryExpenses = expenses.filter{($0).category == .utilityBill}
+            expenseTableView.reloadData()
+        case .food:
+            self.categoryExpenses = expenses.filter{($0).category == .food}
+            expenseTableView.reloadData()
+        case .etc:
+            self.categoryExpenses = expenses.filter{($0).category == .etc}
+            expenseTableView.reloadData()
+        case .all:
+            self.categoryExpenses = expenses
+            expenseTableView.reloadData()
+        default:
+            break
         }
-    }
+    } }
+    
+    let expenses: [Expense] = [
+        Expense(cost: "100000", category: .utilityBill, background: .blue, expenseText: "월세", memo: "월세 너무 많죠;;"),
+        Expense(cost: "28000", category: .food, background: .red, expenseText: "치킨", memo: "bhc치킨"),
+        Expense(cost: "2500", category: .etc, background: .green, expenseText: "샤프", memo: "알파에서 샤프 구매하고 더 둘러보다가 오예스~")]
+    
+    lazy var categoryExpenses: [Expense] = expenses
+    
+    
+    
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -301,15 +318,51 @@ class CalendarVC: UIViewController {
     }
     
     @objc func utilityButtonTapped() {
-        
+        if self.utilityBillButton.backgroundColor == .white {
+            self.utilityBillButton.backgroundColor = .blue
+            self.utilityBillButton.setTitleColor(.white, for: .normal)
+            self.etcExpensesButton.backgroundColor = .white
+            self.etcExpensesButton.setTitleColor(.green, for: .normal)
+            self.foodExpensesButton.backgroundColor = .white
+            self.foodExpensesButton.setTitleColor(.red, for: .normal)
+            self.currentCategory = .utilityBill
+        } else {
+            self.utilityBillButton.backgroundColor = .white
+            self.utilityBillButton.setTitleColor(.blue, for: .normal)
+            self.currentCategory = .all
+        }
     }
     
     @objc func foodButtonTapped() {
-        
+        if self.foodExpensesButton.backgroundColor == .white {
+            self.foodExpensesButton.backgroundColor = .red
+            self.foodExpensesButton.setTitleColor(.white, for: .normal)
+            self.etcExpensesButton.backgroundColor = .white
+            self.etcExpensesButton.setTitleColor(.green, for: .normal)
+            self.utilityBillButton.backgroundColor = .white
+            self.utilityBillButton.setTitleColor(.blue, for: .normal)
+            self.currentCategory = .food
+        } else {
+            self.foodExpensesButton.backgroundColor = .white
+            self.foodExpensesButton.setTitleColor(.red, for: .normal)
+            self.currentCategory = .all
+        }
     }
     
     @objc func etcButtonTapped() {
-        
+        if self.etcExpensesButton.backgroundColor == .white {
+            self.etcExpensesButton.backgroundColor = .green
+            self.etcExpensesButton.setTitleColor(.white, for: .normal)
+            self.foodExpensesButton.backgroundColor = .white
+            self.foodExpensesButton.setTitleColor(.red, for: .normal)
+            self.utilityBillButton.backgroundColor = .white
+            self.utilityBillButton.setTitleColor(.blue, for: .normal)
+            self.currentCategory = .etc
+        } else {
+            self.etcExpensesButton.backgroundColor = .white
+            self.etcExpensesButton.setTitleColor(.green, for: .normal)
+            self.currentCategory = .all
+        }
     }
 }
 
@@ -325,16 +378,12 @@ extension CalendarVC: FSCalendarDelegate {
         if isCalendarWeek == nil || isCalendarWeek == false {
             myCalendar.setScope(.week, animated: true)
             isCalendarWeek = true
-
         }
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "M월dd일"
         let selectedDate = myFormatter.string(from: date)
         self.dateString = selectedDate
     }
-   
-    
-    
 }
 
 //MARK: - FSCalendarDataSource
@@ -353,17 +402,17 @@ extension CalendarVC: FSCalendarDataSource {
 
 extension CalendarVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return categoryExpenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseCell", for: indexPath) as! ExpenseCell
         cell.selectionStyle = .none
+        cell.expense = self.categoryExpenses[indexPath.row]
         
         return cell
+        
     }
-    
-    
 }
 
 extension CalendarVC: UITableViewDelegate {

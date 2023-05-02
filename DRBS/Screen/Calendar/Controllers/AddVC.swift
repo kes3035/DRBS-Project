@@ -87,7 +87,43 @@ class AddVC: UIViewController {
         return textView
     }()
     
+    private lazy var memoView: UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
     
+    private let memoLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "메모"
+        label.font = UIFont.systemFont(ofSize: 25)
+        label.textColor = .darkGray
+        return label
+    }()
+    
+    
+    private lazy var memoTextView: UITextView = {
+       let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textColor = .black
+        
+        return textView
+    }()
+    
+    private lazy var saveButton: UIButton = {
+       let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("저장", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        button.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        button.layer.cornerRadius = 8
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     
     //MARK: - LifeCycle
@@ -105,6 +141,7 @@ class AddVC: UIViewController {
         expenseTextField.addBottomBorder()
         categoryView.addTopBorder()
         expenseView.addTopBorder()
+        memoView.addTopBorder()
     }
     
     
@@ -115,11 +152,15 @@ class AddVC: UIViewController {
         view.addSubview(expenseTextField)
         view.addSubview(categoryView)
         view.addSubview(expenseView)
+        view.addSubview(memoView)
+        view.addSubview(saveButton)
         categoryView.addSubview(categoryLabel)
         categoryView.addSubview(categoryCaseLabel)
         categoryView.addSubview(categoryButton)
         expenseView.addSubview(expenseLabel)
         expenseView.addSubview(textView)
+        memoView.addSubview(memoLabel)
+        memoView.addSubview(memoTextView)
         
     }
     
@@ -186,15 +227,36 @@ class AddVC: UIViewController {
             textView.leadingAnchor.constraint(equalTo: expenseLabel.trailingAnchor, constant: 15),
             textView.bottomAnchor.constraint(equalTo: expenseView.bottomAnchor, constant: -10)
         ])
+        
+        NSLayoutConstraint.activate([
+            memoView.topAnchor.constraint(equalTo: expenseView.bottomAnchor, constant: 0),
+            memoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            memoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            memoView.heightAnchor.constraint(equalToConstant: 80)
+        ])
+        
+        NSLayoutConstraint.activate([
+            memoLabel.centerYAnchor.constraint(equalTo: memoView.centerYAnchor),
+            memoLabel.leadingAnchor.constraint(equalTo: memoView.leadingAnchor, constant: 15),
+            memoLabel.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            memoTextView.topAnchor.constraint(equalTo: memoView.topAnchor, constant: 10),
+            memoTextView.trailingAnchor.constraint(equalTo: memoView.trailingAnchor, constant: -15),
+            memoTextView.leadingAnchor.constraint(equalTo: memoLabel.trailingAnchor, constant: 15),
+            memoTextView.bottomAnchor.constraint(equalTo: memoView.bottomAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            saveButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150),
+            saveButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
-    //    func setupTFBorder() {
-    //        var bottomLine = CALayer()
-    //        bottomLine.frame = CGRect(x: 0.0, y: expenseTextField.frame.height - 1, width: expenseTextField.frame.width, height: 1.0)
-    //        bottomLine.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00).cgColor
-    //        expenseTextField.borderStyle = UITextField.BorderStyle.none
-    //        expenseTextField.layer.addSublayer(bottomLine)
-    //    }
+  
     
     
     //MARK: - Actions
@@ -210,7 +272,7 @@ class AddVC: UIViewController {
         let etc = UIAlertAction(title: "기타소비", style: .default) { success in
             self.categoryCaseLabel.text = "기타소비"
         }
-        let cancel = UIAlertAction(title: "취소", style: .destructive) { cancel in }
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
         alert.addAction(utility)
         alert.addAction(food)
         alert.addAction(etc)
@@ -218,7 +280,9 @@ class AddVC: UIViewController {
         self.present(alert, animated: true)
     }
     
-    
+    @objc func saveButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 

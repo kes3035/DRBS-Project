@@ -8,9 +8,9 @@
 import UIKit
 
 struct Expense {
-    var utilityBill: String
-    var foodExpenses: String
-    var etc: String
-    
-    
+    var cost: String
+    var category: Category
+    var background: UIColor
+    var expenseText: String
+    var memo: String
 }

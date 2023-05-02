@@ -66,14 +66,14 @@ class ExpenseCell: UITableViewCell {
     private let expenses: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 3
         label.text = "싸이버거 단품 콜라 반숙란 dksmfksmdkfmsdkfmsdkfmsk"
         label.textColor = .black
         label.textAlignment = .right
+        label.setContentHuggingPriority(.init(rawValue: 251), for: .vertical)
+        label.setContentHuggingPriority(.init(rawValue: 251), for: .horizontal)
         return label
     }()
-    
-    
     
     private lazy var priceStack: UIStackView = {
         let stack = UIStackView()
@@ -85,7 +85,16 @@ class ExpenseCell: UITableViewCell {
         return stack
     }()
     
-    
+    var expense: Expense? {
+        didSet {
+            self.priceLabel.text = commaAdder(price: expense?.cost)
+            self.expenses.text = expense?.memo
+            self.background.layer.borderColor = expense?.background.cgColor
+            self.saparateLine.backgroundColor = expense?.background
+            self.breakdownLabel.textColor = expense?.background
+            self.expenseLabel.textColor = expense?.background
+        }
+    }
     
     //MARK: - LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -107,6 +116,7 @@ class ExpenseCell: UITableViewCell {
         background.addSubview(saparateLine)
         background.addSubview(breakdownLabel)
         background.addSubview(expenses)
+        expenses.setContentCompressionResistancePriority(UILayoutPriority(751), for: .vertical)
     }
     
     func setupConstraints() {
@@ -141,7 +151,8 @@ class ExpenseCell: UITableViewCell {
             expenses.topAnchor.constraint(equalTo: saparateLine.bottomAnchor, constant: 5),
             expenses.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -15),
             expenses.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -5),
-            expenses.widthAnchor.constraint(equalToConstant: 100)
+            expenses.widthAnchor.constraint(equalToConstant: 100),
+            expenses.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
         ])
         
     }
@@ -157,7 +168,13 @@ class ExpenseCell: UITableViewCell {
     }
     
     //MARK: - Actions
-
+    func commaAdder(price: String?) -> String {
+        let integerPrice = Int(price ?? "0") ?? 0
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: integerPrice)) ?? "0"
+        return formattedNumber
+    }
 
     
     
