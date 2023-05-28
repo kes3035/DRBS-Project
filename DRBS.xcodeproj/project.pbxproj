@@ -10,6 +10,7 @@
 		2112215629CACB060098EB0E /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2112215529CACB060098EB0E /* MainCell.swift */; };
 		214A972F29FFAC5700406226 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214A972E29FFAC5700406226 /* Category.swift */; };
 		215272B029C5949F003EA31F /* RecommandVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215272AF29C5949F003EA31F /* RecommandVC.swift */; };
+		216566F42A1C8AB90045F378 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 216566F32A1C8AB90045F378 /* GoogleService-Info.plist */; };
 		216C994929BF687800ECD791 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994829BF687800ECD791 /* LocationVC.swift */; };
 		216C994B29BF68C000ECD791 /* KakaoZipCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994A29BF68C000ECD791 /* KakaoZipCodeVC.swift */; };
 		216C994D29C02D3400ECD791 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C994C29C02D3400ECD791 /* Location.swift */; };
@@ -21,6 +22,8 @@
 		2188740E29D4492B00519519 /* DetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188740D29D4492B00519519 /* DetailAddress.swift */; };
 		21A10F1829C96E44001AFFF6 /* SideMenuNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A10F1729C96E44001AFFF6 /* SideMenuNav.swift */; };
 		21A10F1A29C974DB001AFFF6 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A10F1929C974DB001AFFF6 /* SideMenuVC.swift */; };
+		21BC302C2A0F90650066844D /* ExpenseUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BC302B2A0F90650066844D /* ExpenseUploader.swift */; };
+		21BC302E2A0F90E90066844D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BC302D2A0F90E90066844D /* AuthService.swift */; };
 		21CFD0C429BC54E60060CEA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0C329BC54E60060CEA7 /* AppDelegate.swift */; };
 		21CFD0C629BC54E60060CEA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0C529BC54E60060CEA7 /* SceneDelegate.swift */; };
 		21CFD0C829BC54E60060CEA7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD0C729BC54E60060CEA7 /* MainVC.swift */; };
@@ -36,13 +39,14 @@
 		21CFD10429BCA0F50060CEA7 /* CheckListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10329BCA0F50060CEA7 /* CheckListVC.swift */; };
 		21CFD10629BCA1060060CEA7 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10529BCA1060060CEA7 /* LogInVC.swift */; };
 		21CFD10829BCA13B0060CEA7 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */; };
-		F21F523E360890E54C49F941 /* Pods_DRBS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CA3A1D847FF5B5BAB45AE /* Pods_DRBS.framework */; };
+		A67FE6D7198A242BE5C654B9 /* Pods_DRBS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23640AAE4D7C6DD77996DBE1 /* Pods_DRBS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2112215529CACB060098EB0E /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
 		214A972E29FFAC5700406226 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		215272AF29C5949F003EA31F /* RecommandVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandVC.swift; sourceTree = "<group>"; };
+		216566F32A1C8AB90045F378 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "DRBS/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		216C994829BF687800ECD791 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		216C994A29BF68C000ECD791 /* KakaoZipCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoZipCodeVC.swift; sourceTree = "<group>"; };
 		216C994C29C02D3400ECD791 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -54,6 +58,8 @@
 		2188740D29D4492B00519519 /* DetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddress.swift; sourceTree = "<group>"; };
 		21A10F1729C96E44001AFFF6 /* SideMenuNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuNav.swift; sourceTree = "<group>"; };
 		21A10F1929C974DB001AFFF6 /* SideMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
+		21BC302B2A0F90650066844D /* ExpenseUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseUploader.swift; sourceTree = "<group>"; };
+		21BC302D2A0F90E90066844D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		21CFD0C029BC54E60060CEA7 /* DRBS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DRBS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21CFD0C329BC54E60060CEA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21CFD0C529BC54E60060CEA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,9 +77,9 @@
 		21CFD10329BCA0F50060CEA7 /* CheckListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListVC.swift; sourceTree = "<group>"; };
 		21CFD10529BCA1060060CEA7 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
-		345CA3A1D847FF5B5BAB45AE /* Pods_DRBS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DRBS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D9E21EBEA9EFCC7421E9612 /* Pods-DRBS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.debug.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.debug.xcconfig"; sourceTree = "<group>"; };
-		77E4D91B19405D03EC190130 /* Pods-DRBS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.release.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.release.xcconfig"; sourceTree = "<group>"; };
+		23640AAE4D7C6DD77996DBE1 /* Pods_DRBS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DRBS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70F3F2E13CB1F2A5254BF72D /* Pods-DRBS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.debug.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.debug.xcconfig"; sourceTree = "<group>"; };
+		BFA31902772564955844D344 /* Pods-DRBS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.release.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F21F523E360890E54C49F941 /* Pods_DRBS.framework in Frameworks */,
+				A67FE6D7198A242BE5C654B9 /* Pods_DRBS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +151,7 @@
 		21A4D99D29C1E750006DA3FC /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				21BC302A2A0F90470066844D /* API */,
 				21CFD0DE29BC5D3D0060CEA7 /* Resources */,
 				21CFD0FC29BC94E90060CEA7 /* Extension */,
 			);
@@ -158,13 +165,22 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		21BC302A2A0F90470066844D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				21BC302B2A0F90650066844D /* ExpenseUploader.swift */,
+				21BC302D2A0F90E90066844D /* AuthService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		21CFD0B729BC54E60060CEA7 = {
 			isa = PBXGroup;
 			children = (
 				21CFD0C229BC54E60060CEA7 /* DRBS */,
 				21CFD0C129BC54E60060CEA7 /* Products */,
 				C57BD10E96CD9CC8C7D24125 /* Pods */,
-				B47786D54A62E24DE4C7CE5D /* Frameworks */,
+				522717C2157204D488CA89A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,6 +199,7 @@
 				21A4D99D29C1E750006DA3FC /* Global */,
 				21A4D99C29C1E73E006DA3FC /* Screen */,
 				21CFD0D129BC54E70060CEA7 /* Info.plist */,
+				216566F32A1C8AB90045F378 /* GoogleService-Info.plist */,
 				21CFD0C929BC54E60060CEA7 /* Main.storyboard */,
 				21CFD0CE29BC54E70060CEA7 /* LaunchScreen.storyboard */,
 			);
@@ -447,10 +464,10 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		B47786D54A62E24DE4C7CE5D /* Frameworks */ = {
+		522717C2157204D488CA89A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				345CA3A1D847FF5B5BAB45AE /* Pods_DRBS.framework */,
+				23640AAE4D7C6DD77996DBE1 /* Pods_DRBS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -458,8 +475,8 @@
 		C57BD10E96CD9CC8C7D24125 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6D9E21EBEA9EFCC7421E9612 /* Pods-DRBS.debug.xcconfig */,
-				77E4D91B19405D03EC190130 /* Pods-DRBS.release.xcconfig */,
+				70F3F2E13CB1F2A5254BF72D /* Pods-DRBS.debug.xcconfig */,
+				BFA31902772564955844D344 /* Pods-DRBS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -471,11 +488,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21CFD0D429BC54E70060CEA7 /* Build configuration list for PBXNativeTarget "DRBS" */;
 			buildPhases = (
-				B4552C0503DC37CCA371806F /* [CP] Check Pods Manifest.lock */,
+				8F63C10DFB91F6BEC39CCE19 /* [CP] Check Pods Manifest.lock */,
 				21CFD0BC29BC54E60060CEA7 /* Sources */,
 				21CFD0BD29BC54E60060CEA7 /* Frameworks */,
 				21CFD0BE29BC54E60060CEA7 /* Resources */,
-				575B17CA34B012B5B2EFD62C /* [CP] Embed Pods Frameworks */,
+				60F49A8E33C18E022ECC188B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -525,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21CFD0D029BC54E70060CEA7 /* LaunchScreen.storyboard in Resources */,
+				216566F42A1C8AB90045F378 /* GoogleService-Info.plist in Resources */,
 				21CFD0CD29BC54E70060CEA7 /* Assets.xcassets in Resources */,
 				21CFD0CB29BC54E60060CEA7 /* Main.storyboard in Resources */,
 			);
@@ -533,7 +551,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		575B17CA34B012B5B2EFD62C /* [CP] Embed Pods Frameworks */ = {
+		60F49A8E33C18E022ECC188B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -550,7 +568,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DRBS/Pods-DRBS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B4552C0503DC37CCA371806F /* [CP] Check Pods Manifest.lock */ = {
+		8F63C10DFB91F6BEC39CCE19 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -587,6 +605,7 @@
 				217698FE29E1344F005CC6AB /* MyColor.swift in Sources */,
 				2188740E29D4492B00519519 /* DetailAddress.swift in Sources */,
 				21CFD10829BCA13B0060CEA7 /* MyPageVC.swift in Sources */,
+				21BC302C2A0F90650066844D /* ExpenseUploader.swift in Sources */,
 				21CFD10629BCA1060060CEA7 /* LogInVC.swift in Sources */,
 				214A972F29FFAC5700406226 /* Category.swift in Sources */,
 				21CFD0FB29BC87D40060CEA7 /* SideMenuCell.swift in Sources */,
@@ -605,6 +624,7 @@
 				2188740C29D42BFC00519519 /* ExpenseCell.swift in Sources */,
 				21CFD10029BCA05D0060CEA7 /* TabbarVC.swift in Sources */,
 				2176990029E1347D005CC6AB /* AddVC.swift in Sources */,
+				21BC302E2A0F90E90066844D /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,13 +766,14 @@
 		};
 		21CFD0D529BC54E70060CEA7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D9E21EBEA9EFCC7421E9612 /* Pods-DRBS.debug.xcconfig */;
+			baseConfigurationReference = 70F3F2E13CB1F2A5254BF72D /* Pods-DRBS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5L4BQJJ3H8;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DRBS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DRBS;
@@ -781,13 +802,14 @@
 		};
 		21CFD0D629BC54E70060CEA7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77E4D91B19405D03EC190130 /* Pods-DRBS.release.xcconfig */;
+			baseConfigurationReference = BFA31902772564955844D344 /* Pods-DRBS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5L4BQJJ3H8;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DRBS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DRBS;

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Category {
+enum Category: String, Codable {
     case utilityBill
     case food
     case etc

@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseCore
+import FirebaseAnalytics
 
 class AddVC: UIViewController {
     //MARK: - Properties
@@ -49,7 +52,6 @@ class AddVC: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "미분류"
         label.textColor = UIColor.darkGray
-        
         return label
     }()
     
@@ -83,7 +85,6 @@ class AddVC: UIViewController {
        let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = .black
-        
         return textView
     }()
     
@@ -108,7 +109,6 @@ class AddVC: UIViewController {
        let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = .black
-        
         return textView
     }()
     
@@ -125,12 +125,16 @@ class AddVC: UIViewController {
         return button
     }()
     
+    var expenses: Expense?
+    var memoDate: String?
+    var ref = Database.database().reference()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureUI()
+//        configureUIWithData()
         setupConstraints()
         setupTextView()
         //        setupTFBorder()
@@ -141,8 +145,7 @@ class AddVC: UIViewController {
         expenseTextField.addBottomBorder()
         categoryView.addTopBorder()
         expenseView.addTopBorder()
-        memoView.addTopBorder()
-    }
+        memoView.addTopBorder()}
     
     
     //MARK: - Helpers
@@ -160,101 +163,95 @@ class AddVC: UIViewController {
         expenseView.addSubview(expenseLabel)
         expenseView.addSubview(textView)
         memoView.addSubview(memoLabel)
-        memoView.addSubview(memoTextView)
-        
-    }
+        memoView.addSubview(memoTextView)}
     
-    func setupTextView() {
-        textView.delegate = self
-    }
+    func configureUIWithData() {
+        guard let expenses = expenses else {
+            categoryLabel.text = "미분류"
+            expenseTextField.text = ""
+            memoTextView.text = ""
+            return}
+        categoryLabel.text = "\(expenses.category)"
+        expenseTextField.text = expenses.cost
+        memoTextView.text = expenses.memo}
+    
+
+    
+    func setupTextView() { textView.delegate = self }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
             mainLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 30),
             mainLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             mainLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            mainLabel.heightAnchor.constraint(equalToConstant: 30)
-        ])
+            mainLabel.heightAnchor.constraint(equalToConstant: 30)])
         
         NSLayoutConstraint.activate([
             expenseTextField.topAnchor.constraint(equalTo: mainLabel.bottomAnchor, constant: 10),
             expenseTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 25),
             expenseTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -25),
-            expenseTextField.heightAnchor.constraint(equalToConstant: 50)
-        ])
+            expenseTextField.heightAnchor.constraint(equalToConstant: 50)])
         
         NSLayoutConstraint.activate([
             categoryView.topAnchor.constraint(equalTo: expenseTextField.bottomAnchor, constant: 30),
             categoryView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             categoryView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            categoryView.heightAnchor.constraint(equalToConstant: 80)
-        ])
+            categoryView.heightAnchor.constraint(equalToConstant: 80)])
         
         NSLayoutConstraint.activate([
             categoryLabel.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor),
             categoryLabel.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: 15),
-            categoryLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+            categoryLabel.widthAnchor.constraint(equalToConstant: 100)])
         
         NSLayoutConstraint.activate([
             categoryCaseLabel.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor),
             categoryCaseLabel.leadingAnchor.constraint(equalTo: categoryLabel.trailingAnchor, constant: 30),
-            categoryCaseLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+            categoryCaseLabel.widthAnchor.constraint(equalToConstant: 100)])
         
         NSLayoutConstraint.activate([
             categoryButton.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor),
             categoryButton.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor, constant: -15),
-            categoryView.widthAnchor.constraint(equalToConstant: 50)
-        ])
+            categoryView.widthAnchor.constraint(equalToConstant: 50)])
         
         NSLayoutConstraint.activate([
             expenseView.topAnchor.constraint(equalTo: categoryView.bottomAnchor, constant: 0),
             expenseView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             expenseView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            expenseView.heightAnchor.constraint(equalToConstant: 80)
-        ])
+            expenseView.heightAnchor.constraint(equalToConstant: 80)])
         
         NSLayoutConstraint.activate([
             expenseLabel.centerYAnchor.constraint(equalTo: expenseView.centerYAnchor),
             expenseLabel.leadingAnchor.constraint(equalTo: expenseView.leadingAnchor, constant: 15),
-            expenseLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+            expenseLabel.widthAnchor.constraint(equalToConstant: 100)])
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: expenseView.topAnchor, constant: 10),
             textView.trailingAnchor.constraint(equalTo: expenseView.trailingAnchor, constant: -15),
             textView.leadingAnchor.constraint(equalTo: expenseLabel.trailingAnchor, constant: 15),
-            textView.bottomAnchor.constraint(equalTo: expenseView.bottomAnchor, constant: -10)
-        ])
+            textView.bottomAnchor.constraint(equalTo: expenseView.bottomAnchor, constant: -10)])
         
         NSLayoutConstraint.activate([
             memoView.topAnchor.constraint(equalTo: expenseView.bottomAnchor, constant: 0),
             memoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             memoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            memoView.heightAnchor.constraint(equalToConstant: 80)
-        ])
+            memoView.heightAnchor.constraint(equalToConstant: 80)])
         
         NSLayoutConstraint.activate([
             memoLabel.centerYAnchor.constraint(equalTo: memoView.centerYAnchor),
             memoLabel.leadingAnchor.constraint(equalTo: memoView.leadingAnchor, constant: 15),
-            memoLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+            memoLabel.widthAnchor.constraint(equalToConstant: 100)])
         
         NSLayoutConstraint.activate([
             memoTextView.topAnchor.constraint(equalTo: memoView.topAnchor, constant: 10),
             memoTextView.trailingAnchor.constraint(equalTo: memoView.trailingAnchor, constant: -15),
             memoTextView.leadingAnchor.constraint(equalTo: memoLabel.trailingAnchor, constant: 15),
-            memoTextView.bottomAnchor.constraint(equalTo: memoView.bottomAnchor, constant: -10)
-        ])
+            memoTextView.bottomAnchor.constraint(equalTo: memoView.bottomAnchor, constant: -10)])
         
         NSLayoutConstraint.activate([
             saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
             saveButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150),
-            saveButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
+            saveButton.heightAnchor.constraint(equalToConstant: 50)])}
     
   
     
@@ -264,26 +261,26 @@ class AddVC: UIViewController {
         print("디버깅: 카테고리 버튼 눌림...")
         let alert = UIAlertController(title: "카테고리를 선택하세요.", message: "", preferredStyle: .actionSheet)
         let utility = UIAlertAction(title: "공과금", style: .default) { success in
-            self.categoryCaseLabel.text = "공과금"
-        }
+            self.categoryCaseLabel.text = "공과금"}
         let food = UIAlertAction(title: "식비", style: .default) { success in
-            self.categoryCaseLabel.text = "식비"
-        }
+            self.categoryCaseLabel.text = "식비"}
         let etc = UIAlertAction(title: "기타소비", style: .default) { success in
-            self.categoryCaseLabel.text = "기타소비"
-        }
+            self.categoryCaseLabel.text = "기타소비"}
         let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
         alert.addAction(utility)
         alert.addAction(food)
         alert.addAction(etc)
         alert.addAction(cancel)
-        self.present(alert, animated: true)
-    }
+        self.present(alert, animated: true)}
     
     @objc func saveButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
+        let saveData = Expense(cost: self.expenseTextField.text ?? "",
+                               category: categoryCaseLabel.text ?? "",
+                               expenseText: self.textView.text ?? "지출내역이 없습니다.",
+                               memo: self.memoTextView.text ?? "메모가 없습니다.")
+        ref.child("메모").child("날짜").setValue(memoDate)
+        ref.child("메모").child("지출").setValue(saveData.doDictionary)
+        self.dismiss(animated: true, completion: nil)}}
 
 
 

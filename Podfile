@@ -6,6 +6,18 @@ target 'DRBS' do
   use_frameworks!
 
   # Pods for DRBS
-    pod 'SideMenu' 
-    pod 'FSCalendar' 
+  pod 'FSCalendar'
+  pod 'SideMenu'
+  # Add the Firebase pod for Google Analytics
+  pod 'FirebaseAnalytics'
+
+  # For Analytics without IDFA collection capability, use this pod instead
+  # pod ‘Firebase/AnalyticsWithoutAdIdSupport’
+
+  # Add the pods for any other Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseDatabase'
+
 end

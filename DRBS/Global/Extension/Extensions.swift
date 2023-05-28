@@ -66,3 +66,24 @@ extension UIView {
         layer.addSublayer(bottomLine)
     }
 }
+
+//struct Roulette: Codable {
+//    var index: Int
+//    var name: String
+//    var rate: Int
+//    var color: Int
+//}
+//
+//extension UserDefaults {
+//    var rouletteList: [Roulette] {
+//        get {
+//            guard let data = UserDefaults.standard.data(forKey: "roulette") else { return [] }
+//            return (try? PropertyListDecoder().decode([Roulette].self, from: data)) ?? []
+//        }
+//        set {
+//            UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: "roulette")
+//        }
+//    }
+//}
+
+

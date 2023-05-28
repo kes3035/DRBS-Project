@@ -89,10 +89,10 @@ class ExpenseCell: UITableViewCell {
         didSet {
             self.priceLabel.text = commaAdder(price: expense?.cost)
             self.expenses.text = expense?.memo
-            self.background.layer.borderColor = expense?.background.cgColor
-            self.saparateLine.backgroundColor = expense?.background
-            self.breakdownLabel.textColor = expense?.background
-            self.expenseLabel.textColor = expense?.background
+            self.background.layer.borderColor = configureBackgroundColor(category: self.expense!.category).cgColor
+            self.saparateLine.backgroundColor = configureBackgroundColor(category: self.expense!.category)
+            self.breakdownLabel.textColor = configureBackgroundColor(category: self.expense!.category)
+            self.expenseLabel.textColor = configureBackgroundColor(category: self.expense!.category)
         }
     }
     
@@ -117,6 +117,21 @@ class ExpenseCell: UITableViewCell {
         background.addSubview(breakdownLabel)
         background.addSubview(expenses)
         expenses.setContentCompressionResistancePriority(UILayoutPriority(751), for: .vertical)
+    }
+    
+    func configureBackgroundColor(category: String) -> UIColor {
+        switch category {
+        case Category.all.rawValue :
+            return UIColor.black
+        case Category.food.rawValue :
+            return UIColor.red
+        case Category.utilityBill.rawValue :
+            return UIColor.blue
+        case Category.etc.rawValue :
+            return UIColor.green
+        default:
+            return UIColor.black
+        }
     }
     
     func setupConstraints() {
