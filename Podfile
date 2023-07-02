@@ -19,5 +19,7 @@ target 'DRBS' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseDatabase'
+  pod 'SnapKit'
+  pod 'Then'
 
 end

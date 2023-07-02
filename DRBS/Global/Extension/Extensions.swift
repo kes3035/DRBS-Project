@@ -86,4 +86,20 @@ extension UIView {
 //    }
 //}
 
-
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        for view in views {
+            addSubview(view)
+        }
+    }
+}
+extension String {
+    var lastString: String {
+        get {
+            if self.isEmpty { return self }
+            
+            let lastIndex = self.index(before: self.endIndex)
+            return String(self[lastIndex])
+        }
+    }
+}

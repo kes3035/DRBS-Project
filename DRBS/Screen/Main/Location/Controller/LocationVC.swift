@@ -209,10 +209,10 @@ class LocationVC: UIViewController {
     @objc func editButtonTapped() {
         guard self.editAdressButton.titleLabel?.text == "SAVE" else {
             let kakaoVC = KakaoZipCodeVC()
-            //            kakaoVC.modalPresentationStyle = .fullScreen
-            //        self.navigationController?.pushViewController(kakaoVC, animated: true)
-            kakaoVC.modalPresentationStyle = .fullScreen
-            self.present(kakaoVC, animated: true)
+//            kakaoVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(kakaoVC, animated: true)
+//            kakaoVC.modalPresentationStyle = .fullScreen
+//            self.present(kakaoVC, animated: true)
             return
         }
         print("디버그: 저장해야함")

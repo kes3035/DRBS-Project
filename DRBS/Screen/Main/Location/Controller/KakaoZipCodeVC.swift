@@ -82,7 +82,8 @@ extension KakaoZipCodeVC: WKScriptMessageHandler {
         let location = Location(location: address)
         UserDefaults.standard.userLocation = location
         print("\(UserDefaults.standard.userLocation)")
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+//        self.dismiss(animated: true, completion: nil)
     }
 }
 

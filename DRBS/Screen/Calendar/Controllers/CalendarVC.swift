@@ -9,218 +9,268 @@ import UIKit
 import SideMenu
 import FSCalendar
 import FirebaseDatabase
+import Then
+import SnapKit
 
 class CalendarVC: UIViewController {
     //MARK: - Properties
-    private let myCalendar: FSCalendar = {
-       let calendar = FSCalendar()
-        calendar.locale = Locale(identifier: "ko_KR")
-        calendar.backgroundColor = .systemBackground
-        calendar.scrollEnabled = true
-        calendar.scrollDirection = .horizontal
-        calendar.translatesAutoresizingMaskIntoConstraints = false
-        calendar.appearance.headerDateFormat = "M" + "월 총 소비 금액"
-        calendar.appearance.caseOptions = .weekdayUsesSingleUpperCase
-        calendar.appearance.headerTitleColor = .black
-        calendar.appearance.weekdayTextColor = .darkGray
-        calendar.appearance.headerTitleAlignment = .left
-        calendar.calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        calendar.appearance.titleSelectionColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-        calendar.appearance.todayColor = .white
-        calendar.appearance.titleTodayColor = .black
-        calendar.appearance.borderRadius = 0
-        calendar.headerHeight = 0
-        calendar.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 0)
-        calendar.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendar.appearance.eventSelectionColor = .blue
-        calendar.placeholderType = .none
-        return calendar
-    }()
+    private let myCalendar = FSCalendar().then {
+        $0.locale = Locale(identifier: "ko_KR")
+        $0.backgroundColor = .systemBackground
+        $0.scrollEnabled = true
+        $0.scrollDirection = .horizontal
+        $0.translatesAutoresizingMaskIntoConstraints = false
+//        $0.appearance.headerDateFormat = "M" + "월 총 소비 금액"
+        $0.appearance.caseOptions = .weekdayUsesSingleUpperCase
+        $0.appearance.headerTitleColor = .black
+        $0.appearance.weekdayTextColor = .darkGray
+        $0.appearance.headerTitleAlignment = .left
+        $0.calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        $0.appearance.titleSelectionColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        $0.appearance.todayColor = .white
+        $0.appearance.titleTodayColor = .black
+        $0.appearance.borderRadius = 0
+        $0.headerHeight = 0
+        $0.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 0)
+        $0.appearance.headerMinimumDissolvedAlpha = 0.0
+        $0.appearance.eventSelectionColor = .blue
+        $0.placeholderType = .none}
     
-    private let expenseTableView: UITableView = {
-       let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.estimatedRowHeight = 160
-        return tableView
-    }()
+    private let expenseTableView = UITableView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .white
+        $0.estimatedRowHeight = 160}
     
-    private let mainLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.backgroundColor = .clear
-        return label
-    }()
+    private let mainLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.textAlignment = .left
+        $0.backgroundColor = .clear}
     
-    private let totalSpentLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 30)
-        label.textColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-        label.text = "400,000 원"
-        return label
-    }()
+    private let totalSpentLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.boldSystemFont(ofSize: 30)
+        $0.text = ""
+        $0.textColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)}
     
-    private lazy var dateLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        label.textAlignment = .center
-        return label
-    }()
+    private lazy var dateLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.boldSystemFont(ofSize: 25)
+        $0.textAlignment = .center}
     
-    private lazy var utilityBillButton: UIButton = {
-       let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("공과금", for: .normal)
-        button.backgroundColor = .white
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.blue.cgColor
-        button.layer.cornerRadius = 5
-        button.setTitleColor(.blue, for: .normal)
-        button.addTarget(self, action: #selector(utilityButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private lazy var utilityBillButton = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("공과금", for: .normal)
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00).cgColor
+        $0.layer.cornerRadius = 5
+        $0.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
+        $0.addTarget(self, action: #selector(utilityButtonTapped), for: .touchUpInside)}
     
-    private lazy var foodExpensesButton: UIButton = {
-       let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("식비", for: .normal)
-        button.backgroundColor = .white
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.red.cgColor
-        button.layer.cornerRadius = 5
-        button.setTitleColor(.red, for: .normal)
-        button.addTarget(self, action: #selector(foodButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private lazy var foodExpensesButton = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("식비", for: .normal)
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00).cgColor
+        $0.layer.cornerRadius = 5
+        $0.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
+        $0.addTarget(self, action: #selector(foodButtonTapped), for: .touchUpInside)}
     
-    private lazy var etcExpensesButton: UIButton = {
-       let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("기타지출", for: .normal)
-        button.backgroundColor = .white
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.green.cgColor
-        button.layer.cornerRadius = 5
-        button.setTitleColor(.green, for: .normal)
-        button.addTarget(self, action: #selector(etcButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private lazy var etcExpensesButton = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("기타지출", for: .normal)
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00).cgColor
+        $0.layer.cornerRadius = 5
+        $0.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
+        $0.addTarget(self, action: #selector(etcButtonTapped), for: .touchUpInside)}
     
-    private lazy var buttonStack: UIStackView = {
-       let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        stack.spacing = 5
-        return stack
-    }()
+    private lazy var buttonStack = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        $0.spacing = 5}
     
+    private var labelButtonView = UIView().then {
+        $0.backgroundColor = .systemBackground
+        $0.translatesAutoresizingMaskIntoConstraints = false}
+    
+    //높이조절용 변수
     lazy var calendarTopConstraints =  myCalendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
-    lazy var tableViewTopConstraints = expenseTableView.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 50)
+    lazy var tableViewTopConstraints = expenseTableView.topAnchor.constraint(equalTo: labelButtonView.bottomAnchor, constant: 10)
     lazy var calendarHeight = myCalendar.heightAnchor.constraint(equalToConstant: 570)
-    var isCalendarWeek: Bool? { didSet { calendarTop() } }
+    lazy var mainLabelHeight = mainLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+    lazy var totalSpentHeight = totalSpentLabel.topAnchor.constraint(equalTo: mainLabel.bottomAnchor, constant: 0)
+    lazy var labelButtonHeight = labelButtonView.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 100)
+    //lazy var buttonStackHeight = buttonStack.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 10)
+    //lazy var dateLabelHeight = dateLabel.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 0)
+
     
-    var dateString: String? { didSet { dateLabel.text = dateString } }
     
-    var monthString: String? { didSet { mainLabel.text = monthString } }
-    
-    var currentCategory: Category? { didSet {
-        switch currentCategory {
-        case .utilityBill:
-            self.categoryExpenses = expenses.filter{($0).category == Category.utilityBill.rawValue}
-            expenseTableView.reloadData()
-        case .food:
-            self.categoryExpenses = expenses.filter{($0).category == Category.food.rawValue}
-            expenseTableView.reloadData()
-        case .etc:
-            self.categoryExpenses = expenses.filter{($0).category == Category.etc.rawValue}
-            expenseTableView.reloadData()
-        case .all:
-            self.categoryExpenses = expenses
-            expenseTableView.reloadData()
-        default:
-            break
+    //속성감시자
+    var isCalendarWeek: Bool? {
+        didSet {
+            scope(bool: isCalendarWeek)
+            calendarTop()
         }
+    }
+    var dateString: String? { didSet { dateLabel.text = dateString } }
+    var monthString: String? { didSet { mainLabel.text = monthString!.lastString + "월 총 소비 금액"
+        totalSpentLabel.text = calculateTotalExpense(date: monthString)
     } }
+    var selectedDate: Date? { didSet { filteringMemo(date: selectedDate) } }
+    var totalSpentString: String? {
+        didSet {
+            totalSpentLabel.text = totalSpentString
+        }
+    }
     
-    var expenses: [Expense] = [
-        Expense(cost: "100000", category: Category.utilityBill.rawValue, expenseText: "월세", memo: "월세 너무 많죠;;"),
-        Expense(cost: "28000", category: Category.food.rawValue, expenseText: "치킨", memo: "bhc치킨"),
-        Expense(cost: "2500", category: Category.etc.rawValue, expenseText: "샤프", memo: "알파에서 샤프 구매하고 더 둘러보다가 오예스~")]
-    
-    lazy var categoryExpenses: [Expense] = expenses
-    
-    var selectedDate: Date?
-    
+ 
     private var ref = Database.database().reference()
+    
+    lazy var memo: [Expense] = [] {
+        didSet {
+            myCalendar.reloadData()
+            expenseTableView.reloadData()
+        }
+    }
+    
+    var expenseSnapshot: [Expense] = []
+    lazy var memoo = self.expenseSnapshot
+
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         configureUI()
         configureNav()
-        swipeGuesture()
-        setupCalendar()
-        setupTabelView()
+        configureCalendar()
+        configureTableView()
+        configureSwipeGuesture()
+        getDataFromFireBase()
+        childAdded()
     }
     
     
     //MARK: - Helpers
     
-    func calendarTop() {
-        if isCalendarWeek ?? false {
-//            myCalendar.setScope(.week, animated: true)
-            let addExpenseButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addExpenseButtonTapped))
-            self.navigationItem.rightBarButtonItem = addExpenseButton
-            calendarTopConstraints.constant = 0
-            mainLabel.isHidden = true
-            totalSpentLabel.isHidden = true
-            dateLabel.isHidden = false
-            buttonStack.isHidden = false
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
-            }
+    func scope(bool: Bool?) {
+        guard let bool = bool else { return }
+        if bool {
+            myCalendar.setScope(.week, animated: true)
         } else {
-//            myCalendar.setScope(.month, animated: true)
-            self.navigationItem.rightBarButtonItem = .none
-            calendarTopConstraints.constant = 100
-            mainLabel.isHidden = false
-            totalSpentLabel.isHidden = false
-            dateLabel.isHidden = true
-            buttonStack.isHidden = true
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
-            }
+            myCalendar.setScope(.month, animated: true)
         }
     }
     
-    func configureTopConstraints() {
-        if isCalendarWeek ?? false {
-            
-            
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
-            }
-        } else {
-            
-            
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
+    func calculateTotalExpense(date: String?) -> String {
+        guard let date = date else {return ""}
+        var total = 0
+        for expense in expenseSnapshot {
+            if expense.date.contains(date) {
+                total += Int(expense.cost) ?? 0
             }
         }
+        if total == 0 {
+            return "0원"
+        } else {
+            return commaAdder(price:String(total)) + "원"
+        }
+    }
+    
+    func childAdded() {
+        ref.child("메모").observe(.childAdded) { snapshot in
+            guard let addedData = snapshot.value as? [String:[String:String]] else { return }
+            self.addingChildToArray(with: addedData)
+        }
+    }
+    
+    func addingChildToArray(with: [String:[String:String]]) {
+        let data = with["\(Expense.id)"] ?? [:]
+        expenseSnapshot.append(Expense(cost: data["비용"] ?? "",
+                              category: data["카테고리"] ?? "",
+                              expenseText: data["지출내역"] ?? "",
+                              memo: data["메모"] ?? "",
+                              date: data["날짜"] ?? ""))
+        memo = expenseSnapshot
+        myCalendar.reloadData()
+        expenseTableView.reloadData()
+        print(expenseSnapshot)
         
     }
     
-    func setupTabelView() {
+    func getDataFromFireBase() {
+        //가장 처음 받아오는 데이터. 이후에는 데이터가 변경되는지 추가되는지 삭제되는지 관찰자를 통해 관찰할 예정.
+        //처음 받아온 데이터에서 필요한 값들
+        //1.날짜별 메모
+        //2.캘린더 서브 타이틀에 표기할 각 날짜별 지출금액의 총 합
+        //가져와서 어떻게 데이터를 다룰 것인가
+        //(만약 메모가 너무 많아지면 전부 가져올 필요가 있을까..?)
+        ref.child("메모").observeSingleEvent(of: .value) { snapshot in
+            let data = snapshot.value as? [String:[String:[String:String]]] ?? [:]
+            let dates = data.keys
+            for date in dates {
+                for key in data[date]!.keys {
+                    let memo = data[date]![key]!
+                    let expense = Expense(cost: memo["비용"] ?? "",
+                                          category: memo["카테고리"] ?? "",
+                                          expenseText: memo["지출내역"] ?? "",
+                                          memo: memo["메모"] ?? "",
+                                        date: memo["날짜"] ?? "")
+                    DispatchQueue.main.async {
+                        self.expenseSnapshot.append(expense)
+                    }
+                }
+            }
+        }
+    }
+    
+    func filteringMemo(date: Date?) {
+        let myFormatter = DateFormatter()
+        myFormatter.dateFormat = "yyyy-MM-dd"
+        guard let unwrappedData = date else {
+            memo = []
+            return }
+        memo = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
+        expenseTableView.reloadData()
+    }
+    
+    
+    
+    func calendarTop() {
+        if isCalendarWeek ?? false {
+            //myCalendar.setScope(.week, animated: true)
+            let addExpenseButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addExpenseButtonTapped))
+            self.navigationItem.rightBarButtonItem = addExpenseButton
+            calendarTopConstraints.constant = 0
+            labelButtonHeight.constant = 0
+            tableViewTopConstraints.constant = 0
+            mainLabelHeight.constant = -50
+            totalSpentHeight.constant = -40
+            UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+        } else {
+            myCalendar.setScope(.month, animated: true)
+            self.navigationItem.rightBarButtonItem = .none
+            calendarTopConstraints.constant = 100
+            mainLabelHeight.constant = 0
+            //tableViewTopConstraints.constant = 0
+            totalSpentHeight.constant = 0
+            labelButtonHeight.constant = 100
+            UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+
+        }
+    }
+    
+    func configureTableView() {
         expenseTableView.register(ExpenseCell.self, forCellReuseIdentifier: "ExpenseCell")
         view.addSubview(expenseTableView)
         expenseTableView.delegate = self
         expenseTableView.dataSource = self
+        expenseTableView.separatorStyle = .none
         NSLayoutConstraint.activate([
             tableViewTopConstraints,
             expenseTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -230,65 +280,60 @@ class CalendarVC: UIViewController {
         
     }
     
-    func swipeGuesture() {
+    func configureSwipeGuesture() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent(_:)))
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent(_:)))
         swipeUp.direction = .up
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeUp)
-        self.view.addGestureRecognizer(swipeDown)
-        
-    }
-    func setupCalendar() {
+        self.view.addGestureRecognizer(swipeDown)}
+    
+    func configureCalendar() {
         myCalendar.dataSource = self
         myCalendar.delegate = self
         let myFormatter = DateFormatter()
-        myFormatter.dateFormat = "M월 총 소비 금액"
+        myFormatter.dateFormat = "yyyy-MM"
         let currentDate = myFormatter.string(from: Date())
         monthString = currentDate
     }
     
     func configureUI() {
-        view.addSubview(myCalendar)
-        view.addSubview(mainLabel)
-        view.addSubview(totalSpentLabel)
-        view.addSubview(dateLabel)
+        view.backgroundColor = .white
+        view.addSubviews(myCalendar, mainLabel, totalSpentLabel, labelButtonView)
         buttonStack.addArrangedSubview(utilityBillButton)
         buttonStack.addArrangedSubview(foodExpensesButton)
         buttonStack.addArrangedSubview(etcExpensesButton)
-        view.addSubview(buttonStack)
-        expenseTableView.separatorStyle = .none
+        labelButtonView.addSubviews(dateLabel, buttonStack)
         myCalendar.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
             calendarTopConstraints,
             myCalendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             myCalendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarHeight])
+            calendarHeight,
         
-        NSLayoutConstraint.activate([
-            mainLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mainLabelHeight,
             mainLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             mainLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
-            mainLabel.heightAnchor.constraint(equalToConstant: 30)])
+            mainLabel.heightAnchor.constraint(equalToConstant: 30),
         
-        NSLayoutConstraint.activate([
-            totalSpentLabel.topAnchor.constraint(equalTo: mainLabel.bottomAnchor),
-            totalSpentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            totalSpentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
-            totalSpentLabel.heightAnchor.constraint(equalToConstant: 60)])
+            labelButtonHeight,
+            labelButtonView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            labelButtonView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            labelButtonView.heightAnchor.constraint(equalToConstant: 60),
         
-        NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 0),
-            dateLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            dateLabel.heightAnchor.constraint(equalToConstant: 50)])
+            totalSpentHeight,
+            totalSpentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            totalSpentLabel.heightAnchor.constraint(equalToConstant: 60),
         
-        NSLayoutConstraint.activate([
-            buttonStack.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 10),
-            buttonStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            buttonStack.heightAnchor.constraint(equalToConstant: 30)])}
-    
-
-    
+            dateLabel.leadingAnchor.constraint(equalTo: labelButtonView.leadingAnchor, constant: 15),
+            dateLabel.centerYAnchor.constraint(equalTo: labelButtonView.centerYAnchor),
+            dateLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            buttonStack.trailingAnchor.constraint(equalTo: labelButtonView.trailingAnchor, constant: -15),
+            buttonStack.centerYAnchor.constraint(equalTo: labelButtonView.centerYAnchor),
+            buttonStack.heightAnchor.constraint(equalToConstant: 40)])}
+  
     func configureNav() {
         navigationItem.title = "DRBS"
         let appearance = UINavigationBarAppearance()
@@ -300,18 +345,15 @@ class CalendarVC: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance}
-
-    func readDataFromFirebase() {
-        ref.child("메모").observeSingleEvent(of: .value) { snapshot in
-            //추가해야함
-            let date = snapshot.value as? String ?? ""
-            DispatchQueue.main.async {
-                //하나 저장
-                
-                
-            }
-        }
+    
+    func commaAdder(price: String?) -> String {
+        let integerPrice = Int(price ?? "0") ?? 0
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: integerPrice)) ?? "0"
+        return formattedNumber
     }
+    
     
     //MARK: - Actions
     
@@ -331,57 +373,54 @@ class CalendarVC: UIViewController {
         myFormatter.dateFormat = "yyyy-MM-dd"
         guard let date = self.selectedDate else { return }
         addVC.memoDate = myFormatter.string(from: date)
-        
-//        addVC.modalPresentationStyle = .fullScreen
-        
         self.present(addVC, animated: true)
     }
     
     @objc func utilityButtonTapped() {
         if self.utilityBillButton.backgroundColor == .white {
-            self.utilityBillButton.backgroundColor = .blue
+            self.utilityBillButton.backgroundColor = UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00)
             self.utilityBillButton.setTitleColor(.white, for: .normal)
             self.etcExpensesButton.backgroundColor = .white
-            self.etcExpensesButton.setTitleColor(.green, for: .normal)
+            self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
             self.foodExpensesButton.backgroundColor = .white
-            self.foodExpensesButton.setTitleColor(.red, for: .normal)
-            self.currentCategory = .utilityBill
+            self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
+            //self.currentCategory = .utilityBill
         } else {
             self.utilityBillButton.backgroundColor = .white
-            self.utilityBillButton.setTitleColor(.blue, for: .normal)
-            self.currentCategory = .all
+            self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
+            //self.currentCategory = .all
         }
     }
     
     @objc func foodButtonTapped() {
         if self.foodExpensesButton.backgroundColor == .white {
-            self.foodExpensesButton.backgroundColor = .red
+            self.foodExpensesButton.backgroundColor = UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00)
             self.foodExpensesButton.setTitleColor(.white, for: .normal)
             self.etcExpensesButton.backgroundColor = .white
-            self.etcExpensesButton.setTitleColor(.green, for: .normal)
+            self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
             self.utilityBillButton.backgroundColor = .white
-            self.utilityBillButton.setTitleColor(.blue, for: .normal)
-            self.currentCategory = .food
+            self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
+            //self.currentCategory = .food
         } else {
             self.foodExpensesButton.backgroundColor = .white
-            self.foodExpensesButton.setTitleColor(.red, for: .normal)
-            self.currentCategory = .all
+            self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
+            //self.currentCategory = .all
         }
     }
     
     @objc func etcButtonTapped() {
         if self.etcExpensesButton.backgroundColor == .white {
-            self.etcExpensesButton.backgroundColor = .green
+            self.etcExpensesButton.backgroundColor = UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00)
             self.etcExpensesButton.setTitleColor(.white, for: .normal)
             self.foodExpensesButton.backgroundColor = .white
-            self.foodExpensesButton.setTitleColor(.red, for: .normal)
+            self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
             self.utilityBillButton.backgroundColor = .white
-            self.utilityBillButton.setTitleColor(.blue, for: .normal)
-            self.currentCategory = .etc
+            self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
+            //self.currentCategory = .etc
         } else {
             self.etcExpensesButton.backgroundColor = .white
-            self.etcExpensesButton.setTitleColor(.green, for: .normal)
-            self.currentCategory = .all
+            self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
+            //self.currentCategory = .all
         }
     }
 }
@@ -396,17 +435,36 @@ extension CalendarVC: FSCalendarDelegateAppearance {
 //        return 3
 //    }
     
-//    func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
-//        let myFormatter = DateFormatter()
-//        myFormatter.dateFormat = "yyyy-MM-dd"
-//        for memo in expenses {
-//            let stringDate = myFormatter.string(from: date)
-//            if memo.date == stringDate {
-//                return memo.cost
-//            }
-//        }
-//        return ""
-//    }
+    func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
+        let myFormatter = DateFormatter()
+        myFormatter.dateFormat = "yyyy-MM-dd"
+        var total = 0
+        for expense in expenseSnapshot {
+            let stringDate = myFormatter.string(from: date)
+            if expense.date == stringDate {
+                total += Int(expense.cost) ?? 0
+            }
+        }
+        if total == 0 {
+            return ""
+        } else {
+            return "-"+String(total)
+        }
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleOffsetFor date: Date) -> CGPoint {
+        return CGPoint(x: 1, y: 5)
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleDefaultColorFor date: Date) -> UIColor? {
+        return UIColor(red: 0.40, green: 0.15, blue: 0.75, alpha: 1.00)
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleSelectionColorFor date: Date) -> UIColor? {
+        return UIColor(red: 0.40, green: 0.15, blue: 0.75, alpha: 1.00).withAlphaComponent(0.8)
+    }
+    
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
         return UIColor.white
     }
@@ -414,7 +472,7 @@ extension CalendarVC: FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
         return UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
     }
-    
+   
     
 }
 
@@ -422,28 +480,29 @@ extension CalendarVC: FSCalendarDelegateAppearance {
 extension CalendarVC: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.selectedDate = date
-        if isCalendarWeek == nil || isCalendarWeek == false {
-            myCalendar.setScope(.week, animated: true)
-            isCalendarWeek = true
-        }
+        isCalendarWeek = true
+        myCalendar.setScope(.week, animated: true)
+    
+//        if isCalendarWeek == nil || isCalendarWeek == false {
+//            myCalendar.setScope(.week, animated: true)
+//            isCalendarWeek = true
+//        }
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "M월dd일"
         let selectedDate = myFormatter.string(from: date)
         self.dateString = selectedDate
     }
+    
 }
 
 //MARK: - FSCalendarDataSource
 extension CalendarVC: FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        
-        calendarHeight.constant = bounds.height
-        
-    }
+        calendarHeight.constant = bounds.height}
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let myFormatter = DateFormatter()
-        myFormatter.dateFormat = "M월 총 소비 금액"
+        myFormatter.dateFormat = "yyyy-MM"
         let currentPageMonth = myFormatter.string(from: calendar.currentPage)
         self.monthString = currentPageMonth
     }
@@ -456,25 +515,41 @@ extension CalendarVC: FSCalendarDataSource {
         labelMy1.layer.cornerRadius = cell.bounds.width/2
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
-        for memos in expenses {
-            if myFormatter.string(from: date) == memos.cost {
-                labelMy1.text = "-" + memos.cost
-                cell.addSubview(labelMy1)
-            }
-        }
+//        for memos in expenses {
+//            if myFormatter.string(from: date) == memos.cost {
+//                labelMy1.text = "-" + memos.cost
+//                cell.addSubview(labelMy1)
+//            }
+//        }
     }
 }
 
 extension CalendarVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryExpenses.count
+        return memo.count
+        //return self.categoryExpenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseCell", for: indexPath) as! ExpenseCell
         cell.selectionStyle = .none
-        
-        cell.expense = self.categoryExpenses[indexPath.row]
+//        let myFormatter = DateFormatter()
+//        myFormatter.dateFormat = "yyyy-MM-dd"
+//        for memo in eeeeee {
+//            print(memo.date)
+//            print(myFormatter.string(from: selectedDate ?? Date()))
+//            if memo.date == myFormatter.string(from: selectedDate ?? Date()) {
+//                cell.expense = memo
+//            }
+//        }
+        guard !memo.isEmpty else { return cell }
+        cell.expense = memo[indexPath.row]
+        //cell.expense = self.categoryExpenses[indexPath.row]
+//        if self.eeeeee.count > 0 {
+//            DispatchQueue.main.async {
+//                cell.expense = self.eeeeee[indexPath.row]
+//            }
+//        }
         return cell
     }
 }
@@ -490,3 +565,4 @@ extension CalendarVC: UITableViewDelegate {
 //        addVC.expenses = expenses[indexPath.row]
     }
 }
+

@@ -6,84 +6,67 @@
 //
 
 import UIKit
+import Then
 
 class ExpenseCell: UITableViewCell {
     //MARK: - Properties
-    private let background: UIView = {
-       let view = UIView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 15
-        view.clipsToBounds = true
-        view.layer.borderColor = UIColor.green.cgColor
-        view.layer.borderWidth = 3
-        return view
-    }()
+    private let background = UIView().then {
+        $0.backgroundColor = .white
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
+        $0.layer.borderWidth = 3
+    }
     
-    private let expenseLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "지출 금액"
-        label.textAlignment = .left
-        label.textColor = .green
-        label.font = UIFont.systemFont(ofSize: 20)
-        
-       return label
-    }()
+    private let expenseLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "지출 금액"
+        $0.textAlignment = .left
+        $0.textColor = .green
+        $0.font = UIFont.systemFont(ofSize: 20)
+    }
     
-    private let priceLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "5,900원"
-        label.textAlignment = .right
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
-        
-        return label
-    }()
+    private let priceLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "5,900원"
+        $0.textAlignment = .right
+        $0.textColor = .black
+        $0.font = UIFont.systemFont(ofSize: 20)
+    }
     
     
     
-    private lazy var saparateLine: UIView = {
-       let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .green
-        view.heightAnchor.constraint(equalToConstant: 3).isActive = true
+    private lazy var saparateLine = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 3).isActive = true
 //        view.layer.borderWidth = 3
-        return view
-    }()
+    }
     
-    private let breakdownLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "지출 내역"
-        label.textAlignment = .left
-        label.textColor = .green
-        label.font = UIFont.systemFont(ofSize: 20)
-        return label
-    }()
+    private let breakdownLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "지출 내역"
+        $0.textAlignment = .left
+        $0.textColor = .green
+        $0.font = UIFont.systemFont(ofSize: 20)
+    }
     
-    private let expenses: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 3
-        label.text = "싸이버거 단품 콜라 반숙란 dksmfksmdkfmsdkfmsdkfmsk"
-        label.textColor = .black
-        label.textAlignment = .right
-        label.setContentHuggingPriority(.init(rawValue: 251), for: .vertical)
-        label.setContentHuggingPriority(.init(rawValue: 251), for: .horizontal)
-        return label
-    }()
+    private let expenses = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.numberOfLines = 3
+        $0.text = "싸이버거 단품 콜라 반숙란 dksmfksmdkfmsdkfmsdkfmsk"
+        $0.textColor = .black
+        $0.textAlignment = .right
+        $0.setContentHuggingPriority(.init(rawValue: 251), for: .vertical)
+        $0.setContentHuggingPriority(.init(rawValue: 251), for: .horizontal)
+    }
     
-    private lazy var priceStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.spacing = 10
-        stack.distribution = .fillEqually
-        return stack
-    }()
+    private lazy var priceStack = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.spacing = 10
+        $0.distribution = .fillEqually
+    }
     
     var expense: Expense? {
         didSet {
@@ -126,7 +109,7 @@ class ExpenseCell: UITableViewCell {
         case Category.food.rawValue :
             return UIColor.red
         case Category.utilityBill.rawValue :
-            return UIColor.blue
+            return UIColor(red: 0.61, green: 0.58, blue: 0.82, alpha: 1.00)
         case Category.etc.rawValue :
             return UIColor.green
         default:
