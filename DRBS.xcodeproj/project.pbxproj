@@ -218,6 +218,17 @@
 				216566F32A1C8AB90045F378 /* GoogleService-Info.plist */,
 				21CFD0C929BC54E60060CEA7 /* Main.storyboard */,
 				21CFD0CE29BC54E70060CEA7 /* LaunchScreen.storyboard */,
+				21CFD0C329BC54E60060CEA7 /* AppDelegate.swift */,
+				21CFD0C529BC54E60060CEA7 /* SceneDelegate.swift */,
+				21CFD0DE29BC5D3D0060CEA7 /* Resources */,
+				21CFD0D729BC5CE70060CEA7 /* Main */,
+				21CFD0D829BC5CF20060CEA7 /* Calendar */,
+				21CFD0D929BC5CFC0060CEA7 /* CheckList */,
+				21CFD0DD29BC5D2F0060CEA7 /* LogIn */,
+				21CFD0DC29BC5D1C0060CEA7 /* Recommender */,
+				21CFD0DB29BC5D0E0060CEA7 /* Setting */,
+				21CFD0DA29BC5D020060CEA7 /* MyPage */,
+				21CFD0C729BC54E60060CEA7 /* ViewController.swift */,
 			);
 			path = DRBS;
 			sourceTree = "<group>";
@@ -567,6 +578,7 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+
 /* Begin PBXShellScriptBuildPhase section */
 		60F49A8E33C18E022ECC188B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -608,6 +620,7 @@
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
+
 
 /* Begin PBXSourcesBuildPhase section */
 		21CFD0BC29BC54E60060CEA7 /* Sources */ = {
