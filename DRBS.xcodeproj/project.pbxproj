@@ -1005,7 +1005,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/ryuwon/Downloads/DRBS-Project/Kakao_Map_Bridge_Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/ryuwon/Desktop/DRBS-Project/Kakao_Map_Bridge_Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1048,7 +1048,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/ryuwon/Downloads/DRBS-Project/Kakao_Map_Bridge_Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/ryuwon/Desktop/DRBS-Project/Kakao_Map_Bridge_Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
