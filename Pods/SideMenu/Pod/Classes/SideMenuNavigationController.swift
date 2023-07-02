@@ -69,7 +69,7 @@ internal protocol MenuModel {
     @objc optional func sideMenuDidDisappear(menu: SideMenuNavigationController, animated: Bool)
 }
 
-internal protocol SideMenuNavigationControllerTransitionDelegate: class {
+internal protocol SideMenuNavigationControllerTransitionDelegate: AnyObject {
     func sideMenuTransitionDidDismiss(menu: Menu)
 }
 
@@ -352,7 +352,7 @@ extension SideMenuNavigationController: Model {
         set { settings.animationOptions = newValue }
     }
 
-    open var blurEffectStyle: UIBlurEffect.Style? {
+    public var blurEffectStyle: UIBlurEffect.Style? {
         get { return settings.blurEffectStyle }
         set { settings.blurEffectStyle = newValue }
     }
@@ -438,7 +438,7 @@ extension SideMenuNavigationController: Model {
         set { settings.presentDuration = newValue }
     }
 
-    open var presentationStyle: SideMenuPresentationStyle {
+    public var presentationStyle: SideMenuPresentationStyle {
         get { return settings.presentationStyle }
         set { settings.presentationStyle = newValue }
     }
