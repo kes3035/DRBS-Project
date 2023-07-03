@@ -1,5 +1,4 @@
 
-
 import UIKit
 
 class SideMenuVC: UIViewController {
@@ -57,8 +56,8 @@ extension SideMenuVC: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             print("지역설정탭 눌림")
-            let locationVC = AddressVC()
-            self.navigationController?.pushViewController(locationVC, animated: true)
+            let addressVC = AddressVC()
+            self.navigationController?.pushViewController(addressVC, animated: true)
 //            let calendarVC = CalendarVC()
 //            self.navigationController?.pushViewController(calendarVC, animated: true)
         case 1:

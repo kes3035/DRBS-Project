@@ -1,5 +1,4 @@
 
-
 import Foundation
 
 enum Category: String, Codable {

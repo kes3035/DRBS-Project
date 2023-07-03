@@ -1,17 +1,17 @@
+//
+//  SettingVC.swift
+//  DRBS
+//
+//  Created by 김은상 on 2023/03/11.
+//
 
 import UIKit
-import SideMenu
-class SideMenuNav: SideMenuNavigationController {
+
+class SettingVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.presentationStyle = .menuSlideIn
-        self.menuWidth = self.view.frame.width * 0.7
-        self.leftSide = true
-        self.statusBarEndAlpha = 0.0
-        self.presentDuration = 0.5
-        self.dismissDuration = 0.5
+        
         // Do any additional setup after loading the view.
     }
     
