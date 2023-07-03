@@ -11,7 +11,7 @@ class NickNameTableViewCell: UITableViewCell {
     
     // MARK: - Properties
 
-    private var textField = UITextField().then {
+    private lazy var textField = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clearButtonMode = .whileEditing
         $0.placeholder = "5자 이하 닉네임을 입력해주세요"

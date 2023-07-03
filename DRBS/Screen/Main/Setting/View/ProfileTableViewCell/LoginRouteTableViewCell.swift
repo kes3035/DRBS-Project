@@ -17,11 +17,11 @@ class LoginRouteTableViewCell: UITableViewCell {
         $0.clipsToBounds = true
     }
 
-    private var loginIconImageView = UIImageView().then {
+    private lazy var loginIconImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit // 이미지 비율 유지
     }
 
-    private var emailLabel = UILabel().then {
+    private lazy var emailLabel = UILabel().then {
         $0.textColor = .lightGray
     }
     

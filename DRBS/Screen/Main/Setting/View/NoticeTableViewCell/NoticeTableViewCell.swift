@@ -5,11 +5,11 @@ import UIKit
 import Then
 import SnapKit
 
-final class NoticeTableViewCell: UITableViewCell {
+class NoticeTableViewCell: UITableViewCell {
     
     // MARK: - Properties
 
-    lazy var titleLabel = UILabel().then {
+    private lazy var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = .systemFont(ofSize: 14)
         $0.numberOfLines = 0 // 글이 끝날때 까지 자동으로 아래로 내려서 보여줌
@@ -19,7 +19,7 @@ final class NoticeTableViewCell: UITableViewCell {
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     }
 
-    lazy var dateLabel = UILabel().then {
+    private lazy var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = .systemFont(ofSize: 10)
         $0.textColor = .lightGray
@@ -31,8 +31,7 @@ final class NoticeTableViewCell: UITableViewCell {
 //        $0.tintColor = .lightGray
 //    }
     
-    lazy var stackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var stackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 15
         $0.distribution = .fill

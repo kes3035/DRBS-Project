@@ -11,7 +11,7 @@ class PhoneNumebrTableViewCell: UITableViewCell {
     
     // MARK: - Properties
 
-    private var phoneNumber = UILabel().then {
+    private lazy var phoneNumber = UILabel().then {
         $0.textColor = .systemGray3
         $0.numberOfLines = 0
     }

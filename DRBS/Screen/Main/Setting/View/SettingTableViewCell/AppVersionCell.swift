@@ -53,7 +53,7 @@ class AppVersionCell: UITableViewCell {
         contentView.addSubview(stackView)
             
         stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 13, left: 15, bottom: 13, right: 15))
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 13, left: 16, bottom: 13, right: 16))
         }
     }
 
