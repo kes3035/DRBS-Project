@@ -21,7 +21,7 @@ class NotificationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNaviBar()
+        configureNav()
         setupTableView()
         
         // 옵저버를 등록하여 앱이 포그라운드로 진입할 때마다 알림 권한 상태를 다시 확인하고 UserDefaults에 저장하는 코드
@@ -80,7 +80,7 @@ class NotificationVC: UIViewController {
 
     // MARK: - Navigation Bar
 
-    func setupNaviBar() {
+    func configureNav() {
         navigationItem.title = "알림"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 

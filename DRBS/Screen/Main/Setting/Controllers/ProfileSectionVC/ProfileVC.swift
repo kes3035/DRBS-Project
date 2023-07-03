@@ -6,8 +6,6 @@ import Then
 import SnapKit
 import AVFoundation
 
-
-
 class ProfileVC: UIViewController, ProfileImageCellDelegate {
     
     func openImagePicker(in cell: ProfileImageTableViewCell) {
@@ -38,6 +36,8 @@ class ProfileVC: UIViewController, ProfileImageCellDelegate {
         
     }
     
+    var middleButton: UIButton?
+    
     var dataSource = [ProfileSection]()
     
     
@@ -47,13 +47,22 @@ class ProfileVC: UIViewController, ProfileImageCellDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        setupNaviBar()
+        configureNav()
         setupLayout()
         setupData()
         
         
         profileTableView.dataSource = self
         profileTableView.delegate = self
+        
+        if let tabBarController = self.tabBarController as? TabbarVC {
+            for subview in tabBarController.view.subviews {
+                if let button = subview as? UIButton, button.currentTitle == "D" {
+                    self.middleButton = button
+                    break
+                }
+            }
+        }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -63,13 +72,27 @@ class ProfileVC: UIViewController, ProfileImageCellDelegate {
         
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 탭바 숨기기
+        self.tabBarController?.tabBar.isHidden = true
+        self.middleButton?.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // 페이지가 사라질 때 탭바와 중간 버튼 다시 보이게 하기
+        self.tabBarController?.tabBar.isHidden = false
+        self.middleButton?.isHidden = false
+    }
     
     
     
     // MARK: - Navigation Bar
     
-    private func setupNaviBar() {
+    private func configureNav() {
         navigationItem.title = "프로필 설정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(saveButtonTapped))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)

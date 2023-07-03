@@ -21,7 +21,7 @@ class LocationDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNaviBar()
+        configureNav()
         
         view.backgroundColor = .white
     }
@@ -30,7 +30,7 @@ class LocationDetailVC: UIViewController {
     
     // MARK: - Navigation Bar
 
-    private func setupNaviBar() {
+    private func configureNav() {
         navigationItem.title = "위치기반서비스 이용동의(선택)"
         
         let appearance = UINavigationBarAppearance().then {

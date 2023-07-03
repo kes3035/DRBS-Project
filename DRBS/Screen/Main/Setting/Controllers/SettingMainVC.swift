@@ -35,7 +35,7 @@ class SettingMainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNaviBar()
+        configureNav()
         refresh()
         
         self.view.addSubview(self.settingTableView)
@@ -48,7 +48,7 @@ class SettingMainVC: UIViewController {
     
     // MARK: - Navigation Bar
     
-    private func setupNaviBar() {
+    private func configureNav() {
         navigationItem.title = "설정"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
