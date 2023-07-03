@@ -21,7 +21,7 @@ class NoticeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNaviBar()
+        configureNav()
         
         noticeTableView.delegate = self
         noticeTableView.dataSource = self
@@ -37,7 +37,7 @@ class NoticeVC: UIViewController {
     
     // MARK: - Navigation Bar
     
-    private func setupNaviBar() {
+    private func configureNav() {
         navigationItem.title = "공지사항"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 

@@ -18,7 +18,7 @@ class LocationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNaviBar()
+        configureNav()
         setupTableView()
         
 
@@ -32,7 +32,7 @@ class LocationVC: UIViewController {
 
     // MARK: - Navigation Bar
     
-    private func setupNaviBar() {
+    private func configureNav() {
         navigationItem.title = "위치 기반 서비스 이용 동의 설정"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
@@ -55,7 +55,7 @@ class LocationVC: UIViewController {
         view.addSubview(locationTableView)
         locationTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            //$0.top.leading.trailing.bottom.equalToSuperview()
         }
 
         locationTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

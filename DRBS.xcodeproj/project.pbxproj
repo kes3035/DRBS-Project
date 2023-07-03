@@ -396,8 +396,8 @@
 		21CFD0DA29BC5D020060CEA7 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				21CFD0F329BC5E270060CEA7 /* Model */,
-				21CFD0F229BC5E230060CEA7 /* View */,
+				EB89EB992A52EB6C00770D78 /* Model */,
+				EB89EB982A52EB6500770D78 /* VIew */,
 				21CFD0F129BC5E1D0060CEA7 /* Controllers */,
 			);
 			path = MyPage;
@@ -583,20 +583,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		21CFD0F229BC5E230060CEA7 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		21CFD0F329BC5E270060CEA7 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		21CFD0FC29BC94E90060CEA7 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +675,20 @@
 				BFA31902772564955844D344 /* Pods-DRBS.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		EB89EB982A52EB6500770D78 /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = VIew;
+			sourceTree = "<group>";
+		};
+		EB89EB992A52EB6C00770D78 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		EB8F4EA92A529A5A00BA106E /* Model */ = {
