@@ -1,9 +1,3 @@
-//
-//  testSideMenu.swift
-//  DRBS
-//
-//  Created by 김은상 on 2023/03/21.
-//
 
 import UIKit
 
@@ -62,8 +56,8 @@ extension SideMenuVC: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             print("지역설정탭 눌림")
-            let locationVC = LocationVC()
-            self.navigationController?.pushViewController(locationVC, animated: true)
+            let addressVC = AddressVC()
+            self.navigationController?.pushViewController(addressVC, animated: true)
 //            let calendarVC = CalendarVC()
 //            self.navigationController?.pushViewController(calendarVC, animated: true)
         case 1:
@@ -71,7 +65,8 @@ extension SideMenuVC: UITableViewDelegate {
         case 2:
             print("나눠내기탭 눌림")
         case 3:
-            print("설정탭 눌림")
+            let settingMainVC = SettingMainVC()
+            self.navigationController?.pushViewController(settingMainVC, animated: true)
         default:
             break
         }
