@@ -1,22 +1,37 @@
-//
-//  MyPageVC.swift
-//  DRBS
-//
-//  Created by 김은상 on 2023/03/11.
-//
-
 import UIKit
 
-class MyPageVC: UIViewController {
+import Then
+import SnapKit
 
+class MyPageVC: UIViewController {
+    
+    // MARK: - Properties
+    
+    private let myPageTableView = UITableView().then {
+        $0.separatorStyle = .none
+    }
+    
+    
+    
+    
+    
+    
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGreen
+        view.backgroundColor = .white
         configureNav()
     }
     
+    
+    
+    
+    
+    // MARK: - Method & Configure
+    
     func configureNav() {
-        navigationItem.title = "DRBS"
+        navigationItem.title = "마이페이지"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
@@ -28,11 +43,6 @@ class MyPageVC: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
     }
-    
-    
-    
-    
-    //MARK: - Actions
 
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "ToSideMenu" {

@@ -622,9 +622,6 @@ extension CALayer {
         return image
     }
 }
-
-
-    
     /*
     // MARK: - Navigation
 
