@@ -9,11 +9,11 @@ struct Expense: Codable, Equatable {
     var memo: String
     var date: String
     var doDictionary: [String : Any] {
-        let dict: [String : Any] = ["비용" : cost,
-                                    "카테고리" : category,
-                                    "지출내역" : expenseText,
-                                    "메모" : memo,
-                                    "날짜" : date]
+        let dict: [String : Any] = ["cost" : cost,
+                                    "category" : category,
+                                    "expenseText" : expenseText,
+                                    "memo" : memo,
+                                    "date" : date]
         return dict
     }
     static var id: Int = 0

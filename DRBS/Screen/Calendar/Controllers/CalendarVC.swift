@@ -198,29 +198,35 @@ class CalendarVC: UIViewController {
     }
     
     func getDataFromFireBase() {
+        MemoFetcher.memoFetcher { data in
+            self.memo = data
+            print(self.memo)
+        }
         //가장 처음 받아오는 데이터. 이후에는 데이터가 변경되는지 추가되는지 삭제되는지 관찰자를 통해 관찰할 예정.
         //처음 받아온 데이터에서 필요한 값들
         //1.날짜별 메모
         //2.캘린더 서브 타이틀에 표기할 각 날짜별 지출금액의 총 합
         //가져와서 어떻게 데이터를 다룰 것인가
         //(만약 메모가 너무 많아지면 전부 가져올 필요가 있을까..?)
-        ref.child("메모").observeSingleEvent(of: .value) { snapshot in
-            let data = snapshot.value as? [String:[String:[String:String]]] ?? [:]
-            let dates = data.keys
-            for date in dates {
-                for key in data[date]!.keys {
-                    let memo = data[date]![key]!
-                    let expense = Expense(cost: memo["비용"] ?? "",
-                                          category: memo["카테고리"] ?? "",
-                                          expenseText: memo["지출내역"] ?? "",
-                                          memo: memo["메모"] ?? "",
-                                        date: memo["날짜"] ?? "")
-                    DispatchQueue.main.async {
-                        self.expenseSnapshot.append(expense)
-                    }
-                }
-            }
-        }
+//        ref.child("메모").observeSingleEvent(of: .value) { snapshot in
+//            let data = snapshot.value as? [String:[String:[String:String]]] ?? [:]
+//            print(data)
+//            let dates = data.keys
+//            print(dates)
+//            for date in dates {
+//                for key in data[date]!.keys {
+//                    let memo = data[date]![key]!
+//                    let expense = Expense(cost: memo["cost"] ?? "",
+//                                          category: memo["category"] ?? "",
+//                                          expenseText: memo["expense"] ?? "",
+//                                          memo: memo["memo"] ?? "",
+//                                        date: memo["date"] ?? "")
+//                    DispatchQueue.main.async {
+//                        self.expenseSnapshot.append(expense)
+//                    }
+//                }
+//            }
+//        }
     }
     
     func filteringMemo(date: Date?) {
