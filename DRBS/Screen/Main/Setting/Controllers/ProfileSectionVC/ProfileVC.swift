@@ -94,7 +94,7 @@ class ProfileVC: UIViewController, ProfileImageCellDelegate {
     
     private func configureNav() {
         navigationItem.title = "프로필 설정"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonTapped))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         
         let appearance = UINavigationBarAppearance().then {
