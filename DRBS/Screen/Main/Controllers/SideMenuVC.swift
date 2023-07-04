@@ -62,6 +62,8 @@ extension SideMenuVC: UITableViewDelegate {
 //            self.navigationController?.pushViewController(calendarVC, animated: true)
         case 1:
             print("메뉴추천탭 눌림")
+            let recommendVC = RecommandVC()
+            self.navigationController?.pushViewController(recommendVC, animated: true)
         case 2:
             print("나눠내기탭 눌림")
         case 3:

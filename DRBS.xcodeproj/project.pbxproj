@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18F8D3142A52AD4000CC451C /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8D3132A52AD4000CC451C /* UIColor+Extension.swift */; };
+		18F8D3162A52AD4500CC451C /* RoulletModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8D3152A52AD4500CC451C /* RoulletModel.swift */; };
+		18F8D3182A52AD4F00CC451C /* SpinWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8D3172A52AD4F00CC451C /* SpinWheelView.swift */; };
 		2112215629CACB060098EB0E /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2112215529CACB060098EB0E /* MainCell.swift */; };
 		212313652A45885B0001B872 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212313642A45885B0001B872 /* FirebaseManager.swift */; };
 		214A972F29FFAC5700406226 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214A972E29FFAC5700406226 /* Category.swift */; };
@@ -117,6 +120,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		18F8D3132A52AD4000CC451C /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		18F8D3152A52AD4500CC451C /* RoulletModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoulletModel.swift; sourceTree = "<group>"; };
+		18F8D3172A52AD4F00CC451C /* SpinWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinWheelView.swift; sourceTree = "<group>"; };
 		2112215529CACB060098EB0E /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
 		212313642A45885B0001B872 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		214A972E29FFAC5700406226 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -553,6 +559,7 @@
 		21CFD0EC29BC5E000060CEA7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18F8D3172A52AD4F00CC451C /* SpinWheelView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -560,6 +567,8 @@
 		21CFD0ED29BC5E050060CEA7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18F8D3132A52AD4000CC451C /* UIColor+Extension.swift */,
+				18F8D3152A52AD4500CC451C /* RoulletModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -567,6 +576,7 @@
 		21CFD0EE29BC5E0C0060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21CFD0F429BC66190060CEA7 /* SettingVC.swift */,
 				21CFD0F429BC66190060CEA7 /* SettingMainVC.swift */,
 				EB8F4ED72A529FDA00BA106E /* NoticeVC.swift */,
 				EB8F4ED92A52A00800BA106E /* ProfileSectionVC */,
@@ -575,12 +585,40 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		21CFD0EF29BC5E120060CEA7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		21CFD0F029BC5E170060CEA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		21CFD0F129BC5E1D0060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				21CFD10729BCA13B0060CEA7 /* MyPageVC.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		21CFD0F229BC5E230060CEA7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		21CFD0F329BC5E270060CEA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		21CFD0FC29BC94E90060CEA7 /* Extension */ = {
@@ -920,6 +958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21CFD10229BCA0D00060CEA7 /* CalendarVC.swift in Sources */,
+				18F8D3142A52AD4000CC451C /* UIColor+Extension.swift in Sources */,
 				EB8F4ED02A529EB800BA106E /* PhoneNumebrTableViewCell.swift in Sources */,
 				EB8F4EE42A52A41B00BA106E /* LocationDetailVC.swift in Sources */,
 				EB8F4EBF2A529D9A00BA106E /* LicenseCell.swift in Sources */,
@@ -947,6 +986,8 @@
 				2112215629CACB060098EB0E /* MainCell.swift in Sources */,
 				215272B029C5949F003EA31F /* RecommandVC.swift in Sources */,
 				21CFD0FE29BC94FD0060CEA7 /* Extensions.swift in Sources */,
+				18F8D3162A52AD4500CC451C /* RoulletModel.swift in Sources */,
+				18F8D3182A52AD4F00CC451C /* SpinWheelView.swift in Sources */,
 				216C994929BF687800ECD791 /* AddressVC.swift in Sources */,
 				21A10F1A29C974DB001AFFF6 /* SideMenuVC.swift in Sources */,
 				EB8F4ED22A529ECE00BA106E /* AddressTableViewCell.swift in Sources */,
