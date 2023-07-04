@@ -44,8 +44,7 @@ class MyPageVC: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
     }
-    
-    
+
 
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "ToSideMenu" {

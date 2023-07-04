@@ -1,5 +1,4 @@
 
-
 import UIKit
 
 class SideMenuVC: UIViewController {
@@ -63,8 +62,11 @@ extension SideMenuVC: UITableViewDelegate {
 //            self.navigationController?.pushViewController(calendarVC, animated: true)
         case 1:
             print("메뉴추천탭 눌림")
+            let recommendVC = RecommandVC()
+            self.navigationController?.pushViewController(recommendVC, animated: true)
         case 2:
-            print("나눠내기탭 눌림")
+            let paymentVC = PaymentVC()
+            self.navigationController?.pushViewController(paymentVC, animated: true)
         case 3:
             let settingMainVC = SettingMainVC()
             self.navigationController?.pushViewController(settingMainVC, animated: true)
