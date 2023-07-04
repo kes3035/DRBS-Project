@@ -1,9 +1,3 @@
-//
-//  AddVC.swift
-//  DRBS
-//
-//  Created by 김은상 on 2023/04/08.
-//
 
 import UIKit
 import FirebaseDatabase

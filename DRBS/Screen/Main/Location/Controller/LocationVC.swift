@@ -259,3 +259,7 @@ extension LocationVC: UITextFieldDelegate {
 extension LocationVC: MKMapViewDelegate {
     
 }
+
+extension MTMapViewDelegate {
+    
+}

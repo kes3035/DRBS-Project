@@ -1,10 +1,3 @@
-//
-//  FirebaseManager.swift
-//  DRBS
-//
-//  Created by 김은상 on 2023/06/23.
-//
-
 import Foundation
 import FirebaseDatabase
 
