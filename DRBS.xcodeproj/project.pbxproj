@@ -80,6 +80,7 @@
 		21DD091B2A513D4C00E2579A /* map_pin_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 21DD08FF2A513D4C00E2579A /* map_pin_shadow.png */; };
 		21DD091C2A513D4C00E2579A /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD09002A513D4C00E2579A /* DaumMap.framework */; };
 		A67FE6D7198A242BE5C654B9 /* Pods_DRBS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23640AAE4D7C6DD77996DBE1 /* Pods_DRBS.framework */; };
+		B34E3E482A53FAB400F47CD4 /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34E3E472A53FAB400F47CD4 /* PaymentVC.swift */; };
 		EB8F4EAB2A529A6300BA106E /* SettingSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F4EAA2A529A6300BA106E /* SettingSectionModel.swift */; };
 		EB8F4EAD2A529A8E00BA106E /* NoticeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F4EAC2A529A8E00BA106E /* NoticeTableViewModel.swift */; };
 		EB8F4EAF2A529B0800BA106E /* NotificationTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F4EAE2A529B0800BA106E /* NotificationTableViewModel.swift */; };
@@ -206,6 +207,7 @@
 		21DD091D2A513D8300E2579A /* Kakao_Map_Bridge_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Kakao_Map_Bridge_Header.h; sourceTree = "<group>"; };
 		23640AAE4D7C6DD77996DBE1 /* Pods_DRBS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DRBS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70F3F2E13CB1F2A5254BF72D /* Pods-DRBS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.debug.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.debug.xcconfig"; sourceTree = "<group>"; };
+		B34E3E472A53FAB400F47CD4 /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
 		BFA31902772564955844D344 /* Pods-DRBS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DRBS.release.xcconfig"; path = "Target Support Files/Pods-DRBS/Pods-DRBS.release.xcconfig"; sourceTree = "<group>"; };
 		EB8F4EAA2A529A6300BA106E /* SettingSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSectionModel.swift; sourceTree = "<group>"; };
 		EB8F4EAC2A529A8E00BA106E /* NoticeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewModel.swift; sourceTree = "<group>"; };
@@ -267,6 +269,9 @@
 		216C994429BF683C00ECD791 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				B34E3E462A53FAA000F47CD4 /* Model */,
+				B34E3E452A53FA9900F47CD4 /* View */,
+				B34E3E442A53FA8D00F47CD4 /* Controllers */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -579,7 +584,6 @@
 		21CFD0EE29BC5E0C0060CEA7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				21CFD0F429BC66190060CEA7 /* SettingVC.swift */,
 				21CFD0F429BC66190060CEA7 /* SettingMainVC.swift */,
 				EB8F4ED72A529FDA00BA106E /* NoticeVC.swift */,
 				EB8F4ED92A52A00800BA106E /* ProfileSectionVC */,
@@ -874,6 +878,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B34E3E442A53FA8D00F47CD4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B34E3E472A53FAB400F47CD4 /* PaymentVC.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B34E3E452A53FA9900F47CD4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B34E3E462A53FAA000F47CD4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C57BD10E96CD9CC8C7D24125 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1135,6 +1161,7 @@
 				EB8F4EC82A529E5D00BA106E /* ProfileImageTableViewCell.swift in Sources */,
 				EB8F4ED82A529FDA00BA106E /* NoticeVC.swift in Sources */,
 				216C994D29C02D3400ECD791 /* Location.swift in Sources */,
+				B34E3E482A53FAB400F47CD4 /* PaymentVC.swift in Sources */,
 				21A10F1829C96E44001AFFF6 /* SideMenuNav.swift in Sources */,
 				EB8F4ECA2A529E7A00BA106E /* LoginRouteTableViewCell.swift in Sources */,
 				2188740829D428B000519519 /* Expense.swift in Sources */,

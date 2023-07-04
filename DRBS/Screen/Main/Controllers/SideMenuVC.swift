@@ -65,7 +65,8 @@ extension SideMenuVC: UITableViewDelegate {
             let recommendVC = RecommandVC()
             self.navigationController?.pushViewController(recommendVC, animated: true)
         case 2:
-            print("나눠내기탭 눌림")
+            let paymentVC = PaymentVC()
+            self.navigationController?.pushViewController(paymentVC, animated: true)
         case 3:
             let settingMainVC = SettingMainVC()
             self.navigationController?.pushViewController(settingMainVC, animated: true)
