@@ -102,7 +102,7 @@ class CalendarVC: UIViewController {
     lazy var labelButtonHeight = labelButtonView.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 100)
     //lazy var buttonStackHeight = buttonStack.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 10)
     //lazy var dateLabelHeight = dateLabel.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 0)
-
+    let memoFetcher = MemoFetcher()
     
     
     //속성감시자
@@ -140,15 +140,20 @@ class CalendarVC: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        getDataFromFireBase()
         configureUI()
         configureNav()
         configureCalendar()
         configureTableView()
         configureSwipeGuesture()
-        getDataFromFireBase()
         childAdded()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        memoFetcher.memoAdded(completion: { memo in
+            self.expenseSnapshot = memo
+        })
+    }
     
     //MARK: - Helpers
     
@@ -198,35 +203,9 @@ class CalendarVC: UIViewController {
     }
     
     func getDataFromFireBase() {
-        MemoFetcher.memoFetcher { data in
-            self.memo = data
-            print(self.memo)
+        memoFetcher.memoFetcher { expense in
+            self.expenseSnapshot = expense
         }
-        //가장 처음 받아오는 데이터. 이후에는 데이터가 변경되는지 추가되는지 삭제되는지 관찰자를 통해 관찰할 예정.
-        //처음 받아온 데이터에서 필요한 값들
-        //1.날짜별 메모
-        //2.캘린더 서브 타이틀에 표기할 각 날짜별 지출금액의 총 합
-        //가져와서 어떻게 데이터를 다룰 것인가
-        //(만약 메모가 너무 많아지면 전부 가져올 필요가 있을까..?)
-//        ref.child("메모").observeSingleEvent(of: .value) { snapshot in
-//            let data = snapshot.value as? [String:[String:[String:String]]] ?? [:]
-//            print(data)
-//            let dates = data.keys
-//            print(dates)
-//            for date in dates {
-//                for key in data[date]!.keys {
-//                    let memo = data[date]![key]!
-//                    let expense = Expense(cost: memo["cost"] ?? "",
-//                                          category: memo["category"] ?? "",
-//                                          expenseText: memo["expense"] ?? "",
-//                                          memo: memo["memo"] ?? "",
-//                                        date: memo["date"] ?? "")
-//                    DispatchQueue.main.async {
-//                        self.expenseSnapshot.append(expense)
-//                    }
-//                }
-//            }
-//        }
     }
     
     func filteringMemo(date: Date?) {
@@ -533,23 +512,8 @@ extension CalendarVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseCell", for: indexPath) as! ExpenseCell
         cell.selectionStyle = .none
-//        let myFormatter = DateFormatter()
-//        myFormatter.dateFormat = "yyyy-MM-dd"
-//        for memo in eeeeee {
-//            print(memo.date)
-//            print(myFormatter.string(from: selectedDate ?? Date()))
-//            if memo.date == myFormatter.string(from: selectedDate ?? Date()) {
-//                cell.expense = memo
-//            }
-//        }
         guard !memo.isEmpty else { return cell }
         cell.expense = memo[indexPath.row]
-        //cell.expense = self.categoryExpenses[indexPath.row]
-//        if self.eeeeee.count > 0 {
-//            DispatchQueue.main.async {
-//                cell.expense = self.eeeeee[indexPath.row]
-//            }
-//        }
         return cell
     }
 }

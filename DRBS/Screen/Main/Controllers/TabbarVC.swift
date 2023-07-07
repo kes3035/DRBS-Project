@@ -23,6 +23,7 @@ class TabbarVC: UITabBarController {
     
     func setupTabbar() {
         //        self.delegate = self
+        let memoFetcher = MemoFetcher()
         self.tabBar.backgroundColor = .white
         self.tabBar.tintColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         self.tabBar.layer.borderWidth = 2
@@ -30,6 +31,10 @@ class TabbarVC: UITabBarController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let controller1 = storyboard.instantiateViewController(withIdentifier: "RecommandVC") as? RecommandVC else { return }
         guard let controller2 = storyboard.instantiateViewController(withIdentifier: "CalendarVC") as? CalendarVC else { return }
+        memoFetcher.memoFetcher { memo in
+            controller2.expenseSnapshot = memo
+            controller2.memo = memo
+        }
         guard let controller3 = storyboard.instantiateViewController(withIdentifier: "MainVC") as? MainVC else { return }
         guard let controller4 = storyboard.instantiateViewController(withIdentifier: "CheckListVC") as? CheckListVC else { return }
         guard let controller5 = storyboard.instantiateViewController(withIdentifier: "MyPageVC") as? MyPageVC else { return }

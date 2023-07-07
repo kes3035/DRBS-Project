@@ -236,8 +236,11 @@ class AddVC: UIViewController {
                                expenseText: self.textView.text ?? "지출내역이 없습니다.",
                                memo: self.memoTextView.text ?? "메모가 없습니다.",
                                date: memoDate ?? "")
-        let jsonData = try? JSONEncoder().encode(saveData)
-        ref.child("메모").child("\(memoDate ?? "")").child("memo\(Expense.id)").setValue(jsonData)
+//        let jsonData = try? JSONEncoder().encode(saveData)
+//        print("\(jsonData)")
+        ref.child("메모").child("memo\(Expense.id)").setValue(saveData.doDictionary)
+            print("올리기 성공")
+        
 //        ref.child("메모").child("\(memoDate ?? "")").child("memo\(Expense.id)").setValue(saveData.doDictionary)
         self.dismiss(animated: true, completion: nil)}}
 

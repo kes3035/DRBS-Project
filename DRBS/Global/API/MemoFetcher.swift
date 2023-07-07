@@ -13,15 +13,13 @@ struct MemoFetcher {
     /*
      현재 저장되는 구조
      메모 {
-        "2023-07-04" {
-                "메모1" {
-                    "비용" : "10000원"
-                    "지출내역" : "스타벅스"
-                    "카테고리" : "식비"
-                    "메모" : "프리퀀시 적립 완료"
-                    "날짜" : "2023-07-04"
-                {
-        }
+        "메모1" {
+            "비용" : "10000원"
+            "지출내역" : "스타벅스"
+            "카테고리" : "식비"
+            "메모" : "프리퀀시 적립 완료"
+            "날짜" : "2023-07-04"
+        {
      }
      
      ref.child("메모").oberveSingleEvent(of: .value) { snapshot in
@@ -48,46 +46,33 @@ struct MemoFetcher {
      }
      */
     
+    private let ref = Database.database().reference().child("메모")
     
-    
-    static func memoFetcher(completion: @escaping([Expense]) -> Void) {
-        let ref = Database.database().reference().child("메모")
-//        ref.observeSingleEvent(of: .value) { snapshot,arg in
-//            if snapshot.exists() {
-//                guard let snapData = snapshot.value as? [String:[String:Any]] else {return}
-//                print("\(snapData.values)")
-//                for date in snapData.keys {
-//                    let jsonData = try! JSONSerialization.data(withJSONObject: Array(arrayLiteral: snapData.values[date]["memo\(Expense.id)"]) , options: [])
-//                    do {
-//                        let decoder = JSONDecoder()
-//                        let memoList = try decoder.decode([Expense].self, from: jsonData)
-//                        print("\(memoList)")
-//                        completion(memoList)
-//                    } catch let error {
-//                        print("\(error.localizedDescription) + okay?")
-//                    }
-//                }
-//
-//            }
-//        }
+    func memoFetcher(completion: @escaping([Expense]) -> Void) {
+        ref.observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                guard let value = snapshot.value as? [String:Any] else {return}
+                completion(andDataExist(value: value))
+            }
+        }
     }
         
     
-    private func andDataExist() {
-//        let jsonData = try! JSONSerialization.data(withJSONObject: Array(snapData.values), options: [])
-//        let decoder = JSONDecoder()
-//        let memoList = try decoder.decode([String:[Expense]].self, from: jsonData)
-//
-//        do {
-//
-//            print(jsonData)
-//            let memolist = try decoder.decode([Expense].self, from: jsonData)
-//            print(self.expenseSnapshot)
-//        } catch let error {
-//            print("\(error.localizedDescription)")
-//        }
+    private func andDataExist(value: [String:Any]) -> [Expense] {
+        let data = try! JSONSerialization.data(withJSONObject: Array(value.values), options: [])
+        let decoder = JSONDecoder()
+        let memoList = try? decoder.decode([Expense].self, from: data)
+        do {
+            guard let memolist = memoList else { return []}
+            return memolist
+        }
     }
-    private func andDataDoesntExist() {
-        
+    func memoAdded(completion: @escaping([Expense]) -> Void) {
+        ref.observe(.childAdded) { snapshot in
+            guard let value = snapshot.value as? [String:Any] else {return}
+            completion(andDataExist(value: value))
+        }
     }
+    
+    
 }
