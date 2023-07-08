@@ -2,6 +2,7 @@
 import UIKit
 import WebKit
 
+
 class KakaoZipCodeVC: UIViewController {
 
     // MARK: - Properties
@@ -43,6 +44,7 @@ class KakaoZipCodeVC: UIViewController {
     private func setContraints() {
         guard let webView = webView else { return }
         view.addSubview(webView)
+        
         webView.translatesAutoresizingMaskIntoConstraints = false
 
         webView.addSubview(indicator)
@@ -58,8 +60,17 @@ class KakaoZipCodeVC: UIViewController {
             indicator.centerYAnchor.constraint(equalTo: webView.centerYAnchor),
         ])
     }
+    
+    
+    func sample5_execDaumPostcode(address: String) {
+        
+        
+        
+    }
 }
 
+
+                               
 extension KakaoZipCodeVC: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let data = message.body as? [String: Any] {
@@ -74,6 +85,7 @@ extension KakaoZipCodeVC: WKScriptMessageHandler {
 //
 //        }
         let location = Location(location: address)
+        sample5_execDaumPostcode(address: address)
         UserDefaults.standard.userLocation = location
         print("\(UserDefaults.standard.userLocation)")
         self.navigationController?.popViewController(animated: true)
@@ -90,4 +102,5 @@ extension KakaoZipCodeVC: WKNavigationDelegate {
         indicator.stopAnimating()
     }
 }
+
 

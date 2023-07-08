@@ -15,10 +15,12 @@ class AddressVC: UIViewController {
         return label
     }()
     
-    private let myMap = MKMapView()
+    //private let myMap = MKMapView()
+    private let myMap = MTMapView()
     
-    private let locationManager = CLLocationManager()
-    
+    let geocoder = CLGeocoder()
+
+    var resultDic: [String:Float] = [:]
     
     var address: String? {
         didSet {
@@ -60,15 +62,6 @@ class AddressVC: UIViewController {
         return textField
     }()
     
-    private lazy var mapButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-        button.setTitle("지도 확인하기", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
-        return button
-    }()
 
     private lazy var editAdressButton: UIButton = {
        let button = UIButton()
@@ -89,12 +82,11 @@ class AddressVC: UIViewController {
         configureUI()
         configureNav()
         self.detailTextField.delegate = self
-//        configureAddress()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureAddress()
-        
+        convertingAddressToCoord(address: self.addressLabel.text)
     }
         
     //MARK: - Helpers
@@ -170,44 +162,40 @@ class AddressVC: UIViewController {
             self.myMap.isHidden = false
     }
     
+    func convertingAddressToCoord(address: String?) {
+        guard let unwrappedAddress = address else { return }
+        geocoder.geocodeAddressString(unwrappedAddress) { (placemarks, error) in
+            guard let placemark = placemarks?.first, let region = placemark.region as? CLCircularRegion else {
+                // Handle the case when no results are found
+                let alert = UIAlertController(title: "검색 실패", message: "해당 지역을 검색할 수 없습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            print(region)
+            print(region.identifier)
+            print(region.center)
+            let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(region.center.latitude), longitude: Double(region.center.longitude)))
+            self.myMap.setMapCenter(mapPoint, animated: true)
+            
+        }
+        
+
+    }
+    
     func setupMyMap() {
         myMap.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        myMap.showsUserLocation = true
-    }
-    
-    func swapLocation(latitudeValue: CLLocationDegrees,
-                      longtudeValue: CLLocationDegrees,
-                      delta span: Double) -> CLLocationCoordinate2D {
-        let pLocation = CLLocationCoordinate2DMake(latitudeValue, longtudeValue)
-        let spanValue = MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span)
-        let pRegion = MKCoordinateRegion(center: pLocation, span: spanValue)
-        myMap.setRegion(pRegion, animated: true)
-        return pLocation
-    }
-    
-    func setAnnotation(latitudeValue: CLLocationDegrees,
-                       longtudeValue: CLLocationDegrees,
-                       delta span: Double) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = swapLocation(latitudeValue: latitudeValue, longtudeValue: longtudeValue, delta: span)
-        myMap.addAnnotation(annotation)
-    }
-    
-    func saveDetailAddress() {
+        guard addressLabel.text != "" else { return }
+        
         
     }
+    
     
     //MARK: - Actions
     @objc func editButtonTapped() {
         guard self.editAdressButton.titleLabel?.text == "SAVE" else {
             let kakaoVC = KakaoZipCodeVC()
-//            kakaoVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(kakaoVC, animated: true)
-//            kakaoVC.modalPresentationStyle = .fullScreen
-//            self.present(kakaoVC, animated: true)
             return
         }
         print("디버그: 저장해야함")
@@ -215,17 +203,12 @@ class AddressVC: UIViewController {
         let success = UIAlertAction(title: "확인", style: .default) { [self] success in
             let detail = self.detailTextField.text
             UserDefaults.standard.userDetailAddress.detailAddress = detail ?? ""
-//            UserDefaults.standard.userDetailAddress = self.detailTextField.text ?? ""
             print("\(UserDefaults.standard.userDetailAddress)")
         }
         alert.addAction(success)
         present(alert, animated: true)
     }
 
-    @objc func mapButtonTapped() {
-        print("디버그: 지도 확인하기 버튼 눌림")
-        
-    }
     
     @objc func detailTFDidChanged(_ textField: UITextField) {
         if textField.text?.count == 1 {
@@ -251,10 +234,6 @@ extension AddressVC: UITextFieldDelegate {
   
 }
 
-extension AddressVC: MKMapViewDelegate {
-    
-}
-
-extension MTMapViewDelegate {
+extension AddressVC: MTMapViewDelegate {
     
 }
