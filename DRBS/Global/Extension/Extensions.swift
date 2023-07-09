@@ -80,12 +80,15 @@ extension UIView {
 //    }
 //}
 
+
 extension UIView {
     func addSubviews(_ views: UIView...) {
         for view in views {
             addSubview(view)
         }
     }
+
+    
 }
 extension String {
     var lastString: String {
@@ -94,6 +97,15 @@ extension String {
             
             let lastIndex = self.index(before: self.endIndex)
             return String(self[lastIndex])
+        }
+    }
+}
+
+
+extension UIColor {
+    var drbsColor: UIColor {
+        get {
+            UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         }
     }
 }

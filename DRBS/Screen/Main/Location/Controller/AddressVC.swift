@@ -17,11 +17,7 @@ class AddressVC: UIViewController {
     
     //private let myMap = MKMapView()
     private let myMap = MTMapView()
-    
-    let geocoder = CLGeocoder()
-
-    var resultDic: [String:Float] = [:]
-    
+    private let geocoder = CLGeocoder()
     var address: String? {
         didSet {
             self.addressLabel.text = address
@@ -116,19 +112,12 @@ class AddressVC: UIViewController {
             detailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             detailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
             detailTextField.heightAnchor.constraint(equalToConstant: 40)])
-//        NSLayoutConstraint.activate([
-//            mapButton.topAnchor.constraint(equalTo: detailTextField.bottomAnchor, constant: 30),
-//            mapButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-//            mapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-//            mapButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            mapButton.heightAnchor.constraint(equalToConstant: 30)])
         
         NSLayoutConstraint.activate([
             myMap.topAnchor.constraint(equalTo: detailTextField.bottomAnchor, constant: 10),
             myMap.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             myMap.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            myMap.heightAnchor.constraint(equalToConstant: 200)
-        ])
+            myMap.heightAnchor.constraint(equalToConstant: 200)])
         
         NSLayoutConstraint.activate([
             editAdressButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
@@ -172,20 +161,17 @@ class AddressVC: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            print(region)
-            print(region.identifier)
-            print(region.center)
+//            print(region)
+//            print(region.identifier)
+//            print(region.center)
             let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(region.center.latitude), longitude: Double(region.center.longitude)))
             self.myMap.setMapCenter(mapPoint, animated: true)
-            
         }
-        
-
     }
     
     func setupMyMap() {
         myMap.delegate = self
-        guard addressLabel.text != "" else { return }
+        //지도 줌, 스와이프 기능 해제코드 추가해야함
         
         
     }
@@ -198,6 +184,7 @@ class AddressVC: UIViewController {
             self.navigationController?.pushViewController(kakaoVC, animated: true)
             return
         }
+        
         print("디버그: 저장해야함")
         let alert = UIAlertController(title: "", message: "저장되었습니다.", preferredStyle: .alert)
         let success = UIAlertAction(title: "확인", style: .default) { [self] success in
@@ -205,8 +192,10 @@ class AddressVC: UIViewController {
             UserDefaults.standard.userDetailAddress.detailAddress = detail ?? ""
             print("\(UserDefaults.standard.userDetailAddress)")
         }
+        
         alert.addAction(success)
         present(alert, animated: true)
+        
     }
 
     
@@ -231,9 +220,13 @@ class AddressVC: UIViewController {
 }
 
 extension AddressVC: UITextFieldDelegate {
-  
+    
+    
+    
 }
 
 extension AddressVC: MTMapViewDelegate {
+    
+    
     
 }

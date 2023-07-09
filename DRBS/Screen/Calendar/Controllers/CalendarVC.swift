@@ -14,7 +14,6 @@ class CalendarVC: UIViewController {
         $0.scrollEnabled = true
         $0.scrollDirection = .horizontal
         $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.appearance.headerDateFormat = "M" + "월 총 소비 금액"
         $0.appearance.caseOptions = .weekdayUsesSingleUpperCase
         $0.appearance.headerTitleColor = .black
         $0.appearance.weekdayTextColor = .darkGray
@@ -74,7 +73,7 @@ class CalendarVC: UIViewController {
     
     private lazy var etcExpensesButton = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setTitle("기타지출", for: .normal)
+        $0.setTitle("기타", for: .normal)
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00).cgColor
@@ -128,8 +127,11 @@ class CalendarVC: UIViewController {
     
     lazy var memo: [Expense] = [] {
         didSet {
-            myCalendar.reloadData()
-            expenseTableView.reloadData()
+            DispatchQueue.main.async {
+                self.myCalendar.reloadData()
+                self.expenseTableView.reloadData()
+            }
+            
         }
     }
     
@@ -240,7 +242,6 @@ class CalendarVC: UIViewController {
             totalSpentHeight.constant = 0
             labelButtonHeight.constant = 100
             UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
-
         }
     }
     
@@ -256,7 +257,6 @@ class CalendarVC: UIViewController {
             expenseTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             expenseTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
     }
     
     func configureSwipeGuesture() {
@@ -335,7 +335,6 @@ class CalendarVC: UIViewController {
     
     
     //MARK: - Actions
-    
     @objc func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
         if swipe.direction == .up {
             myCalendar.setScope(.week, animated: true)
@@ -406,13 +405,6 @@ class CalendarVC: UIViewController {
 
 //MARK: - FSCalendarDelegateAppearance
 extension CalendarVC: FSCalendarDelegateAppearance {
-//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        //이벤트 돗 갯수 지정하기
-//
-//
-//
-//        return 3
-//    }
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
         let myFormatter = DateFormatter()
@@ -494,12 +486,6 @@ extension CalendarVC: FSCalendarDataSource {
         labelMy1.layer.cornerRadius = cell.bounds.width/2
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
-//        for memos in expenses {
-//            if myFormatter.string(from: date) == memos.cost {
-//                labelMy1.text = "-" + memos.cost
-//                cell.addSubview(labelMy1)
-//            }
-//        }
     }
 }
 
