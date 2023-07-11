@@ -20,9 +20,11 @@ class CalendarVC: UIViewController {
         $0.appearance.headerTitleAlignment = .left
         $0.calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
         $0.appearance.titleSelectionColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-        $0.appearance.todayColor = .white
-        $0.appearance.titleTodayColor = .black
-        $0.appearance.borderRadius = 0
+        $0.appearance.todayColor = .clear
+        $0.appearance.titleTodayColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        $0.appearance.borderSelectionColor = .clear
+        $0.appearance.borderDefaultColor = .clear
+        $0.appearance.borderRadius = 1
         $0.headerHeight = 0
         $0.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 0)
         $0.appearance.headerMinimumDissolvedAlpha = 0.0
@@ -101,7 +103,7 @@ class CalendarVC: UIViewController {
     lazy var labelButtonHeight = labelButtonView.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 100)
     //lazy var buttonStackHeight = buttonStack.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 10)
     //lazy var dateLabelHeight = dateLabel.topAnchor.constraint(equalTo: myCalendar.bottomAnchor, constant: 0)
-    let memoFetcher = MemoFetcher()
+    let memoFetcher = MemoFetcher.shared
     
     
     //속성감시자
@@ -111,19 +113,30 @@ class CalendarVC: UIViewController {
             calendarTop()
         }
     }
+    
+    var currentCategory: Category? {
+        didSet {
+            filteringCategory(with: currentCategory, date: selectedDate)
+        }
+    }
+    
     var dateString: String? { didSet { dateLabel.text = dateString } }
+    
     var monthString: String? { didSet { mainLabel.text = monthString!.lastString + "월 총 소비 금액"
         totalSpentLabel.text = calculateTotalExpense(date: monthString)
     } }
+    
     var selectedDate: Date? { didSet { filteringMemo(date: selectedDate) } }
+    
     var totalSpentString: String? {
         didSet {
             totalSpentLabel.text = totalSpentString
         }
     }
     
+    
  
-    private var ref = Database.database().reference()
+//    private var ref = Database.database().reference()
     
     lazy var memo: [Expense] = [] {
         didSet {
@@ -142,20 +155,13 @@ class CalendarVC: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDataFromFireBase()
         configureUI()
         configureNav()
         configureCalendar()
         configureTableView()
         configureSwipeGuesture()
-        childAdded()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        memoFetcher.memoAdded(completion: { memo in
-            self.expenseSnapshot = memo
-        })
-    }
+    
     
     //MARK: - Helpers
     
@@ -183,12 +189,6 @@ class CalendarVC: UIViewController {
         }
     }
     
-    func childAdded() {
-        ref.child("메모").observe(.childAdded) { snapshot in
-            guard let addedData = snapshot.value as? [String:[String:String]] else { return }
-            self.addingChildToArray(with: addedData)
-        }
-    }
     
     func addingChildToArray(with: [String:[String:String]]) {
         let data = with["\(Expense.id)"] ?? [:]
@@ -220,6 +220,32 @@ class CalendarVC: UIViewController {
         expenseTableView.reloadData()
     }
     
+    func filteringCategory(with category: Category?, date: Date?) {
+        let myFormatter = DateFormatter()
+        myFormatter.dateFormat = "yyyy-MM-dd"
+        guard let unwrappedData = date else {
+            memo = []
+            return }
+        let dateFiltered = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
+        guard let category = category else { return }
+        switch category.rawValue {
+        case "전체":
+            memo = dateFiltered
+            self.expenseTableView.reloadData()
+        case "공과금":
+            memo = dateFiltered.filter{$0.category == category.rawValue}
+            self.expenseTableView.reloadData()
+        case "식비":
+            memo = dateFiltered.filter{$0.category == category.rawValue}
+            self.expenseTableView.reloadData()
+        case "기타":
+            memo = dateFiltered.filter{$0.category == category.rawValue}
+            self.expenseTableView.reloadData()
+        default:
+            return
+        }
+    }
+    
     
     
     func calendarTop() {
@@ -227,21 +253,26 @@ class CalendarVC: UIViewController {
             //myCalendar.setScope(.week, animated: true)
             let addExpenseButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addExpenseButtonTapped))
             self.navigationItem.rightBarButtonItem = addExpenseButton
-            calendarTopConstraints.constant = 0
-            labelButtonHeight.constant = 0
-            tableViewTopConstraints.constant = 0
-            mainLabelHeight.constant = -50
-            totalSpentHeight.constant = -40
-            UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+            DispatchQueue.main.async {
+                self.calendarTopConstraints.constant = 0
+                self.labelButtonHeight.constant = 0
+                self.tableViewTopConstraints.constant = 10
+                self.mainLabelHeight.constant = -50
+                self.totalSpentHeight.constant = -40
+                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+            }
+            
         } else {
-            myCalendar.setScope(.month, animated: true)
-            self.navigationItem.rightBarButtonItem = .none
-            calendarTopConstraints.constant = 100
-            mainLabelHeight.constant = 0
-            //tableViewTopConstraints.constant = 0
-            totalSpentHeight.constant = 0
-            labelButtonHeight.constant = 100
-            UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+            DispatchQueue.main.async {
+                self.myCalendar.setScope(.month, animated: true)
+                self.navigationItem.rightBarButtonItem = .none
+                self.calendarTopConstraints.constant = 100
+                self.mainLabelHeight.constant = 0
+                //tableViewTopConstraints.constant = 0
+                self.totalSpentHeight.constant = 0
+                self.labelButtonHeight.constant = 100
+                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+            }
         }
     }
     
@@ -249,8 +280,8 @@ class CalendarVC: UIViewController {
         expenseTableView.register(ExpenseCell.self, forCellReuseIdentifier: "ExpenseCell")
         view.addSubview(expenseTableView)
         expenseTableView.delegate = self
+        expenseTableView.rowHeight = 60
         expenseTableView.dataSource = self
-        expenseTableView.separatorStyle = .none
         NSLayoutConstraint.activate([
             tableViewTopConstraints,
             expenseTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -285,33 +316,46 @@ class CalendarVC: UIViewController {
         labelButtonView.addSubviews(dateLabel, buttonStack)
         myCalendar.backgroundColor = .white
         
+        myCalendar.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+        }
+        
+        mainLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(10)
+            make.height.equalTo(30)
+        }
+        
+        labelButtonView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(60)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.leading.equalTo(labelButtonView).offset(15)
+            make.centerY.equalTo(labelButtonView)
+            make.height.equalTo(40)
+        }
+        
+        buttonStack.snp.makeConstraints { make in
+            make.centerY.equalTo(labelButtonView)
+            make.leading.equalTo(dateLabel).offset(150)
+            make.trailing.equalTo(labelButtonView).offset(-15)
+        }
+        
         NSLayoutConstraint.activate([
             calendarTopConstraints,
-            myCalendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            myCalendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             calendarHeight,
-        
             mainLabelHeight,
-            mainLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            mainLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
-            mainLabel.heightAnchor.constraint(equalToConstant: 30),
-        
             labelButtonHeight,
-            labelButtonView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            labelButtonView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            labelButtonView.heightAnchor.constraint(equalToConstant: 60),
         
             totalSpentHeight,
             totalSpentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
             totalSpentLabel.heightAnchor.constraint(equalToConstant: 60),
-        
-            dateLabel.leadingAnchor.constraint(equalTo: labelButtonView.leadingAnchor, constant: 15),
-            dateLabel.centerYAnchor.constraint(equalTo: labelButtonView.centerYAnchor),
-            dateLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            buttonStack.trailingAnchor.constraint(equalTo: labelButtonView.trailingAnchor, constant: -15),
-            buttonStack.centerYAnchor.constraint(equalTo: labelButtonView.centerYAnchor),
-            buttonStack.heightAnchor.constraint(equalToConstant: 40)])}
+        ])}
   
     func configureNav() {
         navigationItem.title = "DRBS"
@@ -362,11 +406,11 @@ class CalendarVC: UIViewController {
             self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
             self.foodExpensesButton.backgroundColor = .white
             self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
-            //self.currentCategory = .utilityBill
+            self.currentCategory = .utilityBill
         } else {
             self.utilityBillButton.backgroundColor = .white
             self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
-            //self.currentCategory = .all
+            self.currentCategory = .all
         }
     }
     
@@ -378,11 +422,11 @@ class CalendarVC: UIViewController {
             self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
             self.utilityBillButton.backgroundColor = .white
             self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
-            //self.currentCategory = .food
+            self.currentCategory = .food
         } else {
             self.foodExpensesButton.backgroundColor = .white
             self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
-            //self.currentCategory = .all
+            self.currentCategory = .all
         }
     }
     
@@ -394,11 +438,11 @@ class CalendarVC: UIViewController {
             self.foodExpensesButton.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
             self.utilityBillButton.backgroundColor = .white
             self.utilityBillButton.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
-            //self.currentCategory = .etc
+            self.currentCategory = .etc
         } else {
             self.etcExpensesButton.backgroundColor = .white
             self.etcExpensesButton.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
-            //self.currentCategory = .all
+            self.currentCategory = .all
         }
     }
 }
@@ -440,9 +484,6 @@ extension CalendarVC: FSCalendarDelegateAppearance {
         return UIColor.white
     }
     
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
-        return UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-    }
    
     
 }
@@ -505,9 +546,9 @@ extension CalendarVC: UITableViewDataSource {
 }
 
 extension CalendarVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let addVC = AddVC()
 //        addVC.modalPresentationStyle = .fullScreen

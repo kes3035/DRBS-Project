@@ -19,7 +19,6 @@ class AddVC: UIViewController {
     private lazy var expenseTextField = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.placeholder = "지출 금액을 입력하세요."
-        //        tf.addBottomBorder()
     }
     
     private lazy var categoryView = UIView().then {
@@ -221,8 +220,8 @@ class AddVC: UIViewController {
             self.categoryCaseLabel.text = "공과금"}
         let food = UIAlertAction(title: "식비", style: .default) { success in
             self.categoryCaseLabel.text = "식비"}
-        let etc = UIAlertAction(title: "기타소비", style: .default) { success in
-            self.categoryCaseLabel.text = "기타소비"}
+        let etc = UIAlertAction(title: "기타", style: .default) { success in
+            self.categoryCaseLabel.text = "기타"}
         let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
         alert.addAction(utility)
         alert.addAction(food)
@@ -238,7 +237,7 @@ class AddVC: UIViewController {
                                date: memoDate ?? "")
 //        let jsonData = try? JSONEncoder().encode(saveData)
 //        print("\(jsonData)")
-        ref.child("메모").child("memo\(Expense.id)").setValue(saveData.doDictionary)
+        ref.child("메모").childByAutoId().setValue(saveData.doDictionary)
             print("올리기 성공")
         
 //        ref.child("메모").child("\(memoDate ?? "")").child("memo\(Expense.id)").setValue(saveData.doDictionary)

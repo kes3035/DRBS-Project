@@ -23,7 +23,7 @@ class TabbarVC: UITabBarController {
     
     func setupTabbar() {
         //        self.delegate = self
-        let memoFetcher = MemoFetcher()
+        let memoFetcher = MemoFetcher.shared
         self.tabBar.backgroundColor = .white
         self.tabBar.tintColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         self.tabBar.layer.borderWidth = 2
