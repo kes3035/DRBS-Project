@@ -28,67 +28,56 @@ class ExpenseCell: UITableViewCell {
     private lazy var categoryLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16)
-        $0.textColor = .black
-        $0.textAlignment = .right
-    }
-    
-    private lazy var expenseLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16)
-        $0.textAlignment = .center
-        $0.text = "지출"
+        $0.textColor = .lightGray
+        $0.textAlignment = .left
     }
     
     private lazy var costLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 20)
-        $0.textAlignment = .left
+        $0.textAlignment = .right
     }
 
-    private lazy var 스택뷰 = UIView().then {
+    private lazy var costView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func 테스트() {
-        self.addSubview(스택뷰)
-        self.addSubview(categoryView)
+        self.addSubviews(costView, categoryView)
         categoryView.addSubview(categoryImage)
-//        categoryView.addSubview(categoryLabel)
-        스택뷰.addSubviews(categoryLabel ,costLabel)
+        costView.addSubviews(categoryLabel ,costLabel)
         
-    
-        NSLayoutConstraint.activate([
-            categoryView.widthAnchor.constraint(equalToConstant: 30),
-            categoryView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            categoryView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            categoryView.heightAnchor.constraint(equalToConstant: 30),
-            
-            categoryImage.centerYAnchor.constraint(equalTo: categoryView.centerYAnchor),
-            categoryImage.centerXAnchor.constraint(equalTo: categoryView.centerXAnchor),
-            categoryImage.heightAnchor.constraint(equalToConstant: 25),
-            categoryImage.widthAnchor.constraint(equalToConstant: 25),
-            
-            categoryLabel.centerYAnchor.constraint(equalTo: 스택뷰.centerYAnchor),
-            categoryLabel.widthAnchor.constraint(equalToConstant: 70),
-            categoryLabel.leadingAnchor.constraint(equalTo: 스택뷰.leadingAnchor),
-            
-            스택뷰.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            스택뷰.leadingAnchor.constraint(equalTo: categoryView.trailingAnchor, constant: 10),
-            스택뷰.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            스택뷰.heightAnchor.constraint(equalToConstant: 30),
-
-
-
-//            지출내역레이블.centerYAnchor.constraint(equalTo: 스택뷰.centerYAnchor),
-//            지출내역레이블.leadingAnchor.constraint(equalTo: 스택뷰.leadingAnchor, constant: 10),
-//            지출내역레이블.widthAnchor.constraint(equalToConstant: 50),
-
-            costLabel.centerYAnchor.constraint(equalTo: 스택뷰.centerYAnchor),
-            costLabel.trailingAnchor.constraint(equalTo: 스택뷰.trailingAnchor, constant: -10),
-            costLabel.widthAnchor.constraint(equalToConstant: 100),
-            
-            
-        ])
+        categoryView.snp.makeConstraints { make in
+            make.width.equalTo(30)
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.height.equalTo(30)
+        }
+        
+        categoryImage.snp.makeConstraints { make in
+            make.centerY.equalTo(categoryView)
+            make.centerY.equalTo(categoryView)
+            make.height.equalTo(25)
+            make.width.equalTo(25)
+        }
+        
+        costView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(categoryView).offset(10)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        
+        categoryLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(costView)
+            make.width.equalTo(70)
+            make.leading.equalTo(costView).offset(30)
+        }
+        costLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(costView)
+            make.trailing.equalTo(costView).offset(-10)
+            make.width.equalTo(100)
+        }
     }
     
     //MARK: - LifeCycle
