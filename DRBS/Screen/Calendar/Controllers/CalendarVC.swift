@@ -99,11 +99,11 @@ class CalendarVC: UIViewController {
     
     //높이조절용 변수
     lazy var calendarTopConstraint =  calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
-    lazy var tvTopConstraint = expenseTV.topAnchor.constraint(equalTo: dateLabelWithButtonSV.bottomAnchor, constant: 10)
-    lazy var calendarHeight = calendar.heightAnchor.constraint(equalToConstant: self.view.frame.height*0.7)
+    lazy var tvTopConstraint = expenseTV.topAnchor.constraint(equalTo: dateLabelWithButtonSV.bottomAnchor, constant: 50)
+    lazy var calendarHeight = calendar.heightAnchor.constraint(equalToConstant: view.frame.height)
     lazy var mainLabelHeight = monthTotalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
     lazy var totalSpentHeight = totalSpentLabel.topAnchor.constraint(equalTo: monthTotalLabel.bottomAnchor, constant: 0)
-    lazy var labelButtonHeight = dateLabelWithButtonSV.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 100)
+    lazy var labelButtonHeight = dateLabelWithButtonSV.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 150)
     let memoFetcher = MemoFetcher.shared
     
     
@@ -141,10 +141,99 @@ class CalendarVC: UIViewController {
         configureCalendar()
         configureTableView()
         configureSwipeGuesture()
+        memoFetcher.memoAdded { expenses in
+            self.memo = expenses
+            print(expenses.count)
+        }
     }
     
     
     //MARK: - Helpers
+    func configureUI() {
+        view.backgroundColor = .white
+        view.addSubviews(calendar, monthTotalLabel, totalSpentLabel, dateLabelWithButtonSV)
+        buttonStack.addArrangedSubview(utilityBillButton)
+        buttonStack.addArrangedSubview(foodExpensesButton)
+        buttonStack.addArrangedSubview(etcExpensesButton)
+        dateLabelWithButtonSV.addSubviews(dateLabel, buttonStack)
+        calendar.backgroundColor = .white
+        
+        calendar.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+        }
+        
+        monthTotalLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(10)
+            make.height.equalTo(30)
+        }
+        
+        dateLabelWithButtonSV.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(60)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.leading.equalTo(dateLabelWithButtonSV).offset(15)
+            make.centerY.equalTo(dateLabelWithButtonSV)
+            make.height.equalTo(40)}
+        
+        buttonStack.snp.makeConstraints { make in
+            make.centerY.equalTo(dateLabelWithButtonSV)
+            make.leading.equalTo(dateLabel).offset(150)
+            make.trailing.equalTo(dateLabelWithButtonSV).offset(-15)}
+        NSLayoutConstraint.activate([
+            calendarTopConstraint,
+            calendarHeight,
+            mainLabelHeight,
+            labelButtonHeight,
+            totalSpentHeight,
+            totalSpentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            totalSpentLabel.heightAnchor.constraint(equalToConstant: 60)])}
+    
+    func configureNav() {
+        navigationItem.title = "DRBS"
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance}
+    
+    func configureCalendar() {
+        calendar.dataSource = self
+        calendar.delegate = self
+        let myFormatter = DateFormatter()
+        myFormatter.dateFormat = "yyyy-MM"
+        let currentDate = myFormatter.string(from: Date())
+        monthString = currentDate}
+    
+    func configureTableView() {
+        expenseTV.register(ExpenseCell.self, forCellReuseIdentifier: "ExpenseCell")
+        view.addSubview(expenseTV)
+        expenseTV.delegate = self
+        expenseTV.rowHeight = 60
+        expenseTV.dataSource = self
+        NSLayoutConstraint.activate([
+            tvTopConstraint,
+            expenseTV.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            expenseTV.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            expenseTV.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func memoObserver() {
+        memoFetcher.ref.observe(.childAdded) { snapshot in
+            
+            
+        }
+    }
+    
     
     func calculateTotalExpense(date: String?) -> String {
         guard let date = date else {return ""}
@@ -194,16 +283,16 @@ class CalendarVC: UIViewController {
     
     func calendarTop() {
         if isCalendarWeek ?? false {
-            calendar.setScope(.week, animated: true)
             let addExpenseButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addExpenseButtonTapped))
             self.navigationItem.rightBarButtonItem = addExpenseButton
             DispatchQueue.main.async {
+                self.calendar.setScope(.week, animated: true)
                 self.calendarTopConstraint.constant = 0
                 self.labelButtonHeight.constant = 0
                 self.tvTopConstraint.constant = 10
                 self.mainLabelHeight.constant = -50
                 self.totalSpentHeight.constant = -40
-                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }
             }
             
         } else {
@@ -211,28 +300,15 @@ class CalendarVC: UIViewController {
                 self.calendar.setScope(.month, animated: true)
                 self.navigationItem.rightBarButtonItem = .none
                 self.calendarTopConstraint.constant = 100
+                self.tvTopConstraint.constant = 50
                 self.mainLabelHeight.constant = 0
-                //tableViewTopConstraints.constant = 0
                 self.totalSpentHeight.constant = 0
-                self.labelButtonHeight.constant = 100
-                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+                self.labelButtonHeight.constant = 150
+                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }
             }
         }
     }
     
-    func configureTableView() {
-        expenseTV.register(ExpenseCell.self, forCellReuseIdentifier: "ExpenseCell")
-        view.addSubview(expenseTV)
-        expenseTV.delegate = self
-        expenseTV.rowHeight = 60
-        expenseTV.dataSource = self
-        NSLayoutConstraint.activate([
-            tvTopConstraint,
-            expenseTV.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expenseTV.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expenseTV.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
     
     func configureSwipeGuesture() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent(_:)))
@@ -242,74 +318,6 @@ class CalendarVC: UIViewController {
         self.view.addGestureRecognizer(swipeUp)
         self.view.addGestureRecognizer(swipeDown)}
     
-    func configureCalendar() {
-        calendar.dataSource = self
-        calendar.delegate = self
-        let myFormatter = DateFormatter()
-        myFormatter.dateFormat = "yyyy-MM"
-        let currentDate = myFormatter.string(from: Date())
-        monthString = currentDate
-    }
-    
-    func configureUI() {
-        view.backgroundColor = .white
-        view.addSubviews(calendar, monthTotalLabel, totalSpentLabel, dateLabelWithButtonSV)
-        buttonStack.addArrangedSubview(utilityBillButton)
-        buttonStack.addArrangedSubview(foodExpensesButton)
-        buttonStack.addArrangedSubview(etcExpensesButton)
-        dateLabelWithButtonSV.addSubviews(dateLabel, buttonStack)
-        calendar.backgroundColor = .white
-        
-        calendar.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-        }
-        
-        monthTotalLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(10)
-            make.height.equalTo(30)
-        }
-        
-        dateLabelWithButtonSV.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(60)
-        }
-        
-        dateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(dateLabelWithButtonSV).offset(15)
-            make.centerY.equalTo(dateLabelWithButtonSV)
-            make.height.equalTo(40)
-        }
-        
-        buttonStack.snp.makeConstraints { make in
-            make.centerY.equalTo(dateLabelWithButtonSV)
-            make.leading.equalTo(dateLabel).offset(150)
-            make.trailing.equalTo(dateLabelWithButtonSV).offset(-15)
-        }
-        
-        
-        NSLayoutConstraint.activate([
-            calendarTopConstraint,
-            calendarHeight,
-            mainLabelHeight,
-            labelButtonHeight,
-            totalSpentHeight,
-            totalSpentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
-            totalSpentLabel.heightAnchor.constraint(equalToConstant: 60)])}
-  
-    func configureNav() {
-        navigationItem.title = "DRBS"
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance}
     
     func commaAdder(price: String?) -> String {
         let integerPrice = Int(price ?? "0") ?? 0
@@ -406,7 +414,7 @@ extension CalendarVC: FSCalendarDelegateAppearance {
         if total == 0 {
             return ""
         } else {
-            return "-"+String(total)
+            return "-" + commaAdder(price: String(total))
         }
     }
     
@@ -435,6 +443,7 @@ extension CalendarVC: FSCalendarDelegateAppearance {
 extension CalendarVC: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.selectedDate = date
+        self.currentCategory = .all
         isCalendarWeek = true
         calendar.setScope(.week, animated: true)
     
@@ -493,10 +502,10 @@ extension CalendarVC: UITableViewDelegate {
 //        return UITableView.automaticDimension
 //    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let addVC = AddVC()
-//        addVC.modalPresentationStyle = .fullScreen
-//        self.present(addVC, animated: true)
-//        addVC.expenses = expenses[indexPath.row]
+        let addVC = AddVC()
+        self.present(addVC, animated: true)
+        addVC.expenses = memo[indexPath.row]
     }
 }
+
 

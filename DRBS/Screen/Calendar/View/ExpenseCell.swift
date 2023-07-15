@@ -12,6 +12,7 @@ class ExpenseCell: UITableViewCell {
             self.categoryLabel.text = self.expense?.category
             self.categoryView.backgroundColor = configureBackgroundColor(category: self.expense!.category)
             self.categoryImage.image = Category.categoryImage(category: self.expense!.category)
+
         }
     }
     
@@ -22,6 +23,7 @@ class ExpenseCell: UITableViewCell {
     private lazy var categoryImage = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .white
+        
         $0.clipsToBounds = true
     }
     
@@ -43,6 +45,7 @@ class ExpenseCell: UITableViewCell {
     }
     
     func 테스트() {
+        categoryImage.contentMode = .scaleAspectFit
         self.addSubviews(costView, categoryView)
         categoryView.addSubview(categoryImage)
         costView.addSubviews(categoryLabel ,costLabel)
@@ -55,7 +58,7 @@ class ExpenseCell: UITableViewCell {
         }
         
         categoryImage.snp.makeConstraints { make in
-            make.centerY.equalTo(categoryView)
+            make.centerX.equalTo(categoryView)
             make.centerY.equalTo(categoryView)
             make.height.equalTo(25)
             make.width.equalTo(25)

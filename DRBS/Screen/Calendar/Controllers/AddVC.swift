@@ -93,7 +93,14 @@ class AddVC: UIViewController {
         $0.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
     
-    var expenses: Expense?
+    var expenses: Expense? {
+        didSet {
+            self.categoryLabel.text = expenses?.category
+            self.expenseTextField.text = expenses?.cost
+            self.memoTextView.text = expenses?.memo
+            self.textView.text = expenses?.expenseText
+        }
+    }
     var memoDate: String?
     var ref = Database.database().reference()
 
@@ -235,12 +242,21 @@ class AddVC: UIViewController {
                                expenseText: self.textView.text ?? "지출내역이 없습니다.",
                                memo: self.memoTextView.text ?? "메모가 없습니다.",
                                date: memoDate ?? "")
-//        let jsonData = try? JSONEncoder().encode(saveData)
-//        print("\(jsonData)")
-        ref.child("메모").childByAutoId().setValue(saveData.doDictionary)
-            print("올리기 성공")
-        
-//        ref.child("메모").child("\(memoDate ?? "")").child("memo\(Expense.id)").setValue(saveData.doDictionary)
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(saveData)
+            print(jsonData)
+            guard let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any] else {
+                print("디버깅: [Stirng: Any] 타입 캐스팅 실패...")
+                return
+            }
+            print(jsonObject)
+            MemoFetcher.shared.ref.childByAutoId().setValue(jsonObject)
+        } catch let error {
+            print("\(error.localizedDescription)")
+        }
+//        ref.child("메모").childByAutoId().setValue(saveData.doDictionary)
+
         self.dismiss(animated: true, completion: nil)}}
 
 
