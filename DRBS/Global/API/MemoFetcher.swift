@@ -13,68 +13,40 @@ class MemoFetcher {
     static let shared = MemoFetcher()
     let ref = Database.database().reference().child("메모")
     var expenses: [Expense] = []
+    
+    //MARK: - LifeCycle
     private init() {}
-    
-    
     
     //MARK: - Helpers
     func memoFetcher(completion: @escaping([Expense]) -> Void) {
         ref.observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {
                 guard let value = snapshot.value as? [String: Any] else { return }
-                print("디버깅 : value = \(value)")
                 do {
                     let data = try JSONSerialization.data(withJSONObject: value, options: [])
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     decoder.dataDecodingStrategy = .base64
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    
                     let expenses = try decoder.decode([String: Expense].self, from: data)
                     let expenseArray = Array(expenses.values)
                     self.expenses = expenseArray
                     completion(expenseArray)
-//                    print("디버깅: yourData = \(expenseArray)")
-                } catch let error {
-                    print("\(error.localizedDescription)")
-                }
-                
-                
+                } catch let error { print("\(error.localizedDescription)") }
             }
         }
     }
-        
-    
-//    private func andDataExist(value: [String:Any]) -> [Expense] {
-//        let data = try! JSONSerialization.data(withJSONObject: Array(value.values), options: [])
-//        let decoder = JSONDecoder()
-//        let memoList = try? decoder.decode([Expense].self, from: data)
-//        do {
-//            guard let memolist = memoList else {
-//                print("디버깅: andDataExist()에서 에러")
-//                return []}
-//            return memolist
-//        }
-//    }
+
     func memoAdded(completion: @escaping([Expense]) -> Void) {
         ref.observe(.childAdded) { snapshot,arg in
-            guard let value = snapshot.value as? [String: Any] else {
-                print("디버깅: 브레이크 포인트1")
-                return }
-            print("\(value)~~")
+            guard let value = snapshot.value as? [String: Any] else { return }
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
                 let decoder = JSONDecoder()
                 let expense = try decoder.decode(Expense.self, from: jsonData)
-                
-                // Use the decoded 'expense' object as needed
-                print(expense)
                 self.expenses.append(expense)
                 completion(self.expenses)
-            } catch let error {
-                print("\(error.localizedDescription)")
-                print("디버깅: 브레이크 포인트2")
-            }
+            } catch let error { print("\(error.localizedDescription)") }
         }
     }
 }

@@ -118,7 +118,12 @@ class CalendarVC: UIViewController {
         totalSpentLabel.text = calculateTotalExpense(date: monthString)
     } }
     
-    var selectedDate: Date? { didSet { filteringMemo(date: selectedDate) } }
+    var selectedDate: Date? {
+        didSet {
+            filteringMemo(date: selectedDate)
+            resetCategory()
+        }
+    }
     
     var totalSpentString: String? { didSet { totalSpentLabel.text = totalSpentString } }
     
@@ -128,7 +133,12 @@ class CalendarVC: UIViewController {
             self.expenseTV.reloadData()
         }
     }
-    var expenseSnapshot: [Expense] = []
+    var expenseSnapshot: [Expense] = [] {
+        didSet {
+            guard selectedDate != nil else { return }
+            filteringMemo(date: selectedDate)
+        }
+    }
     
     lazy var memoo = self.expenseSnapshot
 
@@ -141,10 +151,6 @@ class CalendarVC: UIViewController {
         configureCalendar()
         configureTableView()
         configureSwipeGuesture()
-        memoFetcher.memoAdded { expenses in
-            self.memo = expenses
-            print(expenses.count)
-        }
     }
     
     
@@ -227,12 +233,6 @@ class CalendarVC: UIViewController {
         ])
     }
     
-    func memoObserver() {
-        memoFetcher.ref.observe(.childAdded) { snapshot in
-            
-            
-        }
-    }
     
     
     func calculateTotalExpense(date: String?) -> String {
@@ -249,7 +249,7 @@ class CalendarVC: UIViewController {
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
         guard let unwrappedData = date else {
-            memo = []
+            print("디버깅: filteringMemo(date:_)에러")
             return }
         memo = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
         expenseTV.reloadData()
@@ -259,7 +259,7 @@ class CalendarVC: UIViewController {
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
         guard let unwrappedData = date else {
-            memo = []
+            print("디버깅: filteringCategory(with:_,date:_)에러")
             return }
         let dateFiltered = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
         guard let category = category else { return }
@@ -325,6 +325,16 @@ class CalendarVC: UIViewController {
         numberFormatter.numberStyle = .decimal
         let formattedNumber = numberFormatter.string(from: NSNumber(value: integerPrice)) ?? "0"
         return formattedNumber
+    }
+    
+    func resetCategory() {
+        self.currentCategory = .all
+        utilityBillButton.backgroundColor = .white
+        utilityBillButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+        foodExpensesButton.backgroundColor = .white
+        foodExpensesButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+        etcExpensesButton.backgroundColor = .white
+        etcExpensesButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
     }
     
     
