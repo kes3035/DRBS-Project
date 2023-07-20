@@ -292,9 +292,7 @@ class CalendarVC: UIViewController {
                 self.tvTopConstraint.constant = 10
                 self.mainLabelHeight.constant = -50
                 self.totalSpentHeight.constant = -40
-                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }
-            }
-            
+                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }}
         } else {
             DispatchQueue.main.async {
                 self.calendar.setScope(.month, animated: true)
@@ -304,11 +302,7 @@ class CalendarVC: UIViewController {
                 self.mainLabelHeight.constant = 0
                 self.totalSpentHeight.constant = 0
                 self.labelButtonHeight.constant = 150
-                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }
-            }
-        }
-    }
-    
+                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }}}}
     
     func configureSwipeGuesture() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent(_:)))
@@ -318,14 +312,12 @@ class CalendarVC: UIViewController {
         self.view.addGestureRecognizer(swipeUp)
         self.view.addGestureRecognizer(swipeDown)}
     
-    
     func commaAdder(price: String?) -> String {
         let integerPrice = Int(price ?? "0") ?? 0
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let formattedNumber = numberFormatter.string(from: NSNumber(value: integerPrice)) ?? "0"
-        return formattedNumber
-    }
+        return formattedNumber}
     
     func resetCategory() {
         self.currentCategory = .all
@@ -398,6 +390,7 @@ class CalendarVC: UIViewController {
         }
     }
     
+
     @objc func addExpenseButtonTapped() {
         let addVC = AddVC()
         let myFormatter = DateFormatter()
@@ -456,11 +449,6 @@ extension CalendarVC: FSCalendarDelegate {
         self.currentCategory = .all
         isCalendarWeek = true
         calendar.setScope(.week, animated: true)
-    
-//        if isCalendarWeek == nil || isCalendarWeek == false {
-//            myCalendar.setScope(.week, animated: true)
-//            isCalendarWeek = true
-//        }
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "M월dd일"
         let selectedDate = myFormatter.string(from: date)
@@ -511,6 +499,24 @@ extension CalendarVC: UITableViewDelegate {
 //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return UITableView.automaticDimension
 //    }
+    
+    //오웬님이 보셔야할 곳!
+    //테이블뷰 셀을 터치했을 때, 기존에 데이터를 넘겨주면서 화면을 띄우는 코드!
+    /*
+     구현해야할 내용
+      AddVC에서 올라온 데이터의 변화가 생길 시, 서버에 있는 데이터를 변화시켜야함
+      그러기 위해서는 내가 지금 사용하고 있는 셀이 서버의 어떤 경로로 저장되어있는지를 알아야함
+      현재 데이터가 저장될 때 childByAutoId()로 자동으로 키를 생성해서 저장하는데
+      Expense 구조체에서 id를 기존 방식말고 이 childByAutoId()로 생성된 키를 저장해야할 것 같고,
+      그 키로 접근해서 ref.observe(.childChanged) 를 이용해서 데이터 변화를 업데이트 해줘야 함!!
+     아
+     
+     아직 구현안된 부분은
+     AddVC에서 하나라도 빠져있으면 버튼이 비활성화 된다던가 텍스트필드에서 숫자만 입력 가능하게 한다던가
+     이런 부분은 미구현상태!
+     */
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let addVC = AddVC()
         self.present(addVC, animated: true)
