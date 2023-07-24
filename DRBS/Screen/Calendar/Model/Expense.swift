@@ -16,14 +16,14 @@ struct Expense: Codable, Equatable {
 //                                    "date" : date]
 //        return dict
 //    }
-    static var id: Int = 0
-    init(cost: String, category: String, expenseText: String, memo: String, date: String) {
+    var id: String
+    init(cost: String, category: String, expenseText: String, memo: String, date: String, id: String) {
         self.cost = cost
         self.category = category
         self.expenseText = expenseText
         self.memo = memo
         self.date = date
-        Self.id += 1
+        self.id = id
     }
 }
 

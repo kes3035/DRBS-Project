@@ -522,6 +522,26 @@ extension CalendarVC: UITableViewDelegate {
         self.present(addVC, animated: true)
         addVC.expenses = memo[indexPath.row]
     }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "", handler: { action, view, completionHaldler in
+            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
+            let success = UIAlertAction(title: "확인", style: .destructive) { success in
+                let deleteKey = tableView.cellForRow(at: indexPath) as? ExpenseCell
+                MemoFetcher.shared.ref.child("\(deleteKey?.expense?.id ?? "")").removeValue()// 여기에 들어갈 키 값을 어떻게 얻지..?
+                self.expenseTV.reloadData()
+                self.expenseTV.deleteRows(at: [indexPath], with: .left)
+                self.calendar.reloadData()
+            }
+            alert.addAction(cancel)
+            alert.addAction(success)
+            self.present(alert, animated: true)
+            completionHaldler(true)
+        })
+        action.backgroundColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.0)
+        action.image = UIImage(systemName: "trash.fill")?.withTintColor(UIColor(red: 0.53, green: 0.78, blue: 0.74, alpha: 1.00), renderingMode: .alwaysOriginal)
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
 
 

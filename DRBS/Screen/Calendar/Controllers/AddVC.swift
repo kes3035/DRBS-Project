@@ -127,6 +127,7 @@ class AddVC: UIViewController {
         
         view.addSubview(mainLabel)
         view.addSubview(expenseTextField)
+        expenseTextField.delegate = self
         view.addSubview(categoryView)
         view.addSubview(expenseView)
         view.addSubview(memoView)
@@ -237,11 +238,14 @@ class AddVC: UIViewController {
         self.present(alert, animated: true)}
     
     @objc func saveButtonTapped() {
+        let autoId = MemoFetcher.shared.ref.childByAutoId()
+        let key = autoId.key ?? ""
         let saveData = Expense(cost: self.expenseTextField.text ?? "",
                                category: categoryCaseLabel.text ?? "",
                                expenseText: self.textView.text ?? "지출내역이 없습니다.",
                                memo: self.memoTextView.text ?? "메모가 없습니다.",
-                               date: memoDate ?? "")
+                               date: memoDate ?? "",
+                               id: key)
         do {
             let encoder = JSONEncoder()
             let jsonData = try encoder.encode(saveData)
@@ -251,11 +255,11 @@ class AddVC: UIViewController {
                 return
             }
             print(jsonObject)
-            MemoFetcher.shared.ref.childByAutoId().setValue(jsonObject)
+            MemoFetcher.shared.ref.child(key).setValue(jsonObject)
+
         } catch let error {
             print("\(error.localizedDescription)")
         }
-//        ref.child("메모").childByAutoId().setValue(saveData.doDictionary)
 
         self.dismiss(animated: true, completion: nil)}}
 
@@ -264,6 +268,15 @@ class AddVC: UIViewController {
 //MARK: - Extensions
 extension AddVC: UITextViewDelegate {
     
+}
+
+extension AddVC: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if Int(string) != nil || string == "" {
+            return true
+        }
+        return false
+    }
 }
 
 

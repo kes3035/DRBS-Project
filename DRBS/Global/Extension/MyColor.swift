@@ -6,6 +6,7 @@ enum MyColor: Int {
     case food = 2
     case etc = 3
     case all = 4
+    case conceptColor = 5
     
     var backgroundColor: UIColor {
         switch self {
@@ -15,6 +16,8 @@ enum MyColor: Int {
             return UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00)
         case .etc:
             return UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00)
+        case .conceptColor:
+            return UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         case .all:
             return UIColor.black
         }
@@ -28,6 +31,8 @@ enum MyColor: Int {
             return UIColor(red: 0.67, green: 0.80, blue: 0.45, alpha: 1.00)
         case .etc:
             return UIColor(red: 0.38, green: 0.60, blue: 0.40, alpha: 1.00)
+        case .conceptColor:
+            return UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)
         case .all:
             return UIColor.black
         }
