@@ -97,19 +97,8 @@ class CalendarVC: UIViewController {
         $0.backgroundColor = .systemBackground
         $0.translatesAutoresizingMaskIntoConstraints = false}
     
-    //높이조절용 변수
-    //"n월 총 소비  금액" -> mainLabel 의 topConstraints 값이 변하면 그에 따라
-    //"@@@@@@@원"      -> totalSpentLabel의 topConstraints 값도 변하고,
-    // calendar의 전체 높이가 변하고, calendar의 topConstratins는 totalSpentLabel의 bottom을 기준으로 하기에 같이 움직임.
-    // labelButtonSV
-    lazy var mainLabelHeight = monthTotalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
-    lazy var calendarTopConstraint =  calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
-    lazy var tvTopConstraint = expenseTV.topAnchor.constraint(equalTo: dateLabelWithButtonSV.bottomAnchor, constant: 50)
     lazy var calendarHeight = calendar.heightAnchor.constraint(equalToConstant: view.frame.height)
-    lazy var totalSpentHeight = totalSpentLabel.topAnchor.constraint(equalTo: monthTotalLabel.bottomAnchor, constant: 0)
-    lazy var labelButtonHeight = dateLabelWithButtonSV.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 150)
     let memoFetcher = MemoFetcher.shared
-    
     
     //속성감시자
     var isCalendarWeek: Bool? { didSet { calendarTop() } }
@@ -153,6 +142,7 @@ class CalendarVC: UIViewController {
         configureTableView()
         configureSwipeGuesture()
     }
+
     
     
     //MARK: - Helpers
@@ -165,40 +155,41 @@ class CalendarVC: UIViewController {
         dateLabelWithButtonSV.addSubviews(dateLabel, buttonStack)
         calendar.backgroundColor = .white
         
-        calendar.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+        monthTotalLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(100)
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.height.equalTo(30)
         }
         
-        monthTotalLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(10)
-            make.height.equalTo(30)
+        totalSpentLabel.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.top.equalTo(monthTotalLabel.snp.bottom).offset(0)
+            $0.height.equalTo(60)
         }
         
-        dateLabelWithButtonSV.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(60)
+        calendar.snp.makeConstraints {
+            $0.top.equalTo(totalSpentLabel.snp.bottom).offset(0)
+            $0.height.equalTo(view.frame.height/1.2)
+            $0.left.right.equalToSuperview()
         }
         
-        dateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(dateLabelWithButtonSV).offset(15)
-            make.centerY.equalTo(dateLabelWithButtonSV)
-            make.height.equalTo(40)}
+        dateLabelWithButtonSV.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(60)
+            $0.top.equalTo(calendar.snp.bottom).offset(0)
+        }
         
-        buttonStack.snp.makeConstraints { make in
-            make.centerY.equalTo(dateLabelWithButtonSV)
-            make.leading.equalTo(dateLabel).offset(150)
-            make.trailing.equalTo(dateLabelWithButtonSV).offset(-15)}
-        NSLayoutConstraint.activate([
-            calendarTopConstraint,
-            calendarHeight,
-            mainLabelHeight,
-            labelButtonHeight,
-            totalSpentHeight,
-            totalSpentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
-            totalSpentLabel.heightAnchor.constraint(equalToConstant: 60)])}
+        dateLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(40)}
+        
+        buttonStack.snp.makeConstraints {
+            $0.centerY.equalTo(dateLabelWithButtonSV)
+            $0.width.equalTo(view.frame.width/2)
+            $0.trailing.equalToSuperview().offset(-15)}}
     
     func configureNav() {
         navigationItem.title = "DRBS"
@@ -226,13 +217,10 @@ class CalendarVC: UIViewController {
         expenseTV.delegate = self
         expenseTV.rowHeight = 60
         expenseTV.dataSource = self
-        
-        NSLayoutConstraint.activate([
-            tvTopConstraint,
-            expenseTV.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expenseTV.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expenseTV.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        expenseTV.snp.makeConstraints {
+            $0.top.equalTo(dateLabelWithButtonSV.snp.bottom).offset(0)
+            $0.left.right.bottom.equalToSuperview()
+        }
     }
     
     
@@ -279,24 +267,46 @@ class CalendarVC: UIViewController {
         if isCalendarWeek ?? false {
             let addExpenseButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addExpenseButtonTapped))
             self.navigationItem.rightBarButtonItem = addExpenseButton
+//            print("콜렉션뷰 프레임 높이는\(self.calendar.collectionView.frame.height)")
+//            print("콘텐츠뷰 프레임 높이는\(self.calendar.contentView.frame.height)")
+//            print("인풋뷰 프레임 높이는\(self.calendar.inputView?.frame.height)")
+
             DispatchQueue.main.async {
                 self.calendar.setScope(.week, animated: true)
-                self.calendarTopConstraint.constant = 0
-                self.labelButtonHeight.constant = 0
-                self.tvTopConstraint.constant = 10
-                self.mainLabelHeight.constant = -50
-                self.totalSpentHeight.constant = -40
-                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }}
+                self.calendar.snp.updateConstraints {
+                    $0.height.equalTo(150)
+                }
+                self.monthTotalLabel.snp.updateConstraints {
+                    $0.top.equalToSuperview().offset(10)
+                }
+                self.dateLabelWithButtonSV.snp.updateConstraints {
+                    $0.top.equalTo(self.calendar.snp.bottom).offset(0)
+                }
+                self.expenseTV.snp.updateConstraints {
+                    $0.top.equalTo(self.dateLabelWithButtonSV.snp.bottom).offset(0)
+                }
+
+                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded() }
+                
+            }
         } else {
             DispatchQueue.main.async {
                 self.calendar.setScope(.month, animated: true)
+                self.calendar.snp.updateConstraints {
+                    $0.height.equalTo(self.view.frame.height/1.2)
+                }
                 self.navigationItem.rightBarButtonItem = .none
-                self.calendarTopConstraint.constant = 100
-                self.tvTopConstraint.constant = 50
-                self.mainLabelHeight.constant = 0
-                self.totalSpentHeight.constant = 0
-                self.labelButtonHeight.constant = 150
-                UIView.animate(withDuration: 0.6) { self.view.layoutIfNeeded() }}}}
+                self.monthTotalLabel.snp.updateConstraints {
+                    $0.top.equalToSuperview().offset(100)
+                }
+                self.dateLabelWithButtonSV.snp.updateConstraints {
+                    $0.top.equalTo(self.calendar.snp.bottom).offset(0)
+                }
+                self.expenseTV.snp.updateConstraints {
+                    $0.top.equalTo(self.dateLabelWithButtonSV.snp.bottom).offset(0)
+                }
+                UIView.animate(withDuration: 0.5) { self.view.layoutIfNeeded()}
+        }}}
     
     func configureSwipeGuesture() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent(_:)))
@@ -453,7 +463,9 @@ extension CalendarVC: FSCalendarDelegate {
 //MARK: - FSCalendarDataSource
 extension CalendarVC: FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        calendarHeight.constant = bounds.height}
+        self.calendarHeight.constant = bounds.height
+        
+    }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let myFormatter = DateFormatter()
@@ -476,7 +488,6 @@ extension CalendarVC: FSCalendarDataSource {
 extension CalendarVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memo.count
-        //return self.categoryExpenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -513,25 +524,7 @@ extension CalendarVC: UITableViewDataSource {
 }
 
 extension CalendarVC: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-    
-    //오웬님이 보셔야할 곳!
-    //테이블뷰 셀을 터치했을 때, 기존에 데이터를 넘겨주면서 화면을 띄우는 코드!
-    /*
-     구현해야할 내용
-      AddVC에서 올라온 데이터의 변화가 생길 시, 서버에 있는 데이터를 변화시켜야함
-      그러기 위해서는 내가 지금 사용하고 있는 셀이 서버의 어떤 경로로 저장되어있는지를 알아야함
-      현재 데이터가 저장될 때 childByAutoId()로 자동으로 키를 생성해서 저장하는데
-      Expense 구조체에서 id를 기존 방식말고 이 childByAutoId()로 생성된 키를 저장해야할 것 같고,
-      그 키로 접근해서 ref.observe(.childChanged) 를 이용해서 데이터 변화를 업데이트 해줘야 함!!
-     아
-     
-     아직 구현안된 부분은
-     AddVC에서 하나라도 빠져있으면 버튼이 비활성화 된다던가 텍스트필드에서 숫자만 입력 가능하게 한다던가
-     이런 부분은 미구현상태!
-     */
+
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
