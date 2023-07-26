@@ -31,7 +31,7 @@ class CalendarVC: UIViewController {
         $0.appearance.eventSelectionColor = .blue
         $0.placeholderType = .none}
     
-    private let expenseTV = UITableView().then {
+    private let expenseTV = UITableView(frame: CGRect(), style: .plain).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .white
         $0.estimatedRowHeight = 160}
@@ -47,7 +47,7 @@ class CalendarVC: UIViewController {
         $0.font = UIFont.boldSystemFont(ofSize: 30)
         $0.text = ""
         $0.textColor = UIColor(red: 0.43, green: 0.19, blue: 0.92, alpha: 1.00)}
-    
+
     private lazy var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.boldSystemFont(ofSize: 25)
@@ -56,34 +56,34 @@ class CalendarVC: UIViewController {
     private lazy var utilityBillButton = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("공과금", for: .normal)
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00).cgColor
-        $0.layer.cornerRadius = 5
-        $0.setTitleColor(UIColor(red: 0.88, green: 0.07, blue: 0.60, alpha: 1.00), for: .normal)
+        $0.layer.borderColor = UIColor.systemGray.cgColor
+        $0.layer.cornerRadius = 15
+        $0.setTitleColor(UIColor.systemGray, for: .normal)
         $0.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)}
     
     private lazy var foodExpensesButton = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("식비", for: .normal)
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00).cgColor
-        $0.layer.cornerRadius = 5
-        $0.setTitleColor(UIColor(red: 0.95, green: 0.40, blue: 0.67, alpha: 1.00), for: .normal)
+        $0.layer.borderColor = UIColor.systemGray.cgColor
+        $0.layer.cornerRadius = 15
+        $0.setTitleColor(UIColor.systemGray, for: .normal)
         $0.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)}
     
     private lazy var etcExpensesButton = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("기타", for: .normal)
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00).cgColor
-        $0.layer.cornerRadius = 5
-        $0.setTitleColor(UIColor(red: 0.64, green: 0.35, blue: 0.82, alpha: 1.00), for: .normal)
+        $0.layer.borderColor = UIColor.systemGray.cgColor
+        $0.layer.cornerRadius = 15
+        $0.setTitleColor(UIColor.systemGray, for: .normal)
         $0.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)}
     
     private lazy var buttonStack = UIStackView().then {
@@ -98,10 +98,14 @@ class CalendarVC: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false}
     
     //높이조절용 변수
+    //"n월 총 소비  금액" -> mainLabel 의 topConstraints 값이 변하면 그에 따라
+    //"@@@@@@@원"      -> totalSpentLabel의 topConstraints 값도 변하고,
+    // calendar의 전체 높이가 변하고, calendar의 topConstratins는 totalSpentLabel의 bottom을 기준으로 하기에 같이 움직임.
+    // labelButtonSV
+    lazy var mainLabelHeight = monthTotalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
     lazy var calendarTopConstraint =  calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
     lazy var tvTopConstraint = expenseTV.topAnchor.constraint(equalTo: dateLabelWithButtonSV.bottomAnchor, constant: 50)
     lazy var calendarHeight = calendar.heightAnchor.constraint(equalToConstant: view.frame.height)
-    lazy var mainLabelHeight = monthTotalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
     lazy var totalSpentHeight = totalSpentLabel.topAnchor.constraint(equalTo: monthTotalLabel.bottomAnchor, constant: 0)
     lazy var labelButtonHeight = dateLabelWithButtonSV.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 150)
     let memoFetcher = MemoFetcher.shared
@@ -109,11 +113,8 @@ class CalendarVC: UIViewController {
     
     //속성감시자
     var isCalendarWeek: Bool? { didSet { calendarTop() } }
-    
     var currentCategory: Category? { didSet { filteringCategory(with: currentCategory, date: selectedDate) } }
-    
     var dateString: String? { didSet { dateLabel.text = dateString } }
-    
     var monthString: String? { didSet { monthTotalLabel.text = monthString!.lastString + "월 총 소비 금액"
         totalSpentLabel.text = calculateTotalExpense(date: monthString)
     } }
@@ -225,6 +226,7 @@ class CalendarVC: UIViewController {
         expenseTV.delegate = self
         expenseTV.rowHeight = 60
         expenseTV.dataSource = self
+        
         NSLayoutConstraint.activate([
             tvTopConstraint,
             expenseTV.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -238,29 +240,21 @@ class CalendarVC: UIViewController {
     func calculateTotalExpense(date: String?) -> String {
         guard let date = date else {return ""}
         var total = 0
-        for expense in expenseSnapshot {
-            if expense.date.contains(date) { total += Int(expense.cost) ?? 0 }
-        }
+        for expense in expenseSnapshot { if expense.date.contains(date) { total += Int(expense.cost) ?? 0 }}
         guard total != 0 else { return "0원"}
-        return commaAdder(price:String(total)) + "원"
-    }
+        return commaAdder(price:String(total)) + "원"}
 
     func filteringMemo(date: Date?) {
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
-        guard let unwrappedData = date else {
-            print("디버깅: filteringMemo(date:_)에러")
-            return }
+        guard let unwrappedData = date else { return }
         memo = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
-        expenseTV.reloadData()
-    }
+        expenseTV.reloadData()}
     
     func filteringCategory(with category: Category?, date: Date?) {
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy-MM-dd"
-        guard let unwrappedData = date else {
-            print("디버깅: filteringCategory(with:_,date:_)에러")
-            return }
+        guard let unwrappedData = date else { return }
         let dateFiltered = expenseSnapshot.filter{$0.date == myFormatter.string(from: unwrappedData)}
         guard let category = category else { return }
         switch category.rawValue {
@@ -322,11 +316,11 @@ class CalendarVC: UIViewController {
     func resetCategory() {
         self.currentCategory = .all
         utilityBillButton.backgroundColor = .white
-        utilityBillButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+        utilityBillButton.setTitleColor(UIColor.systemGray, for: .normal)
         foodExpensesButton.backgroundColor = .white
-        foodExpensesButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+        foodExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
         etcExpensesButton.backgroundColor = .white
-        etcExpensesButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+        etcExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
     }
     
     
@@ -345,50 +339,49 @@ class CalendarVC: UIViewController {
         switch sender.currentTitle {
         case "공과금":
             if sender.backgroundColor == .white {
-                sender.backgroundColor = MyColor.utilityBill.backgroundColor
+                sender.backgroundColor = MyColor.conceptColor.backgroundColor
                 sender.setTitleColor(.white, for: .normal)
                 self.etcExpensesButton.backgroundColor = .white
-                self.etcExpensesButton.setTitleColor(MyColor.etc.backgroundColor, for: .normal)
+                self.etcExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.foodExpensesButton.backgroundColor = .white
-                self.foodExpensesButton.setTitleColor(MyColor.food.backgroundColor, for: .normal)
+                self.foodExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .utilityBill
             } else {
                 sender.backgroundColor = .white
-                sender.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+                sender.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .all
             }
         case "식비":
             if sender.backgroundColor == .white {
-                sender.backgroundColor = MyColor.food.backgroundColor
+                sender.backgroundColor = MyColor.conceptColor.backgroundColor
                 sender.setTitleColor(.white, for: .normal)
                 self.etcExpensesButton.backgroundColor = .white
-                self.etcExpensesButton.setTitleColor(MyColor.etc.backgroundColor, for: .normal)
+                self.etcExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.utilityBillButton.backgroundColor = .white
-                self.utilityBillButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+                self.utilityBillButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .food
             } else {
                 sender.backgroundColor = .white
-                sender.setTitleColor(MyColor.food.backgroundColor, for: .normal)
+                sender.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .all
             }
         case "기타":
             if sender.backgroundColor == .white {
-                sender.backgroundColor = MyColor.etc.backgroundColor
+                sender.backgroundColor = MyColor.conceptColor.backgroundColor
                 sender.setTitleColor(.white, for: .normal)
                 self.foodExpensesButton.backgroundColor = .white
-                self.foodExpensesButton.setTitleColor(MyColor.food.backgroundColor, for: .normal)
+                self.foodExpensesButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.utilityBillButton.backgroundColor = .white
-                self.utilityBillButton.setTitleColor(MyColor.utilityBill.backgroundColor, for: .normal)
+                self.utilityBillButton.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .etc
             } else {
                 sender.backgroundColor = .white
                 sender.setTitleColor(MyColor.etc.backgroundColor, for: .normal)
+                sender.setTitleColor(UIColor.systemGray, for: .normal)
                 self.currentCategory = .all
             }
         default:
-            break
-        }
-    }
+            break}}
     
 
     @objc func addExpenseButtonTapped() {
@@ -493,6 +486,30 @@ extension CalendarVC: UITableViewDataSource {
         cell.expense = memo[indexPath.row]
         return cell
     }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
+            let success = UIAlertAction(title: "확인", style: .destructive) { success in
+                let deleteKey = tableView.cellForRow(at: indexPath) as? ExpenseCell
+                MemoFetcher.shared.ref.child("\(deleteKey?.expense?.id ?? "")").removeValue()// 여기에 들어갈 키 값을 어떻게 얻지..?
+                self.expenseTV.reloadData()
+                self.expenseTV.deleteRows(at: [indexPath], with: .fade)
+                self.calendar.reloadData()
+            }
+            alert.addAction(cancel)
+            alert.addAction(success)
+            self.present(alert, animated: true)
+        }
+    }
+    
+
+    
+    
 }
 
 extension CalendarVC: UITableViewDelegate {
@@ -522,26 +539,51 @@ extension CalendarVC: UITableViewDelegate {
         self.present(addVC, animated: true)
         addVC.expenses = memo[indexPath.row]
     }
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: "", handler: { action, view, completionHaldler in
-            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
-            let success = UIAlertAction(title: "확인", style: .destructive) { success in
-                let deleteKey = tableView.cellForRow(at: indexPath) as? ExpenseCell
-                MemoFetcher.shared.ref.child("\(deleteKey?.expense?.id ?? "")").removeValue()// 여기에 들어갈 키 값을 어떻게 얻지..?
-                self.expenseTV.reloadData()
-                self.expenseTV.deleteRows(at: [indexPath], with: .left)
-                self.calendar.reloadData()
-            }
-            alert.addAction(cancel)
-            alert.addAction(success)
-            self.present(alert, animated: true)
-            completionHaldler(true)
-        })
-        action.backgroundColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.0)
-        action.image = UIImage(systemName: "trash.fill")?.withTintColor(UIColor(red: 0.53, green: 0.78, blue: 0.74, alpha: 1.00), renderingMode: .alwaysOriginal)
-        return UISwipeActionsConfiguration(actions: [action])
-    }
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let action = UIContextualAction(style: .normal, title: "", handler: { action, view, completionHaldler in
+//            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+//            let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in }
+//            let success = UIAlertAction(title: "확인", style: .destructive) { success in
+//                let deleteKey = tableView.cellForRow(at: indexPath) as? ExpenseCell
+//                MemoFetcher.shared.ref.child("\(deleteKey?.expense?.id ?? "")").removeValue()// 여기에 들어갈 키 값을 어떻게 얻지..?
+//                self.expenseTV.reloadData()
+//                self.expenseTV.deleteRows(at: [indexPath], with: .left)
+//                self.calendar.reloadData()
+//            }
+//            alert.addAction(cancel)
+//            alert.addAction(success)
+//            self.present(alert, animated: true)
+//            completionHaldler(true)
+//        })
+//        action.backgroundColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.0)
+//        action.image = UIImage(systemName: "trash.fill")?.withTintColor(UIColor(red: 0.53, green: 0.78, blue: 0.74, alpha: 1.00), renderingMode: .alwaysOriginal)
+//        return UISwipeActionsConfiguration(actions: [action])
+//    }
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
+//            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+//            let cancel = UIAlertAction(title: "취소", style: .cancel) { cancel in
+//                completionHandler(false) // Cancel the delete action
+//            }
+//            let success = UIAlertAction(title: "확인", style: .destructive) { success in
+//                let deleteKey = tableView.cellForRow(at: indexPath) as? ExpenseCell
+//                MemoFetcher.shared.ref.child("\(deleteKey?.expense?.id ?? "")").removeValue()
+//                self.expenseTV.deleteRows(at: [indexPath], with: .fade)
+//                self.expenseTV.reloadData()
+//                self.calendar.reloadData()
+//                completionHandler(true) // Confirm the delete action
+//            }
+//            alert.addAction(cancel)
+//            alert.addAction(success)
+//            self.present(alert, animated: true)
+//        }
+//
+//        deleteAction.image = UIImage(systemName: "trash.fill")
+//        deleteAction.backgroundColor = UIColor(red: 0.53, green: 0.78, blue: 0.74, alpha: 1.00)
+//
+//        return UISwipeActionsConfiguration(actions: [deleteAction])
+//    }
+    
 }
 
 

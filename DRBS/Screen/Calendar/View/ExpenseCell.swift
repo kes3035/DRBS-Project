@@ -46,7 +46,7 @@ class ExpenseCell: UITableViewCell {
     
     func 테스트() {
         categoryImage.contentMode = .scaleAspectFit
-        self.addSubviews(costView, categoryView)
+        contentView.addSubviews(costView, categoryView)
         categoryView.addSubview(categoryImage)
         costView.addSubviews(categoryLabel ,costLabel)
         
