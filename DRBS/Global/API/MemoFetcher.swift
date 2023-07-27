@@ -77,6 +77,15 @@ class MemoFetcher {
             } catch let error { print("\(error.localizedDescription)") }
         }
     }
+    
+    func memoUpdated(completion: @escaping([Expense]) -> Void) {
+        ref.observe(.childChanged) { snapshot, arg in
+            
+            
+            
+        }
+        
+    }
 }
 
 //서버에서 가져와야할 데이터를 어떻게 다룰 것인가

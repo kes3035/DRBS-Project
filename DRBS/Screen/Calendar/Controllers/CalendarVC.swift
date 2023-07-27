@@ -529,8 +529,8 @@ extension CalendarVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let addVC = AddVC()
-        self.present(addVC, animated: true)
         addVC.expenses = memo[indexPath.row]
+        self.present(addVC, animated: true)
     }
 //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //        let action = UIContextualAction(style: .normal, title: "", handler: { action, view, completionHaldler in

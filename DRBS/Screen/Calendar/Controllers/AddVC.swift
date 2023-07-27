@@ -95,10 +95,12 @@ class AddVC: UIViewController {
     
     var expenses: Expense? {
         didSet {
-            self.categoryLabel.text = expenses?.category
-            self.expenseTextField.text = expenses?.cost
-            self.memoTextView.text = expenses?.memo
-            self.textView.text = expenses?.expenseText
+//            self.categoryLabel.text = expenses?.category
+//            self.expenseTextField.text = expenses?.cost
+//            self.memoTextView.text = expenses?.memo
+//            self.textView.text = expenses?.expenseText
+            print("현재 expenses는 \(self.expenses)")
+            configureUIWithData()
         }
     }
     var memoDate: String?
@@ -146,9 +148,14 @@ class AddVC: UIViewController {
             expenseTextField.text = ""
             memoTextView.text = ""
             return}
-        categoryLabel.text = "\(expenses.category)"
-        expenseTextField.text = expenses.cost
-        memoTextView.text = expenses.memo}
+        //        categoryLabel.text = "\(expenses.category)"
+        //        expenseTextField.text = expenses.cost
+        //        memoTextView.text = expenses.memo}
+        self.categoryLabel.text = "\(expenses.category)"
+        self.expenseTextField.text = expenses.cost
+        self.memoTextView.text = expenses.memo
+        self.textView.text = expenses.expenseText
+    }
     
     func setupDatabase() {
         
@@ -238,30 +245,55 @@ class AddVC: UIViewController {
         self.present(alert, animated: true)}
     
     @objc func saveButtonTapped() {
-        let autoId = MemoFetcher.shared.ref.childByAutoId()
-        let key = autoId.key ?? ""
+        
+        guard let unwrappedExpenses = self.expenses else {
+            let autoId = MemoFetcher.shared.ref.childByAutoId()
+            let key = autoId.key ?? ""
+            let saveData = Expense(cost: self.expenseTextField.text ?? "",
+                                   category: categoryCaseLabel.text ?? "",
+                                   expenseText: self.textView.text ?? "지출내역이 없습니다.",
+                                   memo: self.memoTextView.text ?? "메모가 없습니다.",
+                                   date: memoDate ?? "",
+                                   id: key)
+            do {
+                let encoder = JSONEncoder()
+                let jsonData = try encoder.encode(saveData)
+                print(jsonData)
+                guard let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any] else {
+                    return
+                }
+                print(jsonObject)
+                MemoFetcher.shared.ref.child(key).setValue(jsonObject)
+            } catch let error { print("\(error.localizedDescription)") }
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
         let saveData = Expense(cost: self.expenseTextField.text ?? "",
                                category: categoryCaseLabel.text ?? "",
                                expenseText: self.textView.text ?? "지출내역이 없습니다.",
                                memo: self.memoTextView.text ?? "메모가 없습니다.",
-                               date: memoDate ?? "",
-                               id: key)
+                               date: self.expenses?.date ?? "",
+                               id: self.expenses?.id ?? "")
         do {
             let encoder = JSONEncoder()
             let jsonData = try encoder.encode(saveData)
             print(jsonData)
             guard let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any] else {
-                print("디버깅: [Stirng: Any] 타입 캐스팅 실패...")
                 return
             }
             print(jsonObject)
-            MemoFetcher.shared.ref.child(key).setValue(jsonObject)
+            MemoFetcher.shared.ref.child("\(self.expenses?.id ?? "")").setValue(jsonObject)
 
-        } catch let error {
-            print("\(error.localizedDescription)")
-        }
+        } catch let error { print("\(error.localizedDescription)") }
 
-        self.dismiss(animated: true, completion: nil)}}
+        self.dismiss(animated: true, completion: nil)
+        
+        
+        
+        
+    }
+    
+}
 
 
 
